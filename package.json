@@ -1,0 +1,27 @@
+{
+  "name": "apollo-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "knex": "knex",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "knex": "^0.14.2",
+    "pg": "^7.4.0",
+    "pg-connection-string": "^2.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^4.14.0",
+    "nodemon": "^1.14.7",
+    "prettier": "^1.9.2"
+  },
+  "prettier": {
+    "singleQuote": true
+  }
+}

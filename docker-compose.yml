@@ -1,0 +1,21 @@
+version: '3'
+services:
+  db:
+    image: postgres:9.6.6-alpine
+    ports: 
+      - "55432:5432"
+  web:
+    build: .
+    command: ./node_modules/.bin/nodemon -L /usr/src/app/index.js
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+      - NODE_ENV=development
+      - VIRTUAL_HOST=test.docker
+
