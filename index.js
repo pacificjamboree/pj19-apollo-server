@@ -1,17 +1,12 @@
-const http = require('http');
-const port = 3000;
+const express = require('express');
+const PORT = process.env.PORT || 3000;
 
-const requestHandler = (request, response) => {
-  console.log(request.url);
-  response.end('Hello Node.js Docker Server!!!');
-};
+const app = express();
 
-const server = http.createServer(requestHandler);
+app.get('*', (req, res) => {
+  res.send('Hello world!');
+});
 
-server.listen(port, err => {
-  if (err) {
-    return console.log('something bad happened', err);
-  }
-
-  console.log(`server is listening on ${port}`);
+app.listen(PORT, () => {
+  console.log(`Express server listening on port ${PORT}.`);
 });
