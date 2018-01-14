@@ -1,0 +1,6 @@
+{
+  "extends": "unobtrusive",
+  "env": {
+    "node": true
+  }
+}
