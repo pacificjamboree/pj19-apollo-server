@@ -1,11 +1,7 @@
-version: '2.1'
+version: '3'
 
 services:
-  apollo-server:
-    image: apollo-server
-    build: .
-    environment:
-      NODE_ENV: development
+  web:
     ports:
       - 3000:3000
       - 9229:9229
