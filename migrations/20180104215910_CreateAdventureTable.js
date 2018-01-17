@@ -1,9 +1,10 @@
 exports.up = (knex, Promise) => {
   return knex.schema.createTable('adventure', t => {
     t
-      .increments('id')
-      .unsigned()
-      .primary();
+      .uuid('id')
+      .primary()
+      .default(knex)
+      .default(knex.raw('gen_random_uuid()'));
     t.timestamps();
 
     t.string('adventure_code');
