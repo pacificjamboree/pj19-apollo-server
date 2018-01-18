@@ -24,7 +24,10 @@ exports.up = (knex, Promise) => {
       t.string('phone1');
       t.string('phone2');
 
-      t.boolean('prerecruited').defaultTo(false);
+      t
+        .boolean('prerecruited')
+        .notNullable()
+        .defaultTo(false);
       t.string('prerecruited_by');
       t.string('additional_information');
       t.string('previous_experience');
