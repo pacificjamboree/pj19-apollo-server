@@ -8,7 +8,7 @@ const types = `
     oos_number: String!,
     first_name: String!,
     last_name: String!,
-    preferred_name: String!
+    preferred_name: String
    }
 `;
 
