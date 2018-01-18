@@ -26,6 +26,7 @@
     "pg-connection-string": "^2.0.0"
   },
   "devDependencies": {
+    "casual": "^1.5.19",
     "eslint": "^4.14.0",
     "eslint-config-unobtrusive": "^1.2.1",
     "nodemon": "^1.14.7",
