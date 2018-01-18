@@ -1,6 +1,9 @@
 const knex = require('knex')(require('../knexfile')[process.env.NODE_ENV]);
+const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
 const resolvers = {
+  GraphQLDate,
+  GraphQLDateTime,
   Query: {
     allOffersOfService: () => knex.from('oos').select('*'),
     offerOfService: (_, { oos_number }) => {
