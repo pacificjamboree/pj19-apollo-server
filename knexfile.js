@@ -1,5 +1,3 @@
-const { parse } = require('pg-connection-string');
-
 module.exports = {
   development: {
     client: 'pg',
@@ -13,6 +11,9 @@ module.exports = {
     },
     migrations: {
       stub: 'migration.stub'
+    },
+    seeds: {
+      directory: './seeds/development'
     }
   }
 };
