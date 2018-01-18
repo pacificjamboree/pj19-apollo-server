@@ -2,6 +2,11 @@ const types = `
   scalar GraphQLDate
   scalar GraphQLDateTime
 
+  enum AdventureLocation {
+    ONSITE
+    OFFSITE
+  }
+
   type Query { 
     allOffersOfService: [OOS],
     offerOfService(oos_number: String!): OOS
@@ -26,6 +31,22 @@ const types = `
     special_skills: String,
     registration_status: String,
     created_at: GraphQLDateTime!,
+  }
+
+   type Adventure {
+    id: ID!
+    adventure_code: String!
+    name: String!
+    theme_name: String!
+    description: String
+    location: AdventureLocation
+    capacity_per_period: Int!
+    periods_offered: Int!
+    periods_required: Int!
+    premium_adventure: Boolean!
+    fee: Float!
+    hidden: Boolean!
+    created_at: GraphQLDateTime!
     updated_at: GraphQLDateTime!
    }
 `;
