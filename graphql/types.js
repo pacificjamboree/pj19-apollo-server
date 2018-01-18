@@ -12,6 +12,8 @@ const types = gql`
   type Query {
     allOffersOfService: [OOS]
     offerOfService(oos_number: String!): OOS
+    allAdventures: [Adventure]
+    adventure(adventure_code: String!): Adventure
   }
 
   type OOS {
