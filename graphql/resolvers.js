@@ -1,4 +1,10 @@
-const knex = require('knex')(require('../knexfile')[process.env.NODE_ENV]);
+const {
+  getAllOffersOfService,
+  getOfferOfService,
+  getAllAdventures,
+  getAdventure
+} = require('./knex_connector');
+
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
 const resolvers = {
@@ -6,23 +12,12 @@ const resolvers = {
   GraphQLDateTime,
   Query: {
     // offers of service
-    allOffersOfService: () => knex.from('oos').select('*'),
-    offerOfService: (_, { oos_number }) => {
-      return knex
-        .from('oos')
-        .select('*')
-        .where({ oos_number })
-        .first();
-    },
+    allOffersOfService: () => getAllOffersOfService(),
+    offerOfService: (_, { oos_number }) => getOfferOfService(oos_number),
 
     // adventures
-    allAdventures: () => knex.from('adventure').select('*'),
-    adventure: (_, { adventure_code }) =>
-      knex
-        .from('adventure')
-        .select('*')
-        .where({ adventure_code })
-        .first()
+    allAdventures: () => getAllAdventures(),
+    adventure: (_, { adventure_code }) => getAdventure(adventure_code)
   }
 };
 
