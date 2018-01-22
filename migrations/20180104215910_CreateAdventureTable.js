@@ -5,7 +5,6 @@ exports.up = (knex, Promise) => {
       t
         .uuid('id')
         .primary()
-        .default(knex)
         .default(knex.raw('gen_random_uuid()'));
       t.timestamps(true, true);
 
