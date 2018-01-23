@@ -12,7 +12,6 @@ module.exports = {
       .first();
   },
   getAssignmentForOOS(oos) {
-    console.log(oos);
     return knex('adventure')
       .where({ id: oos.assigned_adventure_id })
       .first();
