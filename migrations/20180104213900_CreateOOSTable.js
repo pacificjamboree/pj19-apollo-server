@@ -13,7 +13,6 @@ exports.up = (knex, Promise) => {
       t.string('last_name').notNullable();
       t.string('preferred_name');
       t.date('birthdate');
-      t.boolean('is_youth');
 
       t.string('email');
       t.string('phone1');

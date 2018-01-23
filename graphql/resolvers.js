@@ -5,7 +5,7 @@ const {
   getAllAdventures,
   getAdventure
 } = require('./knex_connector');
-
+const differenceInYears = require('date-fns/difference_in_years');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
 const resolvers = {
@@ -21,6 +21,7 @@ const resolvers = {
     adventure: (_, { adventure_code }) => getAdventure(adventure_code)
   },
   OOS: {
+    is_youth: ({ birthdate }) => differenceInYears(new Date(), birthdate) <= 18,
     assigned: ({ assigned_adventure_id }) => !!assigned_adventure_id,
     assignment: oos => getAssignmentForOOS(oos),
     full_name: ({ first_name, last_name, preferred_name }) =>
