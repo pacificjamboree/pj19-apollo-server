@@ -2,7 +2,7 @@ const casual = require('casual');
 const table = 'oos';
 
 const data = [];
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 30; i++) {
   const prerecruited = casual.boolean;
   const prerecruited_by = prerecruited ? casual.full_name : null;
   data.push({
@@ -20,7 +20,7 @@ for (let i = 0; i < 10; i++) {
 }
 
 exports.seed = function(knex, Promise) {
-  // Deletes ALL existing entries
+  // Deletes ALL existing entreies
   return knex(table)
     .del()
     .then(function() {
