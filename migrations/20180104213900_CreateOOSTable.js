@@ -9,11 +9,6 @@ exports.up = (knex, Promise) => {
       t.timestamps(true, true);
 
       t.string('oos_number').notNullable();
-      t
-        .boolean('assigned')
-        .notNullable()
-        .defaultTo(false);
-
       t.string('first_name').notNullable();
       t.string('last_name').notNullable();
       t.string('preferred_name');
