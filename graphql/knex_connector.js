@@ -11,6 +11,12 @@ module.exports = {
       .where({ oos_number })
       .first();
   },
+  getAssignmentForOOS(oos) {
+    console.log(oos);
+    return knex('adventure')
+      .where({ id: oos.assigned_adventure_id })
+      .first();
+  },
   getAllAdventures() {
     return knex.from('adventure').select('*');
   },

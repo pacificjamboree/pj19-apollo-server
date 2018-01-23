@@ -20,6 +20,7 @@ const types = gql`
     id: ID!
     oos_number: String!
     assigned: Boolean!
+    assignment: Adventure
     first_name: String!
     last_name: String!
     preferred_name: String

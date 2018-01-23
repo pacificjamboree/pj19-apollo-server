@@ -1,6 +1,7 @@
 const {
   getAllOffersOfService,
   getOfferOfService,
+  getAssignmentForOOS,
   getAllAdventures,
   getAdventure
 } = require('./knex_connector');
@@ -18,6 +19,7 @@ const resolvers = {
     // adventures
     allAdventures: () => getAllAdventures(),
     adventure: (_, { adventure_code }) => getAdventure(adventure_code)
+    assignment: oos => getAssignmentForOOS(oos),
   }
 };
 
