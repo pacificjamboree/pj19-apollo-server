@@ -24,6 +24,7 @@ const types = gql`
     first_name: String!
     last_name: String!
     preferred_name: String
+    full_name: String!
     birthdate: GraphQLDate!
     is_youth: Boolean!
     email: String

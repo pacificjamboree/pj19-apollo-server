@@ -19,7 +19,11 @@ const resolvers = {
     // adventures
     allAdventures: () => getAllAdventures(),
     adventure: (_, { adventure_code }) => getAdventure(adventure_code)
+  },
+  OOS: {
     assignment: oos => getAssignmentForOOS(oos),
+    full_name: ({ first_name, last_name, preferred_name }) =>
+      `${preferred_name ? preferred_name : first_name} ${last_name}`
   }
 };
 
