@@ -25,5 +25,8 @@ module.exports = {
       .select('*')
       .where({ adventure_code })
       .first();
+  },
+  getOOSForAdventure({ id }) {
+    return knex('oos').where({ assigned_adventure_id: id });
   }
 };

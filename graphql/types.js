@@ -52,6 +52,7 @@ const types = gql`
     premium_adventure: Boolean!
     fee: Float!
     hidden: Boolean!
+    offers_of_service: [OOS]!
     created_at: GraphQLDateTime!
     updated_at: GraphQLDateTime!
   }

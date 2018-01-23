@@ -3,7 +3,8 @@ const {
   getOfferOfService,
   getAssignmentForOOS,
   getAllAdventures,
-  getAdventure
+  getAdventure,
+  getOOSForAdventure
 } = require('./knex_connector');
 const differenceInYears = require('date-fns/difference_in_years');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
@@ -26,6 +27,9 @@ const resolvers = {
     assignment: oos => getAssignmentForOOS(oos),
     full_name: ({ first_name, last_name, preferred_name }) =>
       `${preferred_name ? preferred_name : first_name} ${last_name}`
+  },
+  Adventure: {
+    offers_of_service: adventure => getOOSForAdventure(adventure)
   }
 };
 
