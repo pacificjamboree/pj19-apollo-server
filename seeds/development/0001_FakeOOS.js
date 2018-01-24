@@ -4,18 +4,17 @@ const table = 'oos';
 const data = [];
 for (let i = 0; i < 30; i++) {
   const prerecruited = casual.boolean;
-  const prerecruited_by = prerecruited ? casual.full_name : null;
+  const prerecruitedBy = prerecruited ? casual.full_name : null;
   data.push({
-    oos_number: `OOS${i + 1}`,
-    first_name: casual.first_name,
-    last_name: casual.last_name,
+    oosNumber: `OOS${i + 1}`,
+    firstName: casual.first_name,
+    lastName: casual.last_name,
     birthdate: casual.date(),
-    is_youth: false,
     email: casual.email,
     phone1: casual.phone,
     phone2: casual.phone,
     prerecruited,
-    prerecruited_by
+    prerecruitedBy
   });
 }
 

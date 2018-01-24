@@ -6,12 +6,11 @@ exports.up = (knex, Promise) => {
         .uuid('id')
         .primary()
         .default(knex.raw('gen_random_uuid()'));
-      t.timestamps(true, true);
 
-      t.string('oos_number').notNullable();
-      t.string('first_name').notNullable();
-      t.string('last_name').notNullable();
-      t.string('preferred_name');
+      t.string('oosNumber').notNullable();
+      t.string('firstName').notNullable();
+      t.string('lastName').notNullable();
+      t.string('preferredName');
       t.date('birthdate');
 
       t.string('email');
@@ -22,12 +21,14 @@ exports.up = (knex, Promise) => {
         .boolean('prerecruited')
         .notNullable()
         .defaultTo(false);
-      t.string('prerecruited_by');
-      t.string('additional_information');
-      t.string('previous_experience');
-      t.string('special_skills');
+      t.string('prerecruitedBy');
+      t.string('additionalInformation');
+      t.string('previousExperience');
+      t.string('specialSkills');
 
-      t.string('registration_status');
+      t.string('registrationStatus');
+      t.timestamp('createdAt').defaultTo(knex.fn.now());
+      t.timestamp('updatedAt').defaultTo(knex.fn.now());
     })
     .raw(
       `CREATE TRIGGER update_${table}_updated_at BEFORE UPDATE ON ${table} FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();`

@@ -6,18 +6,17 @@ exports.up = (knex, Promise) => {
         .uuid('id')
         .primary()
         .default(knex.raw('gen_random_uuid()'));
-      t.timestamps(true, true);
 
-      t.string('adventure_code');
+      t.string('adventureCode');
       t.string('name').notNullable();
-      t.string('theme_name').notNullable();
+      t.string('themeName').notNullable();
       t.string('description');
       t.enu('location', ['onsite', 'offsite']);
-      t.integer('capacity_per_period').notNullable();
-      t.integer('periods_offered').notNullable();
-      t.integer('periods_required').notNullable();
+      t.integer('capacityPerPeriod').notNullable();
+      t.integer('periodsOffered').notNullable();
+      t.integer('periodsRequired').notNullable();
       t
-        .boolean('premium_adventure')
+        .boolean('premiumAdventure')
         .defaultTo(false)
         .notNullable();
       t
@@ -28,6 +27,9 @@ exports.up = (knex, Promise) => {
         .boolean('hidden')
         .notNullable()
         .defaultTo(false);
+
+      t.timestamp('createdAt').defaultTo(knex.fn.now());
+      t.timestamp('updatedAt').defaultTo(knex.fn.now());
     })
     .raw(
       `CREATE TRIGGER update_${table}_updated_at BEFORE UPDATE ON ${table} FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();`

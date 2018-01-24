@@ -4,16 +4,16 @@ module.exports = {
   getAllOffersOfService() {
     return knex.from('oos').select('*');
   },
-  getOfferOfService(oos_number) {
+  getOfferOfService(oosNumber) {
     return knex
       .from('oos')
       .select('*')
-      .where({ oos_number })
+      .where({ oosNumber })
       .first();
   },
-  getAssignmentForOOS({ assigned_adventure_id }) {
+  getAssignmentForOOS({ assignedAdventureID }) {
     return knex('adventure')
-      .where({ id: assigned_adventure_id })
+      .where({ id: assignedAdventureID })
       .first();
   },
   async insertOfferOfService({ input }) {
@@ -31,14 +31,14 @@ module.exports = {
   getAllAdventures() {
     return knex.from('adventure').select('*');
   },
-  getAdventure(adventure_code) {
+  getAdventure(adventureCode) {
     return knex
       .from('adventure')
       .select('*')
-      .where({ adventure_code })
+      .where({ adventureCode })
       .first();
   },
   getOOSForAdventure({ id }) {
-    return knex('oos').where({ assigned_adventure_id: id });
+    return knex('oos').where({ assignedAdventureId: id });
   }
 };

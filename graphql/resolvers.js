@@ -16,11 +16,11 @@ const resolvers = {
   Query: {
     // offers of service
     allOffersOfService: () => getAllOffersOfService(),
-    offerOfService: (_, { oos_number }) => getOfferOfService(oos_number),
+    offerOfService: (_, { oosNumber }) => getOfferOfService(oosNumber),
 
     // adventures
     allAdventures: () => getAllAdventures(),
-    adventure: (_, { adventure_code }) => getAdventure(adventure_code)
+    adventure: (_, { adventureCode }) => getAdventure(adventureCode)
   },
 
   Mutation: {
@@ -30,14 +30,14 @@ const resolvers = {
   },
 
   OOS: {
-    is_youth: ({ birthdate }) => differenceInYears(new Date(), birthdate) <= 18,
-    assigned: ({ assigned_adventure_id }) => !!assigned_adventure_id,
+    isYouth: ({ birthdate }) => differenceInYears(new Date(), birthdate) <= 18,
+    assigned: ({ assignedAdventureId }) => !!assignedAdventureId,
     assignment: oos => getAssignmentForOOS(oos),
-    full_name: ({ first_name, last_name, preferred_name }) =>
-      `${preferred_name ? preferred_name : first_name} ${last_name}`
+    fullName: ({ firstName, lastName, preferredName }) =>
+      `${preferredName ? preferredName : firstName} ${lastName}`
   },
   Adventure: {
-    offers_of_service: adventure => getOOSForAdventure(adventure)
+    OffersOfService: adventure => getOOSForAdventure(adventure)
   }
 };
 

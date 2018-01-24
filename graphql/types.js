@@ -11,9 +11,9 @@ const types = gql`
 
   type Query {
     allOffersOfService: [OOS]
-    offerOfService(oos_number: String!): OOS
+    offerOfService(oosNumber: String!): OOS
     allAdventures: [Adventure]
-    adventure(adventure_code: String!): Adventure
+    adventure(adventureCode: String!): Adventure
   }
 
   type Mutation {
@@ -21,20 +21,20 @@ const types = gql`
   }
 
   input CreateOOSInput {
-    oos_number: String!
-    first_name: String!
-    last_name: String!
-    preferred_name: String
+    oosNumber: String!
+    firstName: String!
+    lastName: String!
+    preferredName: String
     birthdate: GraphQLDate!
     email: String
     phone1: String
     phone2: String
     prerecruited: Boolean
-    prerecruited_by: String
-    additional_information: String
-    previous_experience: String
-    special_skills: String
-    registration_status: String
+    prerecruitedBy: String
+    additionalInformation: String
+    previousExperience: String
+    specialSkills: String
+    registrationStatus: String
   }
 
   type CreateOOSPayload {
@@ -43,44 +43,44 @@ const types = gql`
 
   type OOS {
     id: ID!
-    oos_number: String!
+    oosNumber: String!
     assigned: Boolean!
     assignment: Adventure
-    first_name: String!
-    last_name: String!
-    preferred_name: String
-    full_name: String!
+    firstName: String!
+    lastName: String!
+    preferredName: String
+    fullName: String!
     birthdate: GraphQLDate!
-    is_youth: Boolean!
+    isYouth: Boolean!
     email: String
     phone1: String
     phone2: String
     prerecruited: Boolean!
-    prerecruited_by: String
-    additional_information: String
-    previous_experience: String
-    special_skills: String
-    registration_status: String
-    created_at: GraphQLDateTime!
-    updated_at: GraphQLDateTime!
+    prerecruitedBy: String
+    additionalInformation: String
+    previousExperience: String
+    specialSkills: String
+    registrationStatus: String
+    createdAt: GraphQLDateTime!
+    updatedAt: GraphQLDateTime!
   }
 
   type Adventure {
     id: ID!
-    adventure_code: String!
+    adventureCode: String!
     name: String!
-    theme_name: String!
+    themeName: String!
     description: String
     location: AdventureLocation
-    capacity_per_period: Int!
-    periods_offered: Int!
-    periods_required: Int!
-    premium_adventure: Boolean!
+    capacityPerPeriod: Int!
+    periodsOffered: Int!
+    periodsRequired: Int!
+    premiumAdventure: Boolean!
     fee: Float!
     hidden: Boolean!
-    offers_of_service: [OOS]!
-    created_at: GraphQLDateTime!
-    updated_at: GraphQLDateTime!
+    OffersOfService: [OOS]!
+    createdAt: GraphQLDateTime!
+    updatedAt: GraphQLDateTime!
   }
 `;
 

@@ -12,11 +12,11 @@ exports.seed = async (knex, Promise) => {
     .map(({ id }) => id);
 
   const promises = OOS_IDS.map(id => {
-    const assigned_adventure_id =
+    const assignedAdventureId =
       ADVENTURE_IDS[Math.floor(Math.random() * ADVENTURE_IDS.length)];
     return knex('oos')
       .where({ id })
-      .update({ assigned_adventure_id });
+      .update({ assignedAdventureId });
   });
 
   return Promise.all(promises);
