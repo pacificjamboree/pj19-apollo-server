@@ -14,7 +14,8 @@ for (let i = 0; i < 30; i++) {
     phone1: casual.phone,
     phone2: casual.phone,
     prerecruited,
-    prerecruitedBy
+    prerecruitedBy,
+    workflowState: 'active'
   });
 }
 

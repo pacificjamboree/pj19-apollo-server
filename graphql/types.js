@@ -9,6 +9,12 @@ const types = gql`
     OFFSITE
   }
 
+  enum WorkflowState {
+    defined
+    active
+    deleted
+  }
+
   type Query {
     allOffersOfService: [OOS]
     offerOfService(oosNumber: String!): OOS
@@ -35,6 +41,7 @@ const types = gql`
     previousExperience: String
     specialSkills: String
     registrationStatus: String
+    workflowState: WorkflowState
   }
 
   type CreateOOSPayload {
@@ -63,6 +70,7 @@ const types = gql`
     registrationStatus: String
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!
+    workflowState: WorkflowState
   }
 
   type Adventure {
@@ -81,6 +89,7 @@ const types = gql`
     OffersOfService: [OOS]!
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!
+    workflowState: WorkflowState
   }
 `;
 

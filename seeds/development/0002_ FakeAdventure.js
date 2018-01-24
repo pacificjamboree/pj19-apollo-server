@@ -12,7 +12,8 @@ const data = [
     periodsRequired: 1,
     premiumAdventure: false,
     fee: 0.0,
-    hidden: false
+    hidden: false,
+    workflowState: 'active'
   },
   {
     adventureCode: 'ADV002',
@@ -25,7 +26,8 @@ const data = [
     periodsRequired: 1,
     premiumAdventure: true,
     fee: 0.0,
-    hidden: false
+    hidden: false,
+    workflowState: 'active'
   },
   {
     adventureCode: 'ADV003',
@@ -38,7 +40,8 @@ const data = [
     periodsRequired: 1,
     premiumAdventure: false,
     fee: 50.0,
-    hidden: false
+    hidden: false,
+    workflowState: 'active'
   },
   {
     adventureCode: 'ADV004',
@@ -51,7 +54,8 @@ const data = [
     periodsRequired: 1,
     premiumAdventure: false,
     fee: 0.0,
-    hidden: false
+    hidden: false,
+    workflowState: 'active'
   },
   {
     adventureCode: 'ADV005',
@@ -64,7 +68,8 @@ const data = [
     periodsRequired: 1,
     premiumAdventure: true,
     fee: 0.0,
-    hidden: false
+    hidden: false,
+    workflowState: 'active'
   }
 ];
 
