@@ -37,6 +37,7 @@ const types = gql`
     special_skills: String
     registration_status: String
     created_at: GraphQLDateTime!
+    updated_at: GraphQLDateTime!
   }
 
   type Adventure {
