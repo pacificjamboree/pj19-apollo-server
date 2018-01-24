@@ -16,12 +16,13 @@ module.exports = {
       .where({ id: assigned_adventure_id })
       .first();
   },
-  async insertOfferOfService(data) {
+  async insertOfferOfService({ input }) {
     try {
       const k = await knex('oos')
-        .insert(data)
+        .insert(input)
         .returning('*');
-      return k[0];
+      console.log(k);
+      return { OfferOfService: k[0] };
     } catch (e) {
       throw e;
     }
