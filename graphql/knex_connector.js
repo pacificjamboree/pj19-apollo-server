@@ -16,6 +16,17 @@ module.exports = {
       .where({ id: assigned_adventure_id })
       .first();
   },
+  async insertOfferOfService(data) {
+    try {
+      const k = await knex('oos')
+        .insert(data)
+        .returning('*');
+      return k[0];
+    } catch (e) {
+      throw e;
+    }
+  },
+
   getAllAdventures() {
     return knex.from('adventure').select('*');
   },

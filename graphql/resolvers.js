@@ -2,6 +2,7 @@ const {
   getAllOffersOfService,
   getOfferOfService,
   getAssignmentForOOS,
+  insertOfferOfService,
   getAllAdventures,
   getAdventure,
   getOOSForAdventure
@@ -21,6 +22,13 @@ const resolvers = {
     allAdventures: () => getAllAdventures(),
     adventure: (_, { adventure_code }) => getAdventure(adventure_code)
   },
+
+  Mutation: {
+    createOfferOfService: (_, data, context) => {
+      return insertOfferOfService(data);
+    }
+  },
+
   OOS: {
     is_youth: ({ birthdate }) => differenceInYears(new Date(), birthdate) <= 18,
     assigned: ({ assigned_adventure_id }) => !!assigned_adventure_id,

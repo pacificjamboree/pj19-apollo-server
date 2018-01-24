@@ -16,6 +16,26 @@ const types = gql`
     adventure(adventure_code: String!): Adventure
   }
 
+  type Mutation {
+    createOfferOfService(
+      oos_number: String!
+      first_name: String!
+      last_name: String!
+      preferred_name: String
+      birthdate: GraphQLDate!
+      email: String
+      phone1: String
+      phone2: String
+      prerecruited: Boolean!
+      prerecruited_by: String
+      additional_information: String
+      previous_experience: String
+      special_skills: String
+      registration_status: String
+    ): OOS
+    # createAdventure(): Adventure
+  }
+
   type OOS {
     id: ID!
     oos_number: String!
