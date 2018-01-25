@@ -3,6 +3,7 @@ const {
   getOfferOfService,
   getAssignmentForOOS,
   insertOfferOfService,
+  toggleOOSWorkflowState,
   getAllAdventures,
   getAdventure,
   getOOSForAdventure
@@ -26,7 +27,17 @@ const resolvers = {
   Mutation: {
     createOfferOfService: (_, data, context) => {
       return insertOfferOfService(data);
-    }
+    },
+
+    toggleOfferOfServiceWorkflowStateById: (
+      _,
+      { input: { id, workflowState } }
+    ) => toggleOOSWorkflowState({ id, workflowState }),
+
+    toggleOfferOfServiceWorkflowStateOOSNumber: (
+      _,
+      { input: { oosNumber, workflowState } }
+    ) => toggleOOSWorkflowState({ oosNumber, workflowState })
   },
 
   OOS: {

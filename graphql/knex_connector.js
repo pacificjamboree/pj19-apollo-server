@@ -21,7 +21,19 @@ module.exports = {
       const k = await knex('oos')
         .insert(input)
         .returning('*');
-      console.log(k);
+      return { OfferOfService: k[0] };
+    } catch (e) {
+      throw e;
+    }
+  },
+  async toggleOOSWorkflowState(payload) {
+    const { workflowState, id, oosNumber } = payload;
+    const query = id ? { id } : { oosNumber };
+    try {
+      const k = await knex('oos')
+        .where(query)
+        .update({ workflowState })
+        .returning('*');
       return { OfferOfService: k[0] };
     } catch (e) {
       throw e;

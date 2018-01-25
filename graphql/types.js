@@ -24,6 +24,12 @@ const types = gql`
 
   type Mutation {
     createOfferOfService(input: CreateOOSInput!): CreateOOSPayload
+    toggleOfferOfServiceWorkflowStateById(
+      input: ToggleOfferOfServiceWorkflowStateByIdInput!
+    ): ToggleOOSWorkflowStatePayload
+    toggleOfferOfServiceWorkflowStateOOSNumber(
+      input: ToggleOfferOfServiceWorkflowStateByOOSNumber!
+    ): ToggleOOSWorkflowStatePayload
   }
 
   input CreateOOSInput {
@@ -44,7 +50,21 @@ const types = gql`
     workflowState: WorkflowState
   }
 
+  input ToggleOfferOfServiceWorkflowStateByIdInput {
+    id: String!
+    workflowState: WorkflowState!
+  }
+
+  input ToggleOfferOfServiceWorkflowStateByOOSNumber {
+    oosNumber: String!
+    workflowState: WorkflowState!
+  }
+
   type CreateOOSPayload {
+    OfferOfService: OOS
+  }
+
+  type ToggleOOSWorkflowStatePayload {
     OfferOfService: OOS
   }
 
