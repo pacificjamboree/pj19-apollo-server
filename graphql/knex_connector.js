@@ -11,9 +11,9 @@ module.exports = {
       .where({ oosNumber })
       .first();
   },
-  getAssignmentForOOS({ assignedAdventureID }) {
+  getAssignmentForOOS({ assignedAdventureId }) {
     return knex('adventure')
-      .where({ id: assignedAdventureID })
+      .where({ id: assignedAdventureId })
       .first();
   },
   async insertOfferOfService({ input }) {
