@@ -29,10 +29,15 @@ module.exports = {
   async toggleOOSWorkflowState(payload) {
     const { workflowState, id, oosNumber } = payload;
     const query = id ? { id } : { oosNumber };
+    const update = { workflowState };
+    // if an OOS is being deleted, un-assign it from an Adventure
+    if (workflowState === 'deleted') {
+      update['assignedAdventureId'] = null;
+    }
     try {
       const k = await knex('oos')
         .where(query)
-        .update({ workflowState })
+        .update(update)
         .returning('*');
       return { OfferOfService: k[0] };
     } catch (e) {
