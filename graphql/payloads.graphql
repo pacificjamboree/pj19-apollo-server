@@ -1,0 +1,7 @@
+type CreateOOSPayload {
+  OfferOfService: OOS
+}
+
+type ToggleOOSWorkflowStatePayload {
+  OfferOfService: OOS
+}

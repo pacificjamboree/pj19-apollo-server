@@ -1,0 +1,18 @@
+type Adventure {
+  id: ID!
+  adventureCode: String!
+  name: String!
+  themeName: String!
+  description: String
+  location: AdventureLocation
+  capacityPerPeriod: Int!
+  periodsOffered: Int!
+  periodsRequired: Int!
+  premiumAdventure: Boolean!
+  fee: Float!
+  hidden: Boolean!
+  OffersOfService: [OOS]!
+  createdAt: GraphQLDateTime!
+  updatedAt: GraphQLDateTime!
+  workflowState: WorkflowState
+}

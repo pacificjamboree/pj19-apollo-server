@@ -1,0 +1,36 @@
+# import OOS from 'types/OOS.graphql'
+# import Adventure from 'types/Adventure.graphql'
+# import * from 'inputs.graphql'
+# import * from 'payloads.graphql'
+
+scalar GraphQLDate
+
+scalar GraphQLDateTime
+
+enum WorkflowState {
+  defined
+  active
+  deleted
+}
+
+enum AdventureLocation {
+  ONSITE
+  OFFSITE
+}
+
+type Query {
+  allOffersOfService: [OOS]
+  offerOfService(oosNumber: String!): OOS
+  allAdventures: [Adventure]
+  adventure(adventureCode: String!): Adventure
+}
+
+type Mutation {
+  createOfferOfService(input: CreateOOSInput!): CreateOOSPayload
+  toggleOfferOfServiceWorkflowStateById(
+    input: ToggleOfferOfServiceWorkflowStateByIdInput!
+  ): ToggleOOSWorkflowStatePayload
+  toggleOfferOfServiceWorkflowStateOOSNumber(
+    input: ToggleOfferOfServiceWorkflowStateByOOSNumber!
+  ): ToggleOOSWorkflowStatePayload
+}
