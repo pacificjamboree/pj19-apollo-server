@@ -1,11 +1,3 @@
-type CreateOOSPayload {
-  OfferOfService: OOS
-}
-
-type ToggleOOSWorkflowStatePayload {
-  OfferOfService: OOS
-}
-
-type AssignOfferOfServicePayload {
+type OOSPayload {
   OfferOfService: OOS
 }

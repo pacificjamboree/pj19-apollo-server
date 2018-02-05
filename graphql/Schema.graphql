@@ -26,14 +26,14 @@ type Query {
 }
 
 type Mutation {
-  createOfferOfService(input: CreateOOSInput!): CreateOOSPayload
+  createOfferOfService(input: CreateOOSInput!): OOSPayload
   toggleOfferOfServiceWorkflowStateById(
     input: ToggleOfferOfServiceWorkflowStateByIdInput!
-  ): ToggleOOSWorkflowStatePayload
+  ): OOSPayload
   toggleOfferOfServiceWorkflowStateOOSNumber(
     input: ToggleOfferOfServiceWorkflowStateByOOSNumber!
-  ): ToggleOOSWorkflowStatePayload
+  ): OOSPayload
   assignOfferOfServiceToAdventure(
     input: AssignOfferOfServiceToAdventure!
-  ): AssignOfferOfServicePayload
+  ): OOSPayload
 }
