@@ -1,5 +1,16 @@
 const knex = require('knex')(require('../knexfile')[process.env.NODE_ENV]);
 
+const selectOOS = async id => {
+  try {
+    const oos = await knex('oos').where({ id });
+    if (!oos.length) {
+      throw `No Offer of Service with ID ${id} exists`;
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
 module.exports = {
   getAllOffersOfService() {
     return knex.from('oos').select('*');
@@ -44,18 +55,26 @@ module.exports = {
       throw e;
     }
   },
-
   async changeOOSAssignment(id, newAssignmentId) {
     try {
-      const oos = await knex('oos').where({ id });
-      if (!oos.length) {
-        throw `No Offer of Service with ID ${id} exists`;
-      }
+      await selectOOS(id);
       const k = await knex('oos')
         .where({ id })
         .update({
-          assignedAdventureId: newAssignmentId
+          assignedAdventureId: newAssignmentId,
         })
+        .returning('*');
+      return { OfferOfService: k[0] };
+    } catch (e) {
+      throw e;
+    }
+  },
+  async updateOOS(id, payload) {
+    try {
+      await selectOOS(id);
+      const k = await knex('oos')
+        .where({ id })
+        .update(payload)
         .returning('*');
       return { OfferOfService: k[0] };
     } catch (e) {
@@ -75,5 +94,5 @@ module.exports = {
   },
   getOOSForAdventure({ id }) {
     return knex('oos').where({ assignedAdventureId: id });
-  }
+  },
 };

@@ -8,6 +8,7 @@ const {
   getAdventure,
   getOOSForAdventure,
   changeOOSAssignment,
+  updateOOS,
 } = require('./knex_connector');
 const differenceInYears = require('date-fns/difference_in_years');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
@@ -40,6 +41,8 @@ const resolvers = {
 
     assignOfferOfServiceToAdventure: (_, { input: { oosId, assignmentId } }) =>
       changeOOSAssignment(oosId, assignmentId),
+
+    updateOfferOfService: (_, { oosId, input }) => updateOOS(oosId, input),
   },
 
   OOS: {

@@ -36,4 +36,8 @@ type Mutation {
   assignOfferOfServiceToAdventure(
     input: AssignOfferOfServiceToAdventure!
   ): OOSPayload
+  updateOfferOfService(
+    oosId: ID!
+    input: UpdateOfferOfServiceInput!
+  ): OOSPayload
 }
