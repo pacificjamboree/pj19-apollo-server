@@ -43,4 +43,13 @@ type Mutation {
     oosId: ID!
     input: UpdateOfferOfServiceInput!
   ): OOSPayload
+
+  assignManagerToAdventure(
+    adventureId: ID!
+    input: AssignManagerToAdventure!
+  ): AssignManagerToAdventurePayload
+  removeManagerFromAdventure(
+    adventureId: ID!
+    input: RemoveManagerFromAdventure!
+  ): RemoveManagerFromAdventurePayload
 }

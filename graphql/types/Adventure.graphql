@@ -12,6 +12,7 @@ type Adventure {
   fee: Float!
   hidden: Boolean!
   OffersOfService: [OOS]!
+  Managers: [OOS]!
   createdAt: GraphQLDateTime!
   updatedAt: GraphQLDateTime!
   workflowState: WorkflowState

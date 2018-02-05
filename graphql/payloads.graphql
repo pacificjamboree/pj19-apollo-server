@@ -1,3 +1,12 @@
 type OOSPayload {
   OfferOfService: OOS
 }
+
+type AssignManagerToAdventurePayload {
+  OfferOfService: OOS
+  Adventure: Adventure
+}
+
+type RemoveManagerFromAdventurePayload {
+  Adventure: Adventure
+}

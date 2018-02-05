@@ -43,3 +43,11 @@ input UpdateOfferOfServiceInput {
   specialSkills: String
   registrationStatus: String
 }
+
+input AssignManagerToAdventure {
+  oosId: ID!
+}
+
+input RemoveManagerFromAdventure {
+  oosId: ID!
+}

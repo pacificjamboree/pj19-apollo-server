@@ -7,6 +7,9 @@ const {
   getAllAdventures,
   getAdventure,
   getOOSForAdventure,
+  getManagersForAdventure,
+  assignManagerToAdventure,
+  removeManagerFromAdventure,
   changeOOSAssignment,
   updateOOS,
 } = require('./knex_connector');
@@ -43,6 +46,12 @@ const resolvers = {
       changeOOSAssignment(oosId, assignmentId),
 
     updateOfferOfService: (_, { oosId, input }) => updateOOS(oosId, input),
+
+    assignManagerToAdventure: (_, { adventureId, input }) => {
+      return assignManagerToAdventure(adventureId, input);
+    },
+    removeManagerFromAdventure: (_, { adventureId, input }) =>
+      removeManagerFromAdventure(adventureId, input),
   },
 
   OOS: {
@@ -54,6 +63,7 @@ const resolvers = {
   },
   Adventure: {
     OffersOfService: adventure => getOOSForAdventure(adventure),
+    Managers: adventure => getManagersForAdventure(adventure),
   },
 };
 
