@@ -6,7 +6,8 @@ const {
   toggleOOSWorkflowState,
   getAllAdventures,
   getAdventure,
-  getOOSForAdventure
+  getOOSForAdventure,
+  changeOOSAssignment,
 } = require('./knex_connector');
 const differenceInYears = require('date-fns/difference_in_years');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
@@ -21,13 +22,11 @@ const resolvers = {
 
     // adventures
     allAdventures: () => getAllAdventures(),
-    adventure: (_, { adventureCode }) => getAdventure(adventureCode)
+    adventure: (_, { adventureCode }) => getAdventure(adventureCode),
   },
 
   Mutation: {
-    createOfferOfService: (_, data, context) => {
-      return insertOfferOfService(data);
-    },
+    createOfferOfService: (_, data, context) => insertOfferOfService(data),
 
     toggleOfferOfServiceWorkflowStateById: (
       _,
@@ -37,7 +36,10 @@ const resolvers = {
     toggleOfferOfServiceWorkflowStateOOSNumber: (
       _,
       { input: { oosNumber, workflowState } }
-    ) => toggleOOSWorkflowState({ oosNumber, workflowState })
+    ) => toggleOOSWorkflowState({ oosNumber, workflowState }),
+
+    assignOfferOfServiceToAdventure: (_, { input: { oosId, assignmentId } }) =>
+      changeOOSAssignment(oosId, assignmentId),
   },
 
   OOS: {
@@ -45,11 +47,11 @@ const resolvers = {
     assigned: ({ assignedAdventureId }) => !!assignedAdventureId,
     assignment: oos => getAssignmentForOOS(oos),
     fullName: ({ firstName, lastName, preferredName }) =>
-      `${preferredName ? preferredName : firstName} ${lastName}`
+      `${preferredName ? preferredName : firstName} ${lastName}`,
   },
   Adventure: {
-    OffersOfService: adventure => getOOSForAdventure(adventure)
-  }
+    OffersOfService: adventure => getOOSForAdventure(adventure),
+  },
 };
 
 module.exports = resolvers;

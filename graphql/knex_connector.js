@@ -45,6 +45,24 @@ module.exports = {
     }
   },
 
+  async changeOOSAssignment(id, newAssignmentId) {
+    try {
+      const oos = await knex('oos').where({ id });
+      if (!oos.length) {
+        throw `No Offer of Service with ID ${id} exists`;
+      }
+      const k = await knex('oos')
+        .where({ id })
+        .update({
+          assignedAdventureId: newAssignmentId
+        })
+        .returning('*');
+      return { OfferOfService: k[0] };
+    } catch (e) {
+      throw e;
+    }
+  },
+
   getAllAdventures() {
     return knex.from('adventure').select('*');
   },

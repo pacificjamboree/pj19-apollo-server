@@ -5,3 +5,7 @@ type CreateOOSPayload {
 type ToggleOOSWorkflowStatePayload {
   OfferOfService: OOS
 }
+
+type AssignOfferOfServicePayload {
+  OfferOfService: OOS
+}

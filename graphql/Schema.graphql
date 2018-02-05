@@ -33,4 +33,7 @@ type Mutation {
   toggleOfferOfServiceWorkflowStateOOSNumber(
     input: ToggleOfferOfServiceWorkflowStateByOOSNumber!
   ): ToggleOOSWorkflowStatePayload
+  assignOfferOfServiceToAdventure(
+    input: AssignOfferOfServiceToAdventure!
+  ): AssignOfferOfServicePayload
 }
