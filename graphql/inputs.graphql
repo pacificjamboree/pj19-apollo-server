@@ -17,17 +17,14 @@ input CreateOOSInput {
 }
 
 input ToggleOfferOfServiceWorkflowStateByIdInput {
-  id: String!
   workflowState: WorkflowState!
 }
 
 input ToggleOfferOfServiceWorkflowStateByOOSNumber {
-  oosNumber: String!
   workflowState: WorkflowState!
 }
 
 input AssignOfferOfServiceToAdventure {
-  oosId: ID!
   assignmentId: ID # ID is nullable to allow removing an assignment
 }
 

@@ -28,12 +28,15 @@ type Query {
 type Mutation {
   createOfferOfService(input: CreateOOSInput!): OOSPayload
   toggleOfferOfServiceWorkflowStateById(
+    oosId: ID!
     input: ToggleOfferOfServiceWorkflowStateByIdInput!
   ): OOSPayload
-  toggleOfferOfServiceWorkflowStateOOSNumber(
+  toggleOfferOfServiceWorkflowStateByOOSNumber(
+    oosNumber: String!
     input: ToggleOfferOfServiceWorkflowStateByOOSNumber!
   ): OOSPayload
   assignOfferOfServiceToAdventure(
+    oosId: ID!
     input: AssignOfferOfServiceToAdventure!
   ): OOSPayload
   updateOfferOfService(

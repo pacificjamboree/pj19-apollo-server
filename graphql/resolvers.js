@@ -31,15 +31,15 @@ const resolvers = {
 
     toggleOfferOfServiceWorkflowStateById: (
       _,
-      { input: { id, workflowState } }
-    ) => toggleOOSWorkflowState({ id, workflowState }),
+      { oosId, input: { workflowState } }
+    ) => toggleOOSWorkflowState({ id: oosId, workflowState }),
 
-    toggleOfferOfServiceWorkflowStateOOSNumber: (
+    toggleOfferOfServiceWorkflowStateByOOSNumber: (
       _,
-      { input: { oosNumber, workflowState } }
+      { oosNumber, input: { workflowState } }
     ) => toggleOOSWorkflowState({ oosNumber, workflowState }),
 
-    assignOfferOfServiceToAdventure: (_, { input: { oosId, assignmentId } }) =>
+    assignOfferOfServiceToAdventure: (_, { oosId, input: { assignmentId } }) =>
       changeOOSAssignment(oosId, assignmentId),
 
     updateOfferOfService: (_, { oosId, input }) => updateOOS(oosId, input),
