@@ -8,11 +8,11 @@ exports.up = (knex, Promise) => {
         // deleted = OOS has been deleted
         .table(TABLE, t =>
           t
-            .enu('workflowState', ['defined', 'active', 'deleted'])
+            .enu('workflow_state', ['defined', 'active', 'deleted'])
             .defaultTo('defined')
         )
         .then(() => {
-          return knex(TABLE).update({ workflowState: 'active' });
+          return knex(TABLE).update({ workflow_state: 'active' });
         })
         .then(txn.commit)
         .catch(txn.rollback)
@@ -22,6 +22,6 @@ exports.up = (knex, Promise) => {
 
 exports.down = (knex, Promise) => {
   return knex.schema.alterTable(TABLE, t => {
-    t.dropColumn('workflowState');
+    t.dropColumn('workflow_state');
   });
 };

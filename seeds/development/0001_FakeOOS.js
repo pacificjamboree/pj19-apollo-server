@@ -1,30 +1,30 @@
 const casual = require('casual');
-const table = 'oos';
+const TABLE = 'oos';
 
 const data = [];
 for (let i = 0; i < 30; i++) {
   const prerecruited = casual.boolean;
-  const prerecruitedBy = prerecruited ? casual.full_name : null;
+  const prerecruited_by = prerecruited ? casual.full_name : null;
   data.push({
-    oosNumber: `OOS${i + 1}`,
-    firstName: casual.first_name,
-    lastName: casual.last_name,
+    oos_number: `OOS${i + 1}`,
+    first_name: casual.first_name,
+    last_name: casual.last_name,
     birthdate: casual.date(),
     email: casual.email,
     phone1: casual.phone,
     phone2: casual.phone,
     prerecruited,
-    prerecruitedBy,
-    workflowState: 'active'
+    prerecruited_by,
+    workflow_state: 'active',
   });
 }
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entreies
-  return knex(table)
+  return knex(TABLE)
     .del()
     .then(function() {
       // Inserts seed entries
-      return knex(table).insert(data);
+      return knex(TABLE).insert(data);
     });
 };

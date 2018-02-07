@@ -1,22 +1,22 @@
-const table = 'adventure';
+const TABLE = 'adventure';
 exports.up = (knex, Promise) => {
   return knex.schema
-    .createTable(table, t => {
+    .createTable(TABLE, t => {
       t
         .uuid('id')
         .primary()
         .default(knex.raw('gen_random_uuid()'));
 
-      t.string('adventureCode');
+      t.string('adventure_code');
       t.string('name').notNullable();
-      t.string('themeName').notNullable();
+      t.string('theme_name').notNullable();
       t.string('description');
       t.enu('location', ['onsite', 'offsite']);
-      t.integer('capacityPerPeriod').notNullable();
-      t.integer('periodsOffered').notNullable();
-      t.integer('periodsRequired').notNullable();
+      t.integer('capacity_per_period').notNullable();
+      t.integer('periods_offered').notNullable();
+      t.integer('periods_required').notNullable();
       t
-        .boolean('premiumAdventure')
+        .boolean('premium_adventure')
         .defaultTo(false)
         .notNullable();
       t
@@ -28,14 +28,14 @@ exports.up = (knex, Promise) => {
         .notNullable()
         .defaultTo(false);
 
-      t.timestamp('createdAt').defaultTo(knex.fn.now());
-      t.timestamp('updatedAt').defaultTo(knex.fn.now());
+      t.timestamp('created_at').defaultTo(knex.fn.now());
+      t.timestamp('updated_at').defaultTo(knex.fn.now());
     })
     .raw(
-      `CREATE TRIGGER update_${table}_updated_at BEFORE UPDATE ON ${table} FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();`
+      `CREATE TRIGGER update_${TABLE}_updated_at BEFORE UPDATE ON ${TABLE} FOR EACH ROW EXECUTE PROCEDURE update_updated_at_column();`
     );
 };
 
 exports.down = (knex, Promise) => {
-  return knex.schema.dropTable(table);
+  return knex.schema.dropTable(TABLE);
 };

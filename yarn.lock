@@ -1918,6 +1918,12 @@ kind-of@^6.0.0, kind-of@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.2.tgz#01146b36a6218e64e58f3a8d66de5d7fc6f6d051"
 
+knex-stringcase@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/knex-stringcase/-/knex-stringcase-0.2.0.tgz#2f724e73f634736a94250df90725277fbad7f7d0"
+  dependencies:
+    stringcase "^4.1.0"
+
 knex@^0.14.2:
   version "0.14.2"
   resolved "https://registry.yarnpkg.com/knex/-/knex-0.14.2.tgz#f3b3fe1ea0711af842770100768af21bfcbcbaea"
@@ -3026,6 +3032,10 @@ string_decoder@~1.0.3:
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.0.3.tgz#0fc67d7c141825de94282dd536bec6b9bce860ab"
   dependencies:
     safe-buffer "~5.1.0"
+
+stringcase@^4.1.0:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/stringcase/-/stringcase-4.1.1.tgz#0e7d9fee18e31603b37e9ead7a995a57d2e55353"
 
 stringstream@~0.0.4, stringstream@~0.0.5:
   version "0.0.5"

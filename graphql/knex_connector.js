@@ -1,4 +1,6 @@
-const knex = require('knex')(require('../knexfile')[process.env.NODE_ENV]);
+const knexStringcase = require('knex-stringcase');
+const opts = knexStringcase(require('../knexfile')[process.env.NODE_ENV]);
+const knex = require('knex')(opts);
 
 const selectOOS = async id => {
   try {
