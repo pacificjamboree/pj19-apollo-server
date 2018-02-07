@@ -21,11 +21,11 @@ module.exports = {
   getAllOffersOfService() {
     return knex.from('oos').select('*');
   },
-  getOfferOfService(oosNumber) {
+  getOfferOfService({ searchField, value }) {
     return knex
       .from('oos')
       .select('*')
-      .where({ oosNumber })
+      .where({ [searchField]: value })
       .first();
   },
   getAssignmentForOOS({ assignedAdventureId }) {

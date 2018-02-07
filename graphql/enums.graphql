@@ -1,0 +1,15 @@
+enum WorkflowState {
+  defined
+  active
+  deleted
+}
+
+enum AdventureLocation {
+  ONSITE
+  OFFSITE
+}
+
+enum OOSSearchFields {
+  id
+  oosNumber
+}

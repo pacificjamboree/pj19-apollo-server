@@ -22,7 +22,7 @@ const resolvers = {
   Query: {
     // offers of service
     allOffersOfService: () => getAllOffersOfService(),
-    offerOfService: (_, { oosNumber }) => getOfferOfService(oosNumber),
+    offerOfService: (_, { search }) => getOfferOfService(search),
 
     // adventures
     allAdventures: () => getAllAdventures(),
