@@ -105,11 +105,11 @@ module.exports = {
   getAllAdventures() {
     return knex.from('adventure').select('*');
   },
-  getAdventure(adventureCode) {
+  getAdventure({ searchField, value }) {
     return knex
       .from('adventure')
       .select('*')
-      .where({ adventureCode })
+      .where({ [searchField]: value })
       .first();
   },
   getOOSForAdventure({ id }) {

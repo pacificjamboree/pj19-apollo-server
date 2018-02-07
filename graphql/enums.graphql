@@ -13,3 +13,8 @@ enum OOSSearchFields {
   id
   oosNumber
 }
+
+enum AdventureSearchFields {
+  id
+  adventureCode
+}

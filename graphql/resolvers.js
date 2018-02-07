@@ -26,7 +26,7 @@ const resolvers = {
 
     // adventures
     allAdventures: () => getAllAdventures(),
-    adventure: (_, { adventureCode }) => getAdventure(adventureCode),
+    adventure: (_, { search }) => getAdventure(search),
   },
 
   Mutation: {

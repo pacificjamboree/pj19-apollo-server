@@ -56,3 +56,8 @@ input AssignManagerToAdventure {
 input RemoveManagerFromAdventure {
   oosId: ID!
 }
+
+input AdventureSearchInput {
+  searchField: AdventureSearchFields!
+  value: String!
+}

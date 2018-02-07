@@ -12,7 +12,7 @@ type Query {
   allOffersOfService: [OOS]
   offerOfService(search: OOSSearchInput!): OOS
   allAdventures: [Adventure]
-  adventure(adventureCode: String!): Adventure
+  adventure(search: AdventureSearchInput!): Adventure
 }
 
 type Mutation {
