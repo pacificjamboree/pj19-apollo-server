@@ -42,8 +42,8 @@ const resolvers = {
       { oosNumber, input: { workflowState } }
     ) => toggleOOSWorkflowState({ oosNumber, workflowState }),
 
-    assignOfferOfServiceToAdventure: (_, { oosId, input: { assignmentId } }) =>
-      changeOOSAssignment(oosId, assignmentId),
+    assignOfferOfServiceToAdventure: (_, { oosId, input: { adventureId } }) =>
+      changeOOSAssignment(oosId, adventureId),
 
     updateOfferOfService: (_, { oosId, input }) => updateOOS(oosId, input),
 

@@ -30,7 +30,7 @@ input ToggleOfferOfServiceWorkflowStateByOOSNumber {
 }
 
 input AssignOfferOfServiceToAdventure {
-  assignmentId: ID # ID is nullable to allow removing an assignment
+  adventureId: ID # ID is nullable to allow removing an assignment
 }
 
 input UpdateOfferOfServiceInput {
