@@ -16,7 +16,7 @@ input CreateOOSInput {
   workflowState: WorkflowState
 }
 
-input OOSSearchInput {
+input OfferOfServiceSearchInput {
   searchField: OOSSearchFields!
   value: String!
 }
