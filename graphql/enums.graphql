@@ -5,8 +5,8 @@ enum WorkflowState {
 }
 
 enum AdventureLocation {
-  ONSITE
-  OFFSITE
+  onsite
+  offsite
 }
 
 enum OOSSearchFields {
