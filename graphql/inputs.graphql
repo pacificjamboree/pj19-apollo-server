@@ -61,3 +61,11 @@ input AdventureSearchInput {
   searchField: AdventureSearchFields!
   value: String!
 }
+
+input AdventureFilter {
+  workflowState: [WorkflowState]
+  location: [AdventureLocation]
+  name: String
+  themeName: String
+  premiumAdventure: Boolean
+}

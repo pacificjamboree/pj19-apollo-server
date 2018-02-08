@@ -102,8 +102,33 @@ module.exports = {
     }
   },
 
-  getAllAdventures() {
-    return knex.from('adventure').select('*');
+  getAllAdventures({
+    workflowState = 'active',
+    location = ['onsite', 'offsite'],
+    premiumAdventure,
+    name,
+    themeName,
+  }) {
+    const premiumActivityFilter = (qb, premiumAdventure) => {
+      if (premiumAdventure) {
+        qb.andWhere('premiumAdventure', premiumAdventure);
+      }
+    };
+
+    const nameFilter = (qb, name, themeName) => {
+      if (name || themeName) {
+        qb
+          .where('name', 'ilike', `%${name}%`)
+          .orWhere('theme_name', 'ilike', `%${themeName}%`);
+      }
+    };
+    return knex
+      .from('adventure')
+      .select('*')
+      .whereIn('workflowState', workflowState)
+      .whereIn('location', location)
+      .modify(premiumActivityFilter, premiumAdventure)
+      .modify(nameFilter, name, themeName);
   },
   getAdventure({ searchField, value }) {
     return knex

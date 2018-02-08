@@ -25,7 +25,7 @@ const resolvers = {
     offerOfService: (_, { search }) => getOfferOfService(search),
 
     // adventures
-    allAdventures: () => getAllAdventures(),
+    allAdventures: (_, { filters }) => getAllAdventures(filters),
     adventure: (_, { search }) => getAdventure(search),
   },
 
