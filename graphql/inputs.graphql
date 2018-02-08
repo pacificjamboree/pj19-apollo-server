@@ -62,7 +62,7 @@ input AdventureSearchInput {
   value: String!
 }
 
-input AdventureFilter {
+input AdventureFilters {
   workflowState: [WorkflowState]
   location: [AdventureLocation]
   name: String
