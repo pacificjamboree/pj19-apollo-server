@@ -1,5 +1,10 @@
 {
   "extends": "unobtrusive",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
   "env": {
     "node": true
   }
