@@ -21,7 +21,7 @@ const resolvers = {
   GraphQLDateTime,
   Query: {
     // offers of service
-    allOffersOfService: () => getAllOffersOfService(),
+    allOffersOfService: (_, { filters = {} }) => getAllOffersOfService(filters),
     offerOfService: (_, { search }) => getOfferOfService(search),
 
     // adventures

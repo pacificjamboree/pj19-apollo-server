@@ -62,6 +62,13 @@ input AdventureSearchInput {
   value: String!
 }
 
+input OfferOfServiceFilters {
+  workflowState: [WorkflowState]
+  assigned: Boolean
+  email: String
+  name: String
+}
+
 input AdventureFilters {
   workflowState: [WorkflowState]
   location: [AdventureLocation]

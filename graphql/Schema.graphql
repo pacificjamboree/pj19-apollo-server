@@ -9,7 +9,7 @@ scalar GraphQLDate
 scalar GraphQLDateTime
 
 type Query {
-  allOffersOfService: [OOS]
+  allOffersOfService(filters: OfferOfServiceFilters): [OOS]
   allAdventures(filters: AdventureFilters): [Adventure]
   offerOfService(search: OfferOfServiceSearchInput!): OOS
   adventure(search: AdventureSearchInput!): Adventure

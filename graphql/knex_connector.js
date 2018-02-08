@@ -18,8 +18,36 @@ const selectOOS = async id => {
 };
 
 module.exports = {
-  getAllOffersOfService() {
-    return knex.from('oos').select('*');
+  getAllOffersOfService({ workflowState = 'active', assigned, email, name }) {
+    console.log(workflowState);
+    const assignedFilter = (qb, assigned) => {
+      if (assigned === undefined) return;
+      const query = { assigned_adventure_id: null };
+
+      assigned ? qb.andWhereNot(query) : qb.andWhere(query);
+    };
+
+    const emailFilter = (qb, email) => {
+      if (email !== undefined) {
+        qb.andWhere({ email });
+      }
+    };
+
+    const nameFilter = (qb, name) => {
+      if (name !== undefined) {
+        qb
+          .where('firstName', 'ilike', `${name}%`)
+          .orWhere('lastName', 'ilike', `${name}%`);
+      }
+    };
+
+    return knex
+      .from('oos')
+      .select('*')
+      .whereIn('workflowState', workflowState)
+      .modify(assignedFilter, assigned)
+      .modify(emailFilter, email)
+      .modify(nameFilter, name);
   },
   getOfferOfService({ searchField, value }) {
     return knex
