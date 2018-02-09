@@ -88,9 +88,9 @@ module.exports = {
           .where(query)
           .returning('*');
 
-        // if an OOS is being deleted, remove it from adventure_managers
+        // if an OOS is being deleted, remove it from adventure_manager
         if (workflowState === 'deleted') {
-          await knex('adventure_managers')
+          await knex('adventure_manage')
             .transacting(t)
             .where({ oos_id: oos[0].id })
             .del();
@@ -172,14 +172,14 @@ module.exports = {
     return knex('oos')
       .select('oos.*')
       .where({ 'adventure.id': id })
-      .leftJoin('adventure_managers', 'oos.id', 'adventure_managers.oos_id')
-      .leftJoin('adventure', 'adventure.id', 'adventure_managers.adventure_id');
+      .leftJoin('adventure_manager', 'oos.id', 'adventure_manager.oos_id')
+      .leftJoin('adventure', 'adventure.id', 'adventure_manager.adventure_id');
   },
 
   async assignManagerToAdventure(adventureId, { oosId }) {
     try {
       const oos = await selectOOS(oosId);
-      await knex('adventure_managers')
+      await knex('adventure_manager')
         .insert({
           adventure_id: adventureId,
           oos_id: oosId,
@@ -200,7 +200,7 @@ module.exports = {
   async removeManagerFromAdventure(adventureId, { oosId }) {
     try {
       await selectOOS(oosId);
-      const adventure_manager = await knex('adventure_managers')
+      const adventure_manager = await knex('adventure_manager')
         .where({ adventure_id: adventureId, oos_id: oosId })
         .first();
       if (!adventure_manager) {
@@ -209,7 +209,7 @@ module.exports = {
         );
       }
 
-      await knex('adventure_managers')
+      await knex('adventure_manager')
         .where({ adventure_id: adventureId, oos_id: oosId })
         .del();
 
