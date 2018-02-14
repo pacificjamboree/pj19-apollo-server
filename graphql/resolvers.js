@@ -12,6 +12,9 @@ const {
   removeManagerFromAdventure,
   changeOOSAssignment,
   updateOOS,
+  getAllPatrols,
+  getPatrol,
+  getScoutersForPatrol,
 } = require('./knex_connector');
 const differenceInYears = require('date-fns/difference_in_years');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
@@ -27,6 +30,10 @@ const resolvers = {
     // adventures
     allAdventures: (_, { filters = {} }) => getAllAdventures(filters),
     adventure: (_, { search }) => getAdventure(search),
+
+    // patrols
+    allPatrols: (_, { filters = {} }) => getAllPatrols(filters),
+    patrol: (_, { search }) => getPatrol(search),
   },
 
   Mutation: {
@@ -64,6 +71,12 @@ const resolvers = {
   Adventure: {
     OffersOfService: adventure => getOOSForAdventure(adventure),
     Managers: adventure => getManagersForAdventure(adventure),
+  },
+  Patrol: {
+    fullyPaid: ({ finalPaymentReceived }) => !!finalPaymentReceived,
+    totalUnitSize: ({ numberOfScouts, numberOfScouters }) =>
+      numberOfScouts + numberOfScouters,
+    patrolScouters: patrol => getScoutersForPatrol(patrol),
   },
 };
 

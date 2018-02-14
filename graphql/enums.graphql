@@ -18,3 +18,8 @@ enum AdventureSearchFields {
   id
   adventureCode
 }
+
+enum PatrolSearchFields {
+  id
+  patrolNumber
+}

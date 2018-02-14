@@ -1,0 +1,10 @@
+type PatrolScouter {
+  id: ID!
+  patrol: Patrol!
+  firstName: String!
+  lastName: String!
+  email: String!
+  workflowState: WorkflowState!
+  createdAt: GraphQLDateTime!
+  updatedAt: GraphQLDateTime!
+}

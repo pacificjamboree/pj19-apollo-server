@@ -76,3 +76,14 @@ input AdventureFilters {
   themeName: String
   premiumAdventure: Boolean
 }
+
+input PatrolFilters {
+  workflowState: [WorkflowState]
+  name: String
+  fullyPaid: Boolean
+}
+
+input PatrolSearchInput {
+  searchField: PatrolSearchFields!
+  value: String!
+}

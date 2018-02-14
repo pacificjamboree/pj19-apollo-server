@@ -1,5 +1,7 @@
 # import OOS from 'types/OOS.graphql'
 # import Adventure from 'types/Adventure.graphql'
+# import Patrol from 'types/Patrol.graphql'
+# import PatrolScouter from 'types/PatrolScouter.graphql'
 # import * from 'enums.graphql'
 # import * from 'inputs.graphql'
 # import * from 'payloads.graphql'
@@ -13,6 +15,8 @@ type Query {
   allAdventures(filters: AdventureFilters): [Adventure]
   offerOfService(search: OfferOfServiceSearchInput!): OOS
   adventure(search: AdventureSearchInput!): Adventure
+  allPatrols(filters: PatrolFilters): [Patrol]
+  patrol(search: PatrolSearchInput!): Patrol
 }
 
 type Mutation {

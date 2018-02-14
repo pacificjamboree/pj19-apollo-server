@@ -2,7 +2,7 @@ const table = 'adventure';
 
 const data = [
   {
-    adventure_code: 'ADV001',
+    adventure_code: 'ADV_0001',
     name: 'SUP',
     theme_name: 'SUP',
     description: 'SUP',
@@ -16,7 +16,7 @@ const data = [
     workflow_state: 'active',
   },
   {
-    adventure_code: 'ADV002',
+    adventure_code: 'ADV_0002',
     name: 'Kayaking',
     theme_name: 'Kayaking',
     description: 'Kayaking',
@@ -30,7 +30,7 @@ const data = [
     workflow_state: 'active',
   },
   {
-    adventure_code: 'ADV003',
+    adventure_code: 'ADV_0003',
     name: 'SCUBA',
     theme_name: 'SCUBA',
     description: 'SCUBA',
@@ -44,7 +44,7 @@ const data = [
     workflow_state: 'active',
   },
   {
-    adventure_code: 'ADV004',
+    adventure_code: 'ADV_0004',
     name: 'Townsite',
     theme_name: 'Townsite',
     description: 'Townsite',
@@ -58,7 +58,7 @@ const data = [
     workflow_state: 'active',
   },
   {
-    adventure_code: 'ADV005',
+    adventure_code: 'ADV_0005',
     name: 'Mtn. Biking',
     theme_name: 'Mtn. Biking',
     description: 'Mtn. Biking',

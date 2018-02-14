@@ -19,7 +19,6 @@ const selectOOS = async id => {
 
 module.exports = {
   getAllOffersOfService({ workflowState = 'active', assigned, email, name }) {
-    console.log(workflowState);
     const assignedFilter = (qb, assigned) => {
       if (assigned === undefined) return;
       const query = { assigned_adventure_id: null };
@@ -222,5 +221,40 @@ module.exports = {
     } catch (e) {
       throw e;
     }
+  },
+
+  getAllPatrols({ workflowState = 'active', name, fullyPaid }) {
+    const nameFilter = (qb, name) => {
+      if (name !== undefined) {
+        qb.where('name', 'ilike', `${name}%`);
+      }
+    };
+
+    const fullyPaidFilter = (qb, fullyPaid) => {
+      if (fullyPaid === undefined) return;
+      const query = { finalPaymentReceived: null };
+
+      fullyPaid ? qb.andWhereNot(query) : qb.andWhere(query);
+    };
+
+    return knex('patrol')
+      .select('*')
+      .whereIn('workflowState', workflowState)
+      .modify(nameFilter, name)
+      .modify(fullyPaidFilter, fullyPaid);
+  },
+
+  getPatrol({ searchField, value }) {
+    return knex
+      .from('patrol')
+      .select('*')
+      .where({ [searchField]: value })
+      .first();
+  },
+
+  getScoutersForPatrol({ id }) {
+    return knex('patrol_scouter').where({
+      patrol_id: id,
+    });
   },
 };

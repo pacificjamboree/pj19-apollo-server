@@ -1,0 +1,14 @@
+type Patrol {
+  id: ID!
+  patrolNumber: String!
+  name: String!
+  numberOfScouts: Int!
+  numberOfScouters: Int!
+  totalUnitSize: Int!
+  fullyPaid: Boolean!
+  finalPaymentReceived: GraphQLDate
+  patrolScouters: [PatrolScouter]!
+  workflowState: WorkflowState!
+  createdAt: GraphQLDateTime!
+  updatedAt: GraphQLDateTime!
+}
