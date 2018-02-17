@@ -1,83 +1,145 @@
 const {
+  nodeDefinitions,
+  globalIdResolver,
+  fromGlobalId,
+  connectionFromPromisedArray,
+} = require('graphql-relay-tools');
+
+const {
+  mutationResolver: createOfferOfServiceResolver,
+} = require('./mutations/createOfferOfService');
+
+const {
+  mutationResolver: toggleOfferOfServiceWorkflowStateResolver,
+} = require('./mutations/toggleOfferOfServiceWorkflowState');
+
+const {
+  mutationResolver: assignOfferOfServiceToAdventureResolver,
+} = require('./mutations/assignOfferOfServiceToAdventure');
+
+const {
+  mutationResolver: updateOfferOfServiceResolver,
+} = require('./mutations/updateOfferOfService');
+
+const {
+  mutationResolver: assignManagerToAdventureResolver,
+} = require('./mutations/assignManagerToAdventure');
+
+const {
+  mutationResolver: removeManagerFromAdventureResolver,
+} = require('./mutations/removeManagerFromAdventure');
+
+const {
   getAllOffersOfService,
   getOfferOfService,
-  getAssignmentForOOS,
-  insertOfferOfService,
-  toggleOOSWorkflowState,
+  getAssignmentForOfferOfService,
   getAllAdventures,
   getAdventure,
-  getOOSForAdventure,
+  getOfferOfServiceForAdventure,
   getManagersForAdventure,
-  assignManagerToAdventure,
-  removeManagerFromAdventure,
-  changeOOSAssignment,
-  updateOOS,
   getAllPatrols,
   getPatrol,
   getScoutersForPatrol,
+  getPatrolScouter,
+  getAllPatrolScouters,
 } = require('./knex_connector');
 const differenceInYears = require('date-fns/difference_in_years');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
-const resolvers = {
+const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
+  const { type, id } = fromGlobalId(globalId);
+  const searchField = { searchField: '_id', value: id };
+  switch (type) {
+    case 'OfferOfService':
+      return getOfferOfService(searchField);
+
+    case 'Patrol':
+      return getPatrol(searchField);
+
+    case 'Adventure':
+      return getAdventure(searchField);
+
+    case 'PatrolScouter':
+      return getPatrolScouter(searchField);
+  }
+  return null;
+});
+
+module.exports = {
   GraphQLDate,
   GraphQLDateTime,
   Query: {
     // offers of service
-    allOffersOfService: (_, { filters = {} }) => getAllOffersOfService(filters),
     offerOfService: (_, { search }) => getOfferOfService(search),
+    offersOfService: (_, { filters = {} }) => getAllOffersOfService(filters),
 
     // adventures
-    allAdventures: (_, { filters = {} }) => getAllAdventures(filters),
     adventure: (_, { search }) => getAdventure(search),
+    adventures: (_, { filters = {} }) => getAllAdventures(filters),
 
     // patrols
-    allPatrols: (_, { filters = {} }) => getAllPatrols(filters),
     patrol: (_, { search }) => getPatrol(search),
+    patrols: (_, { filters = {} }) => getAllPatrols(filters),
+
+    // patrolScouters
+    patrolScouter: (_, { search }) => getPatrolScouter(search),
+    patrolScouters: (_, { filters = {} }) => getAllPatrolScouters(filters),
+
+    // nodes
+    node: nodeResolver,
+    nodes: nodesResolver,
   },
 
   Mutation: {
-    createOfferOfService: (_, data, context) => insertOfferOfService(data),
-
-    toggleOfferOfServiceWorkflowStateById: (
-      _,
-      { oosId, input: { workflowState } }
-    ) => toggleOOSWorkflowState({ id: oosId, workflowState }),
-
-    toggleOfferOfServiceWorkflowStateByOOSNumber: (
-      _,
-      { oosNumber, input: { workflowState } }
-    ) => toggleOOSWorkflowState({ oosNumber, workflowState }),
-
-    assignOfferOfServiceToAdventure: (_, { oosId, input: { adventureId } }) =>
-      changeOOSAssignment(oosId, adventureId),
-
-    updateOfferOfService: (_, { oosId, input }) => updateOOS(oosId, input),
-
-    assignManagerToAdventure: (_, { adventureId, input }) => {
-      return assignManagerToAdventure(adventureId, input);
-    },
-    removeManagerFromAdventure: (_, { adventureId, input }) =>
-      removeManagerFromAdventure(adventureId, input),
+    createOfferOfService: createOfferOfServiceResolver,
+    toggleOfferOfServiceWorkflowState: toggleOfferOfServiceWorkflowStateResolver,
+    assignOfferOfServiceToAdventure: assignOfferOfServiceToAdventureResolver,
+    updateOfferOfService: updateOfferOfServiceResolver,
+    assignManagerToAdventure: assignManagerToAdventureResolver,
+    removeManagerFromAdventure: removeManagerFromAdventureResolver,
   },
 
-  OOS: {
+  OfferOfService: {
+    id: globalIdResolver(),
+    _id: ({ id }) => id,
     isYouth: ({ birthdate }) => differenceInYears(new Date(), birthdate) <= 18,
     assigned: ({ assignedAdventureId }) => !!assignedAdventureId,
-    assignment: oos => getAssignmentForOOS(oos),
+    assignment: oos => getAssignmentForOfferOfService(oos),
     fullName: ({ firstName, lastName, preferredName }) =>
       `${preferredName ? preferredName : firstName} ${lastName}`,
   },
   Adventure: {
-    OffersOfService: adventure => getOOSForAdventure(adventure),
-    Managers: adventure => getManagersForAdventure(adventure),
+    id: globalIdResolver(),
+    _id: ({ id }) => id,
+    OffersOfServiceConnection: (adventure, args) =>
+      connectionFromPromisedArray(
+        getOfferOfServiceForAdventure(adventure),
+        args
+      ),
+    ManagersConnection: (adventure, args) =>
+      connectionFromPromisedArray(getManagersForAdventure(adventure), args),
   },
   Patrol: {
+    id: globalIdResolver(),
+    _id: ({ id }) => id,
     fullyPaid: ({ finalPaymentReceived }) => !!finalPaymentReceived,
     totalUnitSize: ({ numberOfScouts, numberOfScouters }) =>
       numberOfScouts + numberOfScouters,
-    patrolScouters: patrol => getScoutersForPatrol(patrol),
+    PatrolScoutersConnection: (patrol, args) =>
+      connectionFromPromisedArray(getScoutersForPatrol(patrol), args),
+  },
+  PatrolScouter: {
+    id: globalIdResolver(),
+    _id: ({ id }) => id,
+    fullName: ({ firstName, lastName }) => `${firstName} ${lastName}`,
+    Patrol: ({ patrolId }) =>
+      getPatrol({ searchField: '_id', value: patrolId }),
+  },
+
+  Node: {
+    id: globalIdResolver(),
+    __resolveType({ $type }, context, info) {
+      return $type ? $type : null;
+    },
   },
 };
-
-module.exports = resolvers;

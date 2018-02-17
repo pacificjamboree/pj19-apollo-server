@@ -5,4 +5,6 @@ services:
     ports:
       - 3000:3000
       - 9229:9229
-    command: node --inspect=0.0.0.0:9229 index.js
+    expose:
+      - 9229
+    command: ./node_modules/.bin/nodemon --inspect=0.0.0.0:9229 --ext js,graphql,json -L /usr/src/app/index.js index.js

@@ -1288,16 +1288,19 @@ graphql-extensions@^0.0.x:
     core-js "^2.5.3"
     source-map-support "^0.5.1"
 
-graphql-import@^0.4.2:
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/graphql-import/-/graphql-import-0.4.3.tgz#5fc68244e0908d6d8f2b91658a82be3d11f4ec62"
-  dependencies:
-    graphql "^0.13.0"
-    lodash "^4.17.4"
-
 graphql-iso-date@^3.3.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/graphql-iso-date/-/graphql-iso-date-3.5.0.tgz#55a1be0efa8d28c1453afd2eb5ce1d052189a513"
+
+graphql-relay-tools@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/graphql-relay-tools/-/graphql-relay-tools-0.1.1.tgz#c6ca0d00c1ceddf08854544299d186ec5af474ca"
+  dependencies:
+    graphql-relay "^0.5.3"
+
+graphql-relay@^0.5.3:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/graphql-relay/-/graphql-relay-0.5.4.tgz#58050cfe16118595f82ab3aabfc974546ce755a8"
 
 graphql-tools@^2.18.0:
   version "2.20.2"
@@ -1308,7 +1311,7 @@ graphql-tools@^2.18.0:
     deprecated-decorator "^0.1.6"
     uuid "^3.1.0"
 
-graphql@0.13.0, graphql@^0.13.0:
+graphql@0.13.0:
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.13.0.tgz#d1b44a282279a9ce0a6ec1037329332f4c1079b6"
   dependencies:

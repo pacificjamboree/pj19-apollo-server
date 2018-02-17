@@ -1,12 +1,12 @@
 const knexStringcase = require('knex-stringcase');
 const opts = knexStringcase(require('../knexfile')[process.env.NODE_ENV]);
 const knex = require('knex')(opts);
-
-const selectOOS = async id => {
+const { fromGlobalId } = require('graphql-relay-tools');
+const selectOfferOfService = async id => {
   try {
     const oos = await knex('oos')
       .where({ id })
-      .select('*')
+      .select(selectAllWithTypeField('OfferOfService'))
       .first();
     if (!oos) {
       throw new Error(`No Offer of Service with ID ${id} exists`);
@@ -16,6 +16,21 @@ const selectOOS = async id => {
     throw e;
   }
 };
+
+const whereSearchField = ({ searchField, value }) => {
+  switch (searchField) {
+    case 'id':
+      value = fromGlobalId(value).id;
+      break;
+
+    case '_id':
+      searchField = 'id';
+      break;
+  }
+  return { [searchField]: value };
+};
+
+const selectAllWithTypeField = type => knex.raw(`*, '${type}' as "$type"`);
 
 module.exports = {
   getAllOffersOfService({ workflowState = 'active', assigned, email, name }) {
@@ -42,7 +57,7 @@ module.exports = {
 
     return knex
       .from('oos')
-      .select('*')
+      .select(selectAllWithTypeField('OfferOfService'))
       .whereIn('workflowState', workflowState)
       .modify(assignedFilter, assigned)
       .modify(emailFilter, email)
@@ -51,30 +66,38 @@ module.exports = {
   getOfferOfService({ searchField, value }) {
     return knex
       .from('oos')
-      .select('*')
-      .where({ [searchField]: value })
+      .select(selectAllWithTypeField('OfferOfService'))
+      .where(whereSearchField({ searchField, value }))
       .first();
   },
-  getAssignmentForOOS({ assignedAdventureId }) {
+  getAssignmentForOfferOfService({ assignedAdventureId }) {
     return knex('adventure')
       .where({ id: assignedAdventureId })
       .first();
   },
-  async insertOfferOfService({ input }) {
+  async insertOfferOfService(input) {
+    const dbinput = {
+      ...input,
+    };
+    delete dbinput.clientMutationId;
     try {
       const k = await knex('oos')
-        .insert(input)
+        .insert(dbinput)
         .returning('*');
-      return { OfferOfService: k[0] };
+      k[0].$type = 'OfferOfService';
+      return {
+        OfferOfService: k[0],
+      };
     } catch (e) {
       throw e;
     }
   },
-  async toggleOOSWorkflowState(payload) {
-    const { workflowState, id, oosNumber } = payload;
-    const query = id ? { id } : { oosNumber };
+  async toggleOfferOfServiceWorkflowState(input) {
+    const { workflowState } = input;
+    const { id } = fromGlobalId(input.id);
     const update = { workflowState };
-    // if an OOS is being deleted, un-assign it from an Adventure
+
+    // if an OfferOfService is being deleted, un-assign it from an Adventure
     if (workflowState === 'deleted') {
       update['assignedAdventureId'] = null;
     }
@@ -84,12 +107,12 @@ module.exports = {
         const oos = await knex('oos')
           .transacting(t)
           .update(update)
-          .where(query)
+          .where({ id })
           .returning('*');
-
-        // if an OOS is being deleted, remove it from adventure_manager
+        oos[0].$type = 'OfferOfService';
+        // if an OfferOfService is being deleted, remove it from adventure_manager
         if (workflowState === 'deleted') {
-          await knex('adventure_manage')
+          await knex('adventure_manager')
             .transacting(t)
             .where({ oos_id: oos[0].id })
             .del();
@@ -102,27 +125,37 @@ module.exports = {
     }
   },
 
-  async changeOOSAssignment(id, newAssignmentId) {
+  async changeOfferOfServiceAssignment(input) {
+    const id = fromGlobalId(input.oosId).id;
+    let { adventureId } = input;
+    if (adventureId !== null) {
+      adventureId = fromGlobalId(adventureId).id;
+    }
     try {
-      await selectOOS(id);
+      await selectOfferOfService(id);
       const k = await knex('oos')
         .where({ id })
         .update({
-          assignedAdventureId: newAssignmentId,
+          assignedAdventureId: adventureId,
         })
         .returning('*');
+      k[0].$type = 'OfferOfService';
       return { OfferOfService: k[0] };
     } catch (e) {
       throw e;
     }
   },
-  async updateOOS(id, payload) {
+
+  async updateOfferOfService(input) {
+    const id = fromGlobalId(input.id).id;
+    const { OfferOfService: payload } = input;
     try {
-      await selectOOS(id);
+      await selectOfferOfService(id);
       const k = await knex('oos')
         .where({ id })
         .update(payload)
         .returning('*');
+      k[0].$type = 'OfferOfService';
       return { OfferOfService: k[0] };
     } catch (e) {
       throw e;
@@ -151,7 +184,7 @@ module.exports = {
     };
     return knex
       .from('adventure')
-      .select('*')
+      .select(selectAllWithTypeField('Adventure'))
       .whereIn('workflowState', workflowState)
       .whereIn('location', location)
       .modify(premiumActivityFilter, premiumAdventure)
@@ -160,11 +193,11 @@ module.exports = {
   getAdventure({ searchField, value }) {
     return knex
       .from('adventure')
-      .select('*')
-      .where({ [searchField]: value })
+      .select(selectAllWithTypeField('Adventure'))
+      .where(whereSearchField({ searchField, value }))
       .first();
   },
-  getOOSForAdventure({ id }) {
+  getOfferOfServiceForAdventure({ id }) {
     return knex('oos').where({ assignedAdventureId: id });
   },
   getManagersForAdventure({ id }) {
@@ -175,36 +208,41 @@ module.exports = {
       .leftJoin('adventure', 'adventure.id', 'adventure_manager.adventure_id');
   },
 
-  async assignManagerToAdventure(adventureId, { oosId }) {
+  async assignManagerToAdventure(input) {
+    const adventureId = fromGlobalId(input.adventureId).id;
+    const oosId = fromGlobalId(input.oosId).id;
     try {
-      const oos = await selectOOS(oosId);
+      const OfferOfService = await selectOfferOfService(oosId);
       await knex('adventure_manager')
         .insert({
-          adventure_id: adventureId,
-          oos_id: oosId,
+          adventureId,
+          oosId,
         })
         .returning('*');
 
       const Adventure = await knex('adventure')
-        .select('*')
+        .select(selectAllWithTypeField('Adventure'))
         .where({ id: adventureId })
         .first();
 
-      return { Adventure, OfferOfService: oos };
+      return { Adventure, OfferOfService };
     } catch (e) {
       throw e;
     }
   },
 
-  async removeManagerFromAdventure(adventureId, { oosId }) {
+  async removeManagerFromAdventure(input) {
+    const oosId = fromGlobalId(input.oosId).id;
+    const adventureId = fromGlobalId(input.adventureId).id;
+
     try {
-      await selectOOS(oosId);
+      await selectOfferOfService(oosId);
       const adventure_manager = await knex('adventure_manager')
-        .where({ adventure_id: adventureId, oos_id: oosId })
+        .where({ adventureId, oosId })
         .first();
       if (!adventure_manager) {
         throw new Error(
-          `OOS with ID ${oosId} is not a manager for Adventure with ID ${adventureId}`
+          `OfferOfService with ID ${oosId} is not a manager for Adventure with ID ${adventureId}`
         );
       }
 
@@ -213,7 +251,7 @@ module.exports = {
         .del();
 
       const Adventure = await knex('adventure')
-        .select('*')
+        .select(selectAllWithTypeField('Adventure'))
         .where({ id: adventureId })
         .first();
 
@@ -238,17 +276,16 @@ module.exports = {
     };
 
     return knex('patrol')
-      .select('*')
+      .select(selectAllWithTypeField('Patrol'))
       .whereIn('workflowState', workflowState)
       .modify(nameFilter, name)
       .modify(fullyPaidFilter, fullyPaid);
   },
 
   getPatrol({ searchField, value }) {
-    return knex
-      .from('patrol')
-      .select('*')
-      .where({ [searchField]: value })
+    return knex('patrol')
+      .select(selectAllWithTypeField('Patrol'))
+      .where(whereSearchField({ searchField, value }))
       .first();
   },
 
@@ -256,5 +293,37 @@ module.exports = {
     return knex('patrol_scouter').where({
       patrol_id: id,
     });
+  },
+
+  getPatrolScouter({ searchField, value }) {
+    return knex('patrol_scouter')
+      .select(selectAllWithTypeField('PatrolScouter'))
+      .where(whereSearchField({ searchField, value }))
+      .first();
+  },
+
+  getAllPatrolScouters({ workflowState = 'active', name, patrolNumber }) {
+    const nameFilter = (qb, name) => {
+      if (name === undefined) return;
+      qb
+        .where('firstName', 'ilike', `${name}%`)
+        .orWhere('lastName', 'ilike', `${name}%`);
+    };
+
+    const patrolNumberFilter = (qb, patrolNumber) => {
+      if (patrolNumber === undefined) return;
+      qb.where(
+        'patrol_id',
+        knex.raw(
+          `(SELECT id FROM patrol WHERE patrol_number = '${patrolNumber}')`
+        )
+      );
+    };
+
+    return knex('patrol_scouter')
+      .select(selectAllWithTypeField('PatrolScouter'))
+      .whereIn('workflowState', workflowState)
+      .modify(nameFilter, name)
+      .modify(patrolNumberFilter, patrolNumber);
   },
 };

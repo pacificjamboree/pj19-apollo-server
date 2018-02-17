@@ -1,11 +1,63 @@
-const { importSchema } = require('graphql-import');
 const { makeExecutableSchema } = require('graphql-tools');
+const { nodeInterface, pageInfoType } = require('graphql-relay-tools');
+
+const rootSchema = require('./rootSchema');
+const enums = require('./enums');
+const inputs = require('./inputs');
 const resolvers = require('./resolvers');
 
-// path to schema is relative to the project root  ¯\_(ツ)_/¯
-const typeDefs = importSchema('graphql/Schema.graphql');
+const {
+  mutationType: createOfferOfServiceType,
+} = require('./mutations/createOfferOfService');
+
+const {
+  mutationType: toggleOfferOfServiceWorkflowStateType,
+} = require('./mutations/toggleOfferOfServiceWorkflowState');
+
+const {
+  mutationType: assignOfferOfServiceToAdventureType,
+} = require('./mutations/assignOfferOfServiceToAdventure');
+
+const {
+  mutationType: updateOfferOfServiceType,
+} = require('./mutations/updateOfferOfService');
+
+const {
+  mutationType: assignManagerToAdventureType,
+} = require('./mutations/assignManagerToAdventure');
+
+const {
+  mutationType: removeManagerFromAdventureType,
+} = require('./mutations/removeManagerFromAdventure');
+
+const {
+  Adventure,
+  OfferOfService,
+  OffersOfServiceConnection,
+  Patrol,
+  PatrolScouter,
+  PatrolScoutersConnection,
+} = require('./types');
 
 module.exports = makeExecutableSchema({
-  typeDefs,
-  resolvers
+  typeDefs: [
+    pageInfoType,
+    nodeInterface,
+    Adventure,
+    OfferOfService,
+    OffersOfServiceConnection,
+    Patrol,
+    PatrolScouter,
+    PatrolScoutersConnection,
+    enums,
+    inputs,
+    createOfferOfServiceType,
+    toggleOfferOfServiceWorkflowStateType,
+    assignOfferOfServiceToAdventureType,
+    updateOfferOfServiceType,
+    assignManagerToAdventureType,
+    removeManagerFromAdventureType,
+    rootSchema,
+  ],
+  resolvers,
 });
