@@ -1,6 +1,4 @@
-const knexStringcase = require('knex-stringcase');
-const opts = knexStringcase(require('../knexfile')[process.env.NODE_ENV]);
-const knex = require('knex')(opts);
+const knex = require('../lib/db');
 const { fromGlobalId } = require('graphql-relay-tools');
 const selectOfferOfService = async id => {
   try {
@@ -224,8 +222,6 @@ module.exports = {
         .select(selectAllWithTypeField('Adventure'))
         .where({ id: adventureId })
         .first();
-
-      return { Adventure, OfferOfService };
     } catch (e) {
       throw e;
     }
