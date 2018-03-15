@@ -5,11 +5,15 @@ module.exports = async (req, res) => {
   console.log({ username, password });
   try {
     const user = await authenticateUser(username, password);
-    console.log(user);
     const jwt = generateJWTForUser(user);
-    res.status(200).send(jwt);
-  } catch (e) {
-    console.log(e);
-    res.sendStatus(500);
+    res.status(200).send({ token: jwt });
+  } catch (err) {
+    const { name, code, message } = err;
+
+    res.status(code || 500).send({
+      error: name,
+      message,
+      statusCode: code,
+    });
   }
 };

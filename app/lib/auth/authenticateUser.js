@@ -1,6 +1,8 @@
 const knex = require('../../../db');
 const bcrypt = require('bcrypt');
 
+const { EINVALIDCREDENTIALS } = require('../errors');
+
 const getUser = username =>
   knex('user')
     .select('*')
@@ -9,13 +11,15 @@ const getUser = username =>
 
 module.exports = async (username, password) => {
   if (!username || !password) {
-    throw new Error('`username` and `password` are required fields');
+    throw new EINVALIDCREDENTIALS(
+      '`username` and `password` are required fields'
+    );
   }
   try {
     const user = await getUser(username);
 
     if (!user || user.workflowState != 'active') {
-      throw new Error('Invalid credentials');
+      throw new EINVALIDCREDENTIALS();
     }
 
     const passwordValid = await bcrypt.compare(password, user.passwordHash);
@@ -24,7 +28,7 @@ module.exports = async (username, password) => {
       delete retUser.passwordHash;
       return retUser;
     } else {
-      throw new Error('Invalid credentials');
+      throw new EINVALIDCREDENTIALS();
     }
   } catch (e) {
     throw e;
