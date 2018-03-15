@@ -1,4 +1,4 @@
-const gql = require('../lib/gql');
+const gql = require('./gql');
 const { nodeField, nodesField } = require('graphql-relay-tools');
 
 const {

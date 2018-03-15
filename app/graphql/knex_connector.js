@@ -1,4 +1,4 @@
-const knex = require('../lib/db');
+const knex = require('../../db');
 const { fromGlobalId } = require('graphql-relay-tools');
 const selectOfferOfService = async id => {
   try {

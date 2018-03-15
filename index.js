@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const compression = require('compression');
-const schema = require('./graphql/schema');
+const schema = require('./app/graphql/schema');
 const PORT = process.env.PORT || 3000;
 
 const { login } = require('./app/routes');

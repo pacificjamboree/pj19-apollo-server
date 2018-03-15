@@ -1,5 +1,5 @@
 const { connectionArgs } = require('graphql-relay-tools');
-const gql = require('../../lib/gql');
+const gql = require('../gql');
 module.exports = gql`
   type Adventure implements Node {
     id: ID!

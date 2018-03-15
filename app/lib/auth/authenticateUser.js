@@ -1,4 +1,4 @@
-const knex = require('../db');
+const knex = require('../../../db');
 const bcrypt = require('bcrypt');
 
 const getUser = username =>

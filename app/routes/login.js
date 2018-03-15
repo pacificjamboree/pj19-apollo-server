@@ -1,4 +1,4 @@
-const { authenticateUser, generateJWTForUser } = require('../../lib/auth');
+const { authenticateUser, generateJWTForUser } = require('../lib/auth');
 
 module.exports = async (req, res) => {
   const { username, password } = req.body;

@@ -1,4 +1,4 @@
-const gql = require('../../lib/gql');
+const gql = require('../gql');
 module.exports = gql`
   type OfferOfService implements Node {
     id: ID!
