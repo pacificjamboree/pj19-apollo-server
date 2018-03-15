@@ -24,6 +24,7 @@
     "graphql-iso-date": "^3.3.0",
     "graphql-relay-tools": "^0.1.1",
     "graphql-tools": "^2.18.0",
+    "jsonwebtoken": "^8.2.0",
     "knex": "^0.14.2",
     "knex-stringcase": "^0.2.0",
     "pg": "^7.4.0",
