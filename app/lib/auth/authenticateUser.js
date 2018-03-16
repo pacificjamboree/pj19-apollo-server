@@ -1,11 +1,10 @@
-const knex = require('../../../db');
+const { User } = require('../../models');
 const bcrypt = require('bcrypt');
 
 const { EINVALIDCREDENTIALS } = require('../errors');
 
 const getUser = username =>
-  knex('user')
-    .select('*')
+  User.query()
     .where({ username })
     .first();
 
