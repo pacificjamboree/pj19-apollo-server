@@ -1,5 +1,4 @@
 const { User } = require('../../models');
-const bcrypt = require('bcrypt');
 
 const { EINVALIDCREDENTIALS } = require('../errors');
 
@@ -21,7 +20,7 @@ module.exports = async (username, password) => {
       throw new EINVALIDCREDENTIALS();
     }
 
-    const passwordValid = await bcrypt.compare(password, user.passwordHash);
+    const passwordValid = await user.verifyPassword(password);
     if (passwordValid) {
       const retUser = Object.assign({}, user);
       delete retUser.passwordHash;

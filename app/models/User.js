@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const Model = require('./BaseModel');
 
 class User extends Model {
@@ -18,6 +19,10 @@ class User extends Model {
         join: { from: 'user.patrolScouterId', to: 'patrol_scouter.id' },
       },
     };
+  }
+
+  async verifyPassword(password) {
+    return bcrypt.compare(password, this.passwordHash);
   }
 }
 
