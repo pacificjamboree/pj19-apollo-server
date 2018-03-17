@@ -105,11 +105,10 @@ module.exports = {
   OfferOfService: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
-    isYouth: ({ birthdate }) => differenceInYears(new Date(), birthdate) <= 18,
-    assigned: ({ assignedAdventureId }) => !!assignedAdventureId,
-    assignment: oos => getAssignmentForOfferOfService(oos),
-    fullName: ({ firstName, lastName, preferredName }) =>
-      `${preferredName ? preferredName : firstName} ${lastName}`,
+    isYouth: o => o.isYouth(),
+    assigned: o => o.assigned(),
+    assignment: o => o.assignment,
+    fullName: o => o.fullName(),
   },
   Adventure: {
     id: globalIdResolver(),
