@@ -17,6 +17,10 @@ class OfferOfService extends Model {
     };
   }
 
+  assigned() {
+    return !!this.assignedAdventureId;
+  }
+
   fullName() {
     return `${this.firstName} ${this.lastName}`;
   }
