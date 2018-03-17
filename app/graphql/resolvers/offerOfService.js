@@ -16,6 +16,7 @@ const whereSearchField = ({ searchField, value }) => {
 const getOfferOfService = input =>
   OfferOfService.query()
     .where(whereSearchField(input))
+    .eager('assignment')
     .first();
 
 module.exports = getOfferOfService;
