@@ -22,7 +22,9 @@ class OfferOfService extends Model {
   }
 
   fullName() {
-    return `${this.firstName} ${this.lastName}`;
+    return `${this.preferredName ? this.preferredName : this.firstName} ${
+      this.lastName
+    }`;
   }
 
   isYouth() {
