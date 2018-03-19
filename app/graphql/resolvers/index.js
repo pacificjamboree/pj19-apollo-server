@@ -32,7 +32,6 @@ const {
 const {
   getAllOffersOfService,
   // getOfferOfService,
-  getAssignmentForOfferOfService,
   getAllAdventures,
   getAdventure,
   getOfferOfServiceForAdventure,

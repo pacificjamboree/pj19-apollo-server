@@ -68,11 +68,6 @@ module.exports = {
       .where(whereSearchField({ searchField, value }))
       .first();
   },
-  getAssignmentForOfferOfService({ assignedAdventureId }) {
-    return knex('adventure')
-      .where({ id: assignedAdventureId })
-      .first();
-  },
   async toggleOfferOfServiceWorkflowState(input) {
     const { workflowState } = input;
     const { id } = fromGlobalId(input.id);
