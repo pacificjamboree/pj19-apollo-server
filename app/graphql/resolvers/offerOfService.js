@@ -3,6 +3,21 @@ const { OfferOfService } = require('../../models');
 const { fromGlobalId } = require('graphql-relay-tools');
 const whereSearchField = require('../../lib/whereSearchField');
 
+const selectOfferOfService = async id => {
+  try {
+    const oos = await OfferOfService.query()
+      .findById(id)
+      .eager('[assignment, assignment.managers]')
+      .first();
+    if (!oos) {
+      throw new Error(`No Offer of Service with ID ${id} exists`);
+    }
+    return oos;
+  } catch (e) {
+    throw e;
+  }
+};
+
 const getOfferOfService = input =>
   OfferOfService.query()
     .findOne(whereSearchField(input))
