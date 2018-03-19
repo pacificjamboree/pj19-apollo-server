@@ -20,3 +20,17 @@ const getOfferOfService = input =>
     .first();
 
 module.exports = getOfferOfService;
+const createOfferOfService = async input => {
+  const dbinput = { ...input };
+  delete dbinput.clientMutationId;
+  try {
+    const oos = await OfferOfService.query()
+      .insert(dbinput)
+      .returning('*');
+    return {
+      OfferOfService: oos,
+    };
+  } catch (e) {
+    throw e;
+  }
+};
