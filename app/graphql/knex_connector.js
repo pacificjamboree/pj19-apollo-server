@@ -31,13 +31,6 @@ const whereSearchField = ({ searchField, value }) => {
 const selectAllWithTypeField = type => knex.raw(`*, '${type}' as "$type"`);
 
 module.exports = {
-  getOfferOfService({ searchField, value }) {
-    return knex
-      .from('oos')
-      .select(selectAllWithTypeField('OfferOfService'))
-      .where(whereSearchField({ searchField, value }))
-      .first();
-  },
   async toggleOfferOfServiceWorkflowState(input) {
     const { workflowState } = input;
     const { id } = fromGlobalId(input.id);
