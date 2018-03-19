@@ -1,6 +1,5 @@
 const { mutationWithClientMutationId } = require('graphql-relay-tools');
-const { insertOfferOfService } = require('../knex_connector.js');
-
+const { createOfferOfService } = require('../resolvers/offerOfService');
 module.exports = mutationWithClientMutationId({
   name: 'createOfferOfService',
   inputFields: `
@@ -24,5 +23,5 @@ module.exports = mutationWithClientMutationId({
   outputFields: `
     OfferOfService: OfferOfService
   `,
-  mutateAndGetPayload: async input => await insertOfferOfService(input),
+  mutateAndGetPayload: async input => await createOfferOfService(input),
 });

@@ -73,23 +73,6 @@ module.exports = {
       .where({ id: assignedAdventureId })
       .first();
   },
-  async insertOfferOfService(input) {
-    const dbinput = {
-      ...input,
-    };
-    delete dbinput.clientMutationId;
-    try {
-      const k = await knex('oos')
-        .insert(dbinput)
-        .returning('*');
-      k[0].$type = 'OfferOfService';
-      return {
-        OfferOfService: k[0],
-      };
-    } catch (e) {
-      throw e;
-    }
-  },
   async toggleOfferOfServiceWorkflowState(input) {
     const { workflowState } = input;
     const { id } = fromGlobalId(input.id);
