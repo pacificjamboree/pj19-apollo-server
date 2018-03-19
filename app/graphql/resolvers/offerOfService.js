@@ -109,6 +109,42 @@ const toggleWorkflowState = async input => {
   }
 };
 
+const changeAssignment = async input => {
+  const id = fromGlobalId(input.oosId).id;
+  let { adventureId } = input;
+  if (adventureId !== null) {
+    adventureId = fromGlobalId(adventureId).id;
+  }
+  try {
+    let oos = await selectOfferOfService(id);
+
+    // if we're trying to assign the OOS to the same adventure, just return
+    if (oos.assignedAdventureId === adventureId) {
+      return { OfferOfService: oos };
+    }
+
+    // if the OOS is manager of a different adventure, throw
+    if (oos.assigned() && oos.assignment.managers.length) {
+      const managerIds = oos.assignment.managers.map(m => m.id);
+      if (managerIds.includes(id)) {
+        throw new Error(
+          `Can not reassign OfferOfService with ID ${id} as they are an Adventure Manager.`
+        );
+      }
+    }
+
+    oos = await oos
+      .$query()
+      .patchAndFetch({ assignedAdventureId: adventureId })
+      .returning('*')
+      .eager('assignment')
+      .first();
+    return { OfferOfService: oos };
+  } catch (e) {
+    throw e;
+  }
+};
+
 module.exports = {
   getOfferOfService,
   getOffersOfService,
