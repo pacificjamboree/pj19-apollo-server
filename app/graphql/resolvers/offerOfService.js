@@ -1,19 +1,7 @@
 const { transaction } = require('objection');
 const { OfferOfService } = require('../../models');
 const { fromGlobalId } = require('graphql-relay-tools');
-
-const whereSearchField = ({ searchField, value }) => {
-  switch (searchField) {
-    case 'id':
-      value = fromGlobalId(value).id;
-      break;
-
-    case '_id':
-      searchField = 'id';
-      break;
-  }
-  return { [searchField]: value };
-};
+const whereSearchField = require('../../lib/whereSearchField');
 
 const getOfferOfService = input =>
   OfferOfService.query()
