@@ -145,9 +145,28 @@ const changeAssignment = async input => {
   }
 };
 
+const updateOfferOfService = async input => {
+  const id = fromGlobalId(input.id).id;
+  const { OfferOfService: payload } = input;
+
+  try {
+    let oos = await selectOfferOfService(id);
+    await oos
+      .$query()
+      .patchAndFetch(payload)
+      .returning('*')
+      .eager('assignment');
+    return { OfferOfService: oos };
+  } catch (e) {
+    throw e;
+  }
+};
+
 module.exports = {
   getOfferOfService,
   getOffersOfService,
   createOfferOfService,
   toggleWorkflowState,
+  changeAssignment,
+  updateOfferOfService,
 };

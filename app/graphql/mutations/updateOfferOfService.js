@@ -1,5 +1,5 @@
 const { mutationWithClientMutationId } = require('graphql-relay-tools');
-const { updateOfferOfService } = require('../knex_connector');
+const { updateOfferOfService } = require('../resolvers/offerOfService');
 
 module.exports = mutationWithClientMutationId({
   name: 'updateOfferOfService',

@@ -31,23 +31,6 @@ const whereSearchField = ({ searchField, value }) => {
 const selectAllWithTypeField = type => knex.raw(`*, '${type}' as "$type"`);
 
 module.exports = {
-
-  async updateOfferOfService(input) {
-    const id = fromGlobalId(input.id).id;
-    const { OfferOfService: payload } = input;
-    try {
-      await selectOfferOfService(id);
-      const k = await knex('oos')
-        .where({ id })
-        .update(payload)
-        .returning('*');
-      k[0].$type = 'OfferOfService';
-      return { OfferOfService: k[0] };
-    } catch (e) {
-      throw e;
-    }
-  },
-
   async assignManagerToAdventure(input) {
     const adventureId = fromGlobalId(input.adventureId).id;
     const oosId = fromGlobalId(input.oosId).id;
