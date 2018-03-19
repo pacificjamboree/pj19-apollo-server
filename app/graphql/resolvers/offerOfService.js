@@ -52,7 +52,6 @@ const getOffersOfService = ({
     .eager('assignment');
 };
 
-module.exports = getOfferOfService;
 const createOfferOfService = async input => {
   const dbinput = { ...input };
   delete dbinput.clientMutationId;
@@ -66,4 +65,10 @@ const createOfferOfService = async input => {
   } catch (e) {
     throw e;
   }
+};
+module.exports = {
+  getOfferOfService,
+  getOffersOfService,
+  createOfferOfService,
+  toggleWorkflowState,
 };
