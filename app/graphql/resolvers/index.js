@@ -2,6 +2,7 @@ const {
   nodeDefinitions,
   globalIdResolver,
   fromGlobalId,
+  connectionFromArray,
   connectionFromPromisedArray,
 } = require('graphql-relay-tools');
 
@@ -31,9 +32,6 @@ const {
 
 const {
   getAllAdventures,
-  getAdventure,
-  getOfferOfServiceForAdventure,
-  getManagersForAdventure,
   getAllPatrols,
   getPatrol,
   getScoutersForPatrol,
@@ -45,6 +43,8 @@ const {
   getOfferOfService,
   getOffersOfService,
 } = require('../resolvers/offerOfService');
+
+const { getAdventure } = require('../resolvers/adventure');
 
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
@@ -113,12 +113,9 @@ module.exports = {
     id: globalIdResolver(),
     _id: ({ id }) => id,
     OffersOfServiceConnection: (adventure, args) =>
-      connectionFromPromisedArray(
-        getOfferOfServiceForAdventure(adventure),
-        args
-      ),
+      connectionFromArray(adventure.offersOfService, args),
     ManagersConnection: (adventure, args) =>
-      connectionFromPromisedArray(getManagersForAdventure(adventure), args),
+      connectionFromArray(adventure.managers, args),
   },
   Patrol: {
     id: globalIdResolver(),

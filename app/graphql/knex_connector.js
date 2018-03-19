@@ -96,23 +96,6 @@ module.exports = {
       .modify(premiumActivityFilter, premiumAdventure)
       .modify(nameFilter, name, themeName);
   },
-  getAdventure({ searchField, value }) {
-    return knex
-      .from('adventure')
-      .select(selectAllWithTypeField('Adventure'))
-      .where(whereSearchField({ searchField, value }))
-      .first();
-  },
-  getOfferOfServiceForAdventure({ id }) {
-    return knex('oos').where({ assignedAdventureId: id });
-  },
-  getManagersForAdventure({ id }) {
-    return knex('oos')
-      .select('oos.*')
-      .where({ 'adventure.id': id })
-      .leftJoin('adventure_manager', 'oos.id', 'adventure_manager.oos_id')
-      .leftJoin('adventure', 'adventure.id', 'adventure_manager.adventure_id');
-  },
 
   async assignManagerToAdventure(input) {
     const adventureId = fromGlobalId(input.adventureId).id;
