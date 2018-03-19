@@ -15,9 +15,9 @@ const whereSearchField = ({ searchField, value }) => {
 
 const getOfferOfService = input =>
   OfferOfService.query()
-    .where(whereSearchField(input))
-    .eager('assignment')
-    .first();
+    .findOne(whereSearchField(input))
+    .eager('assignment');
+
 const getOffersOfService = ({
   workflowState = 'active',
   assigned,
