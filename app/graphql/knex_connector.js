@@ -31,39 +31,6 @@ const whereSearchField = ({ searchField, value }) => {
 const selectAllWithTypeField = type => knex.raw(`*, '${type}' as "$type"`);
 
 module.exports = {
-  async toggleOfferOfServiceWorkflowState(input) {
-    const { workflowState } = input;
-    const { id } = fromGlobalId(input.id);
-    const update = { workflowState };
-
-    // if an OfferOfService is being deleted, un-assign it from an Adventure
-    if (workflowState === 'deleted') {
-      update['assignedAdventureId'] = null;
-    }
-
-    try {
-      const result = await knex.transaction(async t => {
-        const oos = await knex('oos')
-          .transacting(t)
-          .update(update)
-          .where({ id })
-          .returning('*');
-        oos[0].$type = 'OfferOfService';
-        // if an OfferOfService is being deleted, remove it from adventure_manager
-        if (workflowState === 'deleted') {
-          await knex('adventure_manager')
-            .transacting(t)
-            .where({ oos_id: oos[0].id })
-            .del();
-        }
-        return { OfferOfService: oos[0] };
-      });
-      return result;
-    } catch (e) {
-      throw e;
-    }
-  },
-
   async changeOfferOfServiceAssignment(input) {
     const id = fromGlobalId(input.oosId).id;
     let { adventureId } = input;
