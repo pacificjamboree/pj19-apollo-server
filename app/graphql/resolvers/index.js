@@ -31,7 +31,6 @@ const {
 } = require('../mutations/removeManagerFromAdventure');
 
 const {
-  getAllAdventures,
   getAllPatrols,
   getPatrol,
   getScoutersForPatrol,
@@ -44,7 +43,7 @@ const {
   getOffersOfService,
 } = require('../resolvers/offerOfService');
 
-const { getAdventure } = require('../resolvers/adventure');
+const { getAdventure, getAdventures } = require('../resolvers/adventure');
 
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
@@ -77,7 +76,7 @@ module.exports = {
 
     // adventures
     adventure: (_, { search }) => getAdventure(search),
-    adventures: (_, { filters = {} }) => getAllAdventures(filters),
+    adventures: (_, { filters = {} }) => getAdventures(filters),
 
     // patrols
     patrol: (_, { search }) => getPatrol(search),

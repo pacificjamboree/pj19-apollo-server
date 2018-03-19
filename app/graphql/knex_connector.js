@@ -68,35 +68,6 @@ module.exports = {
     }
   },
 
-  getAllAdventures({
-    workflowState = 'active',
-    location = ['onsite', 'offsite'],
-    premiumAdventure,
-    name,
-    themeName,
-  }) {
-    const premiumActivityFilter = (qb, premiumAdventure) => {
-      if (premiumAdventure) {
-        qb.andWhere('premiumAdventure', premiumAdventure);
-      }
-    };
-
-    const nameFilter = (qb, name, themeName) => {
-      if (name || themeName) {
-        qb
-          .where('name', 'ilike', `%${name}%`)
-          .orWhere('theme_name', 'ilike', `%${themeName}%`);
-      }
-    };
-    return knex
-      .from('adventure')
-      .select(selectAllWithTypeField('Adventure'))
-      .whereIn('workflowState', workflowState)
-      .whereIn('location', location)
-      .modify(premiumActivityFilter, premiumAdventure)
-      .modify(nameFilter, name, themeName);
-  },
-
   async assignManagerToAdventure(input) {
     const adventureId = fromGlobalId(input.adventureId).id;
     const oosId = fromGlobalId(input.oosId).id;
