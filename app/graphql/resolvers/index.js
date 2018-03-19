@@ -30,8 +30,6 @@ const {
 } = require('../mutations/removeManagerFromAdventure');
 
 const {
-  getAllOffersOfService,
-  // getOfferOfService,
   getAllAdventures,
   getAdventure,
   getOfferOfServiceForAdventure,
@@ -43,9 +41,11 @@ const {
   getAllPatrolScouters,
 } = require('../knex_connector');
 
-const getOfferOfService = require('../resolvers/offerOfService');
+const {
+  getOfferOfService,
+  getOffersOfService,
+} = require('../resolvers/offerOfService');
 
-const differenceInYears = require('date-fns/difference_in_years');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
 const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
@@ -73,7 +73,7 @@ module.exports = {
   Query: {
     // offers of service
     offerOfService: (_, { search }) => getOfferOfService(search),
-    offersOfService: (_, { filters = {} }) => getAllOffersOfService(filters),
+    offersOfService: (_, { filters = {} }) => getOffersOfService(filters),
 
     // adventures
     adventure: (_, { search }) => getAdventure(search),

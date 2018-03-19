@@ -31,36 +31,6 @@ const whereSearchField = ({ searchField, value }) => {
 const selectAllWithTypeField = type => knex.raw(`*, '${type}' as "$type"`);
 
 module.exports = {
-  getAllOffersOfService({ workflowState = 'active', assigned, email, name }) {
-    const assignedFilter = (qb, assigned) => {
-      if (assigned === undefined) return;
-      const query = { assigned_adventure_id: null };
-
-      assigned ? qb.andWhereNot(query) : qb.andWhere(query);
-    };
-
-    const emailFilter = (qb, email) => {
-      if (email !== undefined) {
-        qb.andWhere({ email });
-      }
-    };
-
-    const nameFilter = (qb, name) => {
-      if (name !== undefined) {
-        qb
-          .where('firstName', 'ilike', `${name}%`)
-          .orWhere('lastName', 'ilike', `${name}%`);
-      }
-    };
-
-    return knex
-      .from('oos')
-      .select(selectAllWithTypeField('OfferOfService'))
-      .whereIn('workflowState', workflowState)
-      .modify(assignedFilter, assigned)
-      .modify(emailFilter, email)
-      .modify(nameFilter, name);
-  },
   getOfferOfService({ searchField, value }) {
     return knex
       .from('oos')
