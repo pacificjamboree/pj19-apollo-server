@@ -1,5 +1,5 @@
 const { mutationWithClientMutationId } = require('graphql-relay-tools');
-const { toggleOfferOfServiceWorkflowState } = require('../knex_connector');
+const { toggleWorkflowState } = require('../resolvers/offerOfService');
 
 module.exports = mutationWithClientMutationId({
   name: 'toggleOfferOfServiceWorkflowState',
@@ -10,6 +10,5 @@ module.exports = mutationWithClientMutationId({
   outputFields: `
     OfferOfService: OfferOfService
   `,
-  mutateAndGetPayload: async input =>
-    await toggleOfferOfServiceWorkflowState(input),
+  mutateAndGetPayload: async input => await toggleWorkflowState(input),
 });

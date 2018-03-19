@@ -1,5 +1,7 @@
+const { transaction } = require('objection');
 const { OfferOfService } = require('../../models');
 const { fromGlobalId } = require('graphql-relay-tools');
+
 const whereSearchField = ({ searchField, value }) => {
   switch (searchField) {
     case 'id':
@@ -66,6 +68,44 @@ const createOfferOfService = async input => {
     throw e;
   }
 };
+
+const toggleWorkflowState = async input => {
+  const knex = OfferOfService.knex();
+  const { workflowState } = input;
+  const { id } = fromGlobalId(input.id);
+  const update = { workflowState };
+
+  // if an OfferOfService is being deleted, un-assign it from an Adventure
+  if (workflowState === 'deleted') {
+    update['assignedAdventureId'] = null;
+  }
+
+  try {
+    const result = await transaction(knex, async t => {
+      // update the OfferOfService record
+      const oos = await OfferOfService.query()
+        .patch(update)
+        .where('id', id)
+        .returning('*')
+        .eager('assignment')
+        .first();
+
+      //  if an OfferOfService is being deleted, remove it from adventure_manager
+      if (workflowState === 'deleted') {
+        // there is no AdventureManager model so using raw knex
+        await knex('adventure_manager')
+          .transacting(t)
+          .where({ oos_id: oos.id })
+          .del();
+      }
+      return { OfferOfService: oos };
+    });
+    return result;
+  } catch (e) {
+    throw e;
+  }
+};
+
 module.exports = {
   getOfferOfService,
   getOffersOfService,
