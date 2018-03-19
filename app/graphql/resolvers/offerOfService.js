@@ -163,6 +163,7 @@ const updateOfferOfService = async input => {
 };
 
 module.exports = {
+  selectOfferOfService,
   getOfferOfService,
   getOffersOfService,
   createOfferOfService,
