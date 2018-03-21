@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Resets the test database in the docker environment
+
+DBNAME=pjtest
+
+# drop the database
+echo "Dropping database $DBNAME"
+docker-compose exec -u postgres db dropdb $DBNAME || { echo "Error dropping database" ; exit 1; }
+
+# create the database
+echo "Creating database $DBNAME"
+docker-compose exec -u postgres db createdb $DBNAME || { echo "Error creating database" ; exit 1; }
+
+# run migrations
+echo "Running migrations"
+docker-compose run -e NODE_ENV=test --rm web yarn knex migrate:latest || { echo "Error running migrations" ; exit 1; }
