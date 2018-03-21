@@ -1,19 +1,34 @@
+const baseConnection = {
+  host: process.env.DB_HOST || 'localhost',
+  port: process.env.DB_PORT || 5432,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+  ssl: false,
+};
+const baseConfig = {
+  client: 'pg',
+  connection: { ...baseConnection },
+};
+
 module.exports = {
-  development: {
-    client: 'pg',
+  test: {
+    ...baseConfig,
     connection: {
-      host: process.env.DB_HOST || 'localhost',
-      port: process.env.DB_PORT || 5432,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_DATABASE,
-      ssl: false
+      ...baseConnection,
+      database: 'pjtest',
     },
     migrations: {
-      stub: 'migration.stub'
+      directory: './migrations',
+    },
+  },
+  development: {
+    ...baseConfig,
+    migrations: {
+      stub: 'migration.stub',
     },
     seeds: {
-      directory: './seeds/development'
-    }
-  }
+      directory: './seeds/development',
+    },
+  },
 };
