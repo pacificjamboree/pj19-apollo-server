@@ -4,8 +4,7 @@ exports.up = (knex, Promise) =>
     t.unique(['adventure_id', 'oos_id']);
   });
 
-exports.down = (knex, Promise) => {
+exports.down = (knex, Promise) =>
   knex.schema.alterTable(TABLE, t => {
     t.dropUnique(['adventure_id', 'oos_id']);
   });
-};
