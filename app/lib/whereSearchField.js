@@ -9,6 +9,10 @@ module.exports = ({ searchField, value }) => {
     case '_id':
       searchField = 'id';
       break;
+
+    default:
+      searchField = searchField; // eslint-disable-line
+      break;
   }
   return { [searchField]: value };
 };
