@@ -1,8 +1,12 @@
+const { fromGlobalId } = require('graphql-relay-tools');
 const { Adventure } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
+const { selectOfferOfService } = require('./offerOfService');
+
 const ADVENTURE_EAGERS = '[offersOfService, managers]';
-const getAdventure = input =>
-  Adventure.query()
+
+const getAdventure = (input, db) =>
+  Adventure.query(db)
     .where(whereSearchField(input))
     .eager(ADVENTURE_EAGERS)
     .first();
@@ -36,4 +40,31 @@ const getAdventures = ({
     .modify(nameFilter, name, themeName);
 };
 
-module.exports = { getAdventure, getAdventures };
+const assignManagerToAdventure = async input => {
+  const adventureId = fromGlobalId(input.adventureId).id;
+  const oosId = fromGlobalId(input.oosId).id;
+  try {
+    /* 
+      an offer of service can be a manager if:
+        - active OOS (not defined or deleted)
+        - is assigned to the Adventure
+    */
+
+    const oos = await selectOfferOfService(oosId);
+    if (oos.workflowState !== 'active') {
+      throw new Error('OfferOfService must be active to be a Manager');
+    }
+
+    if (
+      !oos.assigned() ||
+      (oos.assigned() && oos.assignedAdventureId !== adventureId)
+    ) {
+      throw new Error(
+        'Offer of Service must be assigned to an Adventure to be a Manager'
+      );
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+module.exports = { getAdventure, getAdventures, assignManagerToAdventure };
