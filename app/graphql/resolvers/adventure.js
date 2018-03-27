@@ -5,8 +5,8 @@ const { selectOfferOfService } = require('./offerOfService');
 
 const ADVENTURE_EAGERS = '[offersOfService, managers]';
 
-const getAdventure = (input, db) =>
-  Adventure.query(db)
+const getAdventure = input =>
+  Adventure.query()
     .where(whereSearchField(input))
     .eager(ADVENTURE_EAGERS)
     .first();
