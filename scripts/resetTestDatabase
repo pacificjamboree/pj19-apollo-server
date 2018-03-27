@@ -6,7 +6,7 @@ DBNAME=pjtest
 
 # drop the database
 echo "Dropping database $DBNAME"
-docker-compose exec -u postgres db dropdb $DBNAME || { echo "Error dropping database" ; exit 1; }
+docker-compose exec -u postgres db dropdb --if-exists $DBNAME || { echo "Error dropping database" ; exit 1; }
 
 # create the database
 echo "Creating database $DBNAME"

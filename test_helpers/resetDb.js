@@ -1,17 +1,34 @@
-const knex = require('../db');
 const { resolve } = require('path');
+const knex = require('../db');
+const knexfile = require('../db/knexfile');
+const dbManager = require('knex-db-manager').databaseManagerFactory({
+  knex: knexfile.test,
+  dbManager: {
+    superUser: 'postgres',
+  },
+});
 
 const migrationOpts = {
   directory: resolve(`./db/migrations`),
 };
 
+const IGNORE_TABLES = ['knex_migrations', 'knex_migrations_lock'];
+
 module.exports = {
   async resetBefore() {
-    await knex.migrate.rollback(migrationOpts);
-    await knex.migrate.latest(migrationOpts);
+    try {
+      await dbManager.truncateDb(IGNORE_TABLES);
+      await knex.migrate.latest(migrationOpts);
+    } catch (e) {
+      throw e;
+    }
   },
   async resetAfter() {
-    await knex.migrate.rollback(migrationOpts);
+    try {
+      await dbManager.truncateDb(IGNORE_TABLES);
+    } catch (e) {
+      throw e;
+    }
   },
 
   async destroyDbConnection() {
