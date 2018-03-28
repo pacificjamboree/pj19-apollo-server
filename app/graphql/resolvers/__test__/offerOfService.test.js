@@ -17,7 +17,7 @@ const {
 
 describe('selectOfferOfService', async () => {
   let fake;
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetBefore();
     fake = await OfferOfService.query()
       .insert({
@@ -48,14 +48,14 @@ describe('selectOfferOfService', async () => {
     );
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await resetAfter();
   });
 });
 
 describe('getOfferOfService', () => {
   let fake;
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetBefore();
     fake = await OfferOfService.query()
       .insert({
@@ -97,13 +97,13 @@ describe('getOfferOfService', () => {
     });
     expect(oos.id).toEqual(fake.id);
   });
-  afterAll(async () => {
+  afterEach(async () => {
     await resetAfter();
   });
 });
 
 describe('getOffersOfService', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetBefore();
     await OfferOfService.query()
       .insert([
@@ -190,13 +190,13 @@ describe('getOffersOfService', () => {
     });
     expect(results.length).toBe(0);
   });
-  afterAll(async () => {
+  afterEach(async () => {
     await resetAfter();
   });
 });
 
 describe('createOfferOfService', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetBefore();
   });
 
@@ -222,7 +222,19 @@ describe('createOfferOfService', () => {
   });
 
   test('it throws when creating a record with a duplicate oosNumber', async () => {
-    const payload = {
+    const payload1 = {
+      firstName: 'Michael',
+      lastName: 'Burnham',
+      oosNumber: '12345',
+      birthdate: '1979-01-01',
+      email: 'michael.burnham@starfleet.org',
+      phone1: '555-123-4567',
+      prerecruited: true,
+      prerecruitedBy: 'Gabriel Lorca',
+      specialSkills: 'mutiny',
+      workflowState: 'active',
+    };
+    const payload2 = {
       firstName: 'Michael',
       lastName: 'Burnham',
       oosNumber: '12345',
@@ -235,12 +247,13 @@ describe('createOfferOfService', () => {
       workflowState: 'active',
       clientMutationId: 'CREATE_BURNHAM',
     };
-    await expect(createOfferOfService(payload)).rejects.toThrow(
+    await OfferOfService.query().insert(payload1);
+    await expect(createOfferOfService(payload2)).rejects.toThrow(
       'oos_oos_number_unique'
     );
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await resetAfter();
   });
 });
@@ -248,7 +261,7 @@ describe('createOfferOfService', () => {
 describe('toggleWorkflowState', () => {
   let fakeAdventure, fakeOOS;
   const knex = OfferOfService.knex();
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetBefore();
     // create an adventure
     // create an offer of service
@@ -319,7 +332,7 @@ describe('toggleWorkflowState', () => {
     expect(checkAdventureManagerStatus).toHaveLength(0);
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await resetAfter();
   });
 });
@@ -417,7 +430,7 @@ describe('changeAssigment', () => {
 
 describe('updateOfferOfService', () => {
   let fakeOOS;
-  beforeAll(async () => {
+  beforeEach(async () => {
     await resetBefore();
     fakeOOS = await OfferOfService.query()
       .insert({
@@ -448,7 +461,7 @@ describe('updateOfferOfService', () => {
     );
   });
 
-  afterAll(async () => {
+  afterEach(async () => {
     await resetAfter();
   });
 });
