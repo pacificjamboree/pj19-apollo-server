@@ -1,5 +1,9 @@
-const { Adventure } = require('../../../models');
-const { getAdventure, getAdventures } = require('../adventure');
+const { Adventure, OfferOfService } = require('../../../models');
+const {
+  getAdventure,
+  getAdventures,
+  assignManagerToAdventure,
+} = require('../adventure');
 const {
   resetBefore,
   resetAfter,
@@ -155,6 +159,109 @@ describe('getAdventures', () => {
   });
 
   afterAll(async () => {
+    await resetAfter();
+  });
+});
+
+describe('assignManagerToAdventure', () => {
+  let fakeAdventure, fakeOOS;
+  beforeEach(async () => {
+    await resetBefore();
+    fakeAdventure = await Adventure.query()
+      .insert({
+        adventureCode: '123',
+        name: 'SUP',
+        themeName: 'SUP',
+        capacityPerPeriod: 50,
+        periodsOffered: 11,
+        periodsRequired: 1,
+        premiumAdventure: false,
+        hidden: false,
+        location: 'onsite',
+        workflowState: 'active',
+      })
+      .returning('*');
+
+    fakeOOS = await OfferOfService.query()
+      .insert({
+        firstName: 'Michael',
+        lastName: 'Burnham',
+        oosNumber: '12345',
+        birthdate: '1979-01-01',
+        email: 'michael.burnham@starfleet.org',
+        phone1: '555-123-4567',
+        prerecruited: true,
+        assignedAdventureId: fakeAdventure.id,
+        prerecruitedBy: 'Gabriel Lorca',
+        specialSkills: 'mutiny',
+        workflowState: 'active',
+      })
+      .returning('*');
+  });
+
+  test('it throws an error when the OOS is not active', async () => {
+    await fakeOOS.$query().patch({ workflowState: 'defined' });
+    await expect(
+      assignManagerToAdventure({
+        adventureId: fakeAdventure.globalId(),
+        oosId: fakeOOS.globalId(),
+      })
+    ).rejects.toThrow('OfferOfService must be active to be a Manager');
+  });
+
+  test('it throws an error when the OOS is not assigned to an Adventure', async () => {
+    await fakeOOS.$query().patch({ assignedAdventureId: null });
+    await expect(
+      assignManagerToAdventure({
+        adventureId: fakeAdventure.globalId(),
+        oosId: fakeOOS.globalId(),
+      })
+    ).rejects.toThrow(
+      'Offer of Service must be assigned to an Adventure to be a Manager'
+    );
+  });
+
+  test('it throws an error when the OOS is assigned to a different Adventure', async () => {
+    const fakeAdventure2 = await Adventure.query()
+      .insert({
+        adventureCode: '234',
+        name: 'test',
+        themeName: 'test',
+        capacityPerPeriod: 50,
+        periodsOffered: 11,
+        periodsRequired: 1,
+        premiumAdventure: false,
+        hidden: false,
+        location: 'onsite',
+        workflowState: 'active',
+      })
+      .returning('*');
+    await fakeOOS.$query().patch({ assignedAdventureId: fakeAdventure2.id });
+
+    await expect(
+      assignManagerToAdventure({
+        oosId: fakeOOS.globalId(),
+        adventureId: fakeAdventure.globalId(),
+      })
+    ).rejects.toThrow(
+      'Offer of Service must be assigned to the target Adventure to be a Manager'
+    );
+  });
+
+  test('it successfully assigns the OOS as a manager to the Adventure', async () => {
+    await fakeOOS.$query().patch({ assignedAdventureId: fakeAdventure.id });
+    const result = await assignManagerToAdventure({
+      oosId: fakeOOS.globalId(),
+      adventureId: fakeAdventure.globalId(),
+    });
+    expect(result).toHaveProperty('OfferOfService');
+    expect(result).toHaveProperty('Adventure');
+    expect(result.OfferOfService).toBeInstanceOf(OfferOfService);
+    expect(result.Adventure).toBeInstanceOf(Adventure);
+    expect(result.Adventure.managers.map(m => m.id)).toContain(fakeOOS.id);
+  });
+
+  afterEach(async () => {
     await resetAfter();
   });
 });
