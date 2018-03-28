@@ -55,14 +55,34 @@ const assignManagerToAdventure = async input => {
       throw new Error('OfferOfService must be active to be a Manager');
     }
 
-    if (
-      !oos.assigned() ||
-      (oos.assigned() && oos.assignedAdventureId !== adventureId)
-    ) {
+    if (!oos.assigned()) {
       throw new Error(
         'Offer of Service must be assigned to an Adventure to be a Manager'
       );
     }
+
+    if (oos.assignedAdventureId !== adventureId) {
+      throw new Error(
+        'Offer of Service must be assigned to the target Adventure to be a Manager'
+      );
+    }
+    const knex = Adventure.knex();
+    await knex('adventure_manager')
+      .insert({
+        oosId,
+        adventureId,
+      })
+      .returning('*');
+
+    const adventure = await Adventure.query()
+      .where({ id: adventureId })
+      .eager('managers')
+      .first();
+
+    return {
+      OfferOfService: await oos.$query().eager('assignment'),
+      Adventure: adventure,
+    };
   } catch (e) {
     throw e;
   }
