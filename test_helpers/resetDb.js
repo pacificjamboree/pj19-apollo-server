@@ -19,6 +19,7 @@ module.exports = {
     try {
       await dbManager.truncateDb(IGNORE_TABLES);
       await knex.migrate.latest(migrationOpts);
+      await dbManager.close();
     } catch (e) {
       throw e;
     }
@@ -26,6 +27,7 @@ module.exports = {
   async resetAfter() {
     try {
       await dbManager.truncateDb(IGNORE_TABLES);
+      await dbManager.close();
     } catch (e) {
       throw e;
     }
