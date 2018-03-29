@@ -87,4 +87,41 @@ const assignManagerToAdventure = async input => {
     throw e;
   }
 };
-module.exports = { getAdventure, getAdventures, assignManagerToAdventure };
+
+const removeManagerFromAdventure = async input => {
+  const knex = Adventure.knex();
+  const oosId = fromGlobalId(input.oosId).id;
+  const adventureId = fromGlobalId(input.adventureId).id;
+
+  try {
+    await selectOfferOfService(oosId);
+    const adventure_manager = await knex('adventure_manager')
+      .where({ adventureId, oosId })
+      .first();
+    if (!adventure_manager) {
+      throw new Error(
+        `OfferOfService with ID ${oosId} is not a manager for Adventure with ID ${adventureId}`
+      );
+    }
+
+    await knex('adventure_manager')
+      .where({ adventure_id: adventureId, oos_id: oosId })
+      .del();
+
+    const adventure = await Adventure.query()
+      .where('id', adventureId)
+      .eager('[offersOfService, managers]')
+      .first();
+    return {
+      Adventure: adventure,
+    };
+  } catch (e) {
+    throw e;
+  }
+};
+module.exports = {
+  getAdventure,
+  getAdventures,
+  assignManagerToAdventure,
+  removeManagerFromAdventure,
+};
