@@ -7,28 +7,14 @@ const inputs = require('./inputs');
 const resolvers = require('./resolvers');
 
 const {
-  mutationType: createOfferOfServiceType,
-} = require('./mutations/createOfferOfService');
-
-const {
-  mutationType: toggleOfferOfServiceWorkflowStateType,
-} = require('./mutations/toggleOfferOfServiceWorkflowState');
-
-const {
-  mutationType: assignOfferOfServiceToAdventureType,
-} = require('./mutations/assignOfferOfServiceToAdventure');
-
-const {
-  mutationType: updateOfferOfServiceType,
-} = require('./mutations/updateOfferOfService');
-
-const {
-  mutationType: assignManagerToAdventureType,
-} = require('./mutations/assignManagerToAdventure');
-
-const {
-  mutationType: removeManagerFromAdventureType,
-} = require('./mutations/removeManagerFromAdventure');
+  createAdventure,
+  createOfferOfService,
+  toggleOfferOfServiceWorkflowState,
+  assignOfferOfServiceToAdventure,
+  updateOfferOfService,
+  assignManagerToAdventure,
+  removeManagerFromAdventure,
+} = require('./mutations');
 
 const {
   Adventure,
@@ -51,12 +37,13 @@ module.exports = makeExecutableSchema({
     PatrolScoutersConnection,
     enums,
     inputs,
-    createOfferOfServiceType,
-    toggleOfferOfServiceWorkflowStateType,
-    assignOfferOfServiceToAdventureType,
-    updateOfferOfServiceType,
-    assignManagerToAdventureType,
-    removeManagerFromAdventureType,
+    createAdventure.mutationType,
+    createOfferOfService.mutationType,
+    toggleOfferOfServiceWorkflowState.mutationType,
+    assignOfferOfServiceToAdventure.mutationType,
+    updateOfferOfService.mutationType,
+    assignManagerToAdventure.mutationType,
+    removeManagerFromAdventure.mutationType,
     rootSchema,
   ],
   resolvers,

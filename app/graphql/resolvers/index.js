@@ -6,34 +6,18 @@ const {
 } = require('graphql-relay-tools');
 
 const {
-  mutationResolver: createOfferOfServiceResolver,
-} = require('../mutations/createOfferOfService');
-
-const {
-  mutationResolver: toggleOfferOfServiceWorkflowStateResolver,
-} = require('../mutations/toggleOfferOfServiceWorkflowState');
-
-const {
-  mutationResolver: assignOfferOfServiceToAdventureResolver,
-} = require('../mutations/assignOfferOfServiceToAdventure');
-
-const {
-  mutationResolver: updateOfferOfServiceResolver,
-} = require('../mutations/updateOfferOfService');
-
-const {
-  mutationResolver: assignManagerToAdventureResolver,
-} = require('../mutations/assignManagerToAdventure');
-
-const {
-  mutationResolver: removeManagerFromAdventureResolver,
-} = require('../mutations/removeManagerFromAdventure');
-
+  assignManagerToAdventure,
+  assignOfferOfServiceToAdventure,
+  createAdventure,
+  createOfferOfService,
+  removeManagerFromAdventure,
+  toggleOfferOfServiceWorkflowState,
+  updateOfferOfService,
+} = require('../mutations');
 const {
   getOfferOfService,
   getOffersOfService,
 } = require('../resolvers/offerOfService');
-
 const { getAdventure, getAdventures } = require('../resolvers/adventure');
 const { getPatrol, getPatrols } = require('../resolvers/patrol');
 const {
@@ -87,12 +71,15 @@ module.exports = {
   },
 
   Mutation: {
-    createOfferOfService: createOfferOfServiceResolver,
-    toggleOfferOfServiceWorkflowState: toggleOfferOfServiceWorkflowStateResolver,
-    assignOfferOfServiceToAdventure: assignOfferOfServiceToAdventureResolver,
-    updateOfferOfService: updateOfferOfServiceResolver,
-    assignManagerToAdventure: assignManagerToAdventureResolver,
-    removeManagerFromAdventure: removeManagerFromAdventureResolver,
+    createAdventure: createAdventure.mutationResolver,
+    createOfferOfService: createOfferOfService.mutationResolver,
+    toggleOfferOfServiceWorkflowState:
+      toggleOfferOfServiceWorkflowState.mutationResolver,
+    assignOfferOfServiceToAdventure:
+      assignOfferOfServiceToAdventure.mutationResolver,
+    updateOfferOfService: updateOfferOfService.mutationResolver,
+    assignManagerToAdventure: assignManagerToAdventure.mutationResolver,
+    removeManagerFromAdventure: removeManagerFromAdventure.mutationResolver,
   },
 
   OfferOfService: {

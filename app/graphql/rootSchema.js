@@ -2,28 +2,14 @@ const gql = require('./gql');
 const { nodeField, nodesField } = require('graphql-relay-tools');
 
 const {
-  mutationField: createOfferOfServiceField,
-} = require('./mutations/createOfferOfService');
-
-const {
-  mutationField: toggleOfferOfServiceWorkflowStateField,
-} = require('./mutations/toggleOfferOfServiceWorkflowState');
-
-const {
-  mutationField: assignOfferOfServiceToAdventureField,
-} = require('./mutations/assignOfferOfServiceToAdventure');
-
-const {
-  mutationField: updateOfferOfServiceField,
-} = require('./mutations/updateOfferOfService');
-
-const {
-  mutationField: assignManagerToAdventureField,
-} = require('./mutations/assignManagerToAdventure');
-
-const {
-  mutationField: removeManagerFromAdventureField,
-} = require('./mutations/removeManagerFromAdventure');
+  createAdventure,
+  createOfferOfService,
+  toggleOfferOfServiceWorkflowState,
+  assignOfferOfServiceToAdventure,
+  updateOfferOfService,
+  assignManagerToAdventure,
+  removeManagerFromAdventure,
+} = require('./mutations');
 
 module.exports = gql`
   scalar GraphQLDate
@@ -48,12 +34,16 @@ module.exports = gql`
   }
 
   type Mutation {
-    createOfferOfService${createOfferOfServiceField},
-    toggleOfferOfServiceWorkflowState${toggleOfferOfServiceWorkflowStateField}
-    assignOfferOfServiceToAdventure${assignOfferOfServiceToAdventureField}
-    updateOfferOfService${updateOfferOfServiceField}
-    assignManagerToAdventure${assignManagerToAdventureField}
-    removeManagerFromAdventure${removeManagerFromAdventureField}
+    createAdventure${createAdventure.mutationField}
+    createOfferOfService${createOfferOfService.mutationField},
+    toggleOfferOfServiceWorkflowState${
+      toggleOfferOfServiceWorkflowState.mutationField
+    }
+    assignOfferOfServiceToAdventure${
+      assignOfferOfServiceToAdventure.mutationField
+    }
+    updateOfferOfService${updateOfferOfService.mutationField}
+    assignManagerToAdventure${assignManagerToAdventure.mutationField}
+    removeManagerFromAdventure${removeManagerFromAdventure.mutationField}
   }
-
 `;
