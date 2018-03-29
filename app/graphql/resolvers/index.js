@@ -3,7 +3,6 @@ const {
   globalIdResolver,
   fromGlobalId,
   connectionFromArray,
-  connectionFromPromisedArray,
 } = require('graphql-relay-tools');
 
 const {
@@ -31,20 +30,16 @@ const {
 } = require('../mutations/removeManagerFromAdventure');
 
 const {
-  getAllPatrols,
-  getPatrol,
-  getScoutersForPatrol,
-  getPatrolScouter,
-  getAllPatrolScouters,
-} = require('../knex_connector');
-
-const {
   getOfferOfService,
   getOffersOfService,
 } = require('../resolvers/offerOfService');
 
 const { getAdventure, getAdventures } = require('../resolvers/adventure');
-
+const { getPatrol, getPatrols } = require('../resolvers/patrol');
+const {
+  getPatrolScouter,
+  getPatrolScouters,
+} = require('../resolvers/patrolScouter');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
 const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
@@ -80,11 +75,11 @@ module.exports = {
 
     // patrols
     patrol: (_, { search }) => getPatrol(search),
-    patrols: (_, { filters = {} }) => getAllPatrols(filters),
+    patrols: (_, { filters = {} }) => getPatrols(filters),
 
     // patrolScouters
     patrolScouter: (_, { search }) => getPatrolScouter(search),
-    patrolScouters: (_, { filters = {} }) => getAllPatrolScouters(filters),
+    patrolScouters: (_, { filters = {} }) => getPatrolScouters(filters),
 
     // nodes
     node: nodeResolver,
@@ -123,7 +118,7 @@ module.exports = {
     totalUnitSize: ({ numberOfScouts, numberOfScouters }) =>
       numberOfScouts + numberOfScouters,
     PatrolScoutersConnection: (patrol, args) =>
-      connectionFromPromisedArray(getScoutersForPatrol(patrol), args),
+      connectionFromArray(patrol.patrolScouters, args),
   },
   PatrolScouter: {
     id: globalIdResolver(),

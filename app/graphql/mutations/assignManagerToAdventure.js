@@ -1,5 +1,5 @@
 const { mutationWithClientMutationId } = require('graphql-relay-tools');
-const { assignManagerToAdventure } = require('../knex_connector');
+const { assignManagerToAdventure } = require('../resolvers/adventure');
 
 module.exports = mutationWithClientMutationId({
   name: 'assignManagerToAdventure',
