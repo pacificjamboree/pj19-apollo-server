@@ -3,6 +3,7 @@ const {
   getAdventure,
   getAdventures,
   assignManagerToAdventure,
+  removeManagerFromAdventure,
 } = require('../adventure');
 const {
   resetBefore,
@@ -259,6 +260,66 @@ describe('assignManagerToAdventure', () => {
     expect(result.OfferOfService).toBeInstanceOf(OfferOfService);
     expect(result.Adventure).toBeInstanceOf(Adventure);
     expect(result.Adventure.managers.map(m => m.id)).toContain(fakeOOS.id);
+  });
+
+  afterEach(async () => {
+    await resetAfter();
+  });
+});
+
+describe('removeManagerFromAdventure', () => {
+  let fakeAdventure, fakeOOS;
+  beforeEach(async () => {
+    await resetBefore();
+    fakeAdventure = await Adventure.query()
+      .insert({
+        adventureCode: '123',
+        name: 'SUP',
+        themeName: 'SUP',
+        capacityPerPeriod: 50,
+        periodsOffered: 11,
+        periodsRequired: 1,
+        premiumAdventure: false,
+        hidden: false,
+        location: 'onsite',
+        workflowState: 'active',
+      })
+      .returning('*');
+
+    fakeOOS = await OfferOfService.query()
+      .insert({
+        firstName: 'Michael',
+        lastName: 'Burnham',
+        oosNumber: '12345',
+        birthdate: '1979-01-01',
+        email: 'michael.burnham@starfleet.org',
+        phone1: '555-123-4567',
+        prerecruited: true,
+        assignedAdventureId: fakeAdventure.id,
+        prerecruitedBy: 'Gabriel Lorca',
+        specialSkills: 'mutiny',
+        workflowState: 'active',
+      })
+      .returning('*');
+  });
+
+  test('it should throw if the OOS is not a Manager of the Adventure', async () => {
+    await expect(
+      removeManagerFromAdventure({
+        oosId: fakeOOS.globalId(),
+        adventureId: fakeAdventure.globalId(),
+      })
+    ).rejects.toThrow(/is not a manager for Adventure/);
+  });
+
+  test('is removes the OOS as a Manager for the Adventure', async () => {
+    const payload = {
+      oosId: fakeOOS.globalId(),
+      adventureId: fakeAdventure.globalId(),
+    };
+    await assignManagerToAdventure(payload);
+    const result = await removeManagerFromAdventure(payload);
+    expect(result.Adventure.managers.map(m => m.id)).not.toContain(fakeOOS.id);
   });
 
   afterEach(async () => {
