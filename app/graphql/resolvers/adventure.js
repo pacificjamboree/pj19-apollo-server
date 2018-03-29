@@ -80,7 +80,6 @@ const assignManagerToAdventure = async input => {
       .first();
 
     return {
-      OfferOfService: await oos.$query().eager('assignment'),
       Adventure: adventure,
     };
   } catch (e) {

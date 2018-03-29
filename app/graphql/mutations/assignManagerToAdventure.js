@@ -8,7 +8,6 @@ module.exports = mutationWithClientMutationId({
     oosId: ID!
   `,
   outputFields: `
-    OfferOfService: OfferOfService
     Adventure: Adventure
   `,
   mutateAndGetPayload: async input => await assignManagerToAdventure(input),

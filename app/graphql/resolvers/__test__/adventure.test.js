@@ -255,9 +255,7 @@ describe('assignManagerToAdventure', () => {
       oosId: fakeOOS.globalId(),
       adventureId: fakeAdventure.globalId(),
     });
-    expect(result).toHaveProperty('OfferOfService');
     expect(result).toHaveProperty('Adventure');
-    expect(result.OfferOfService).toBeInstanceOf(OfferOfService);
     expect(result.Adventure).toBeInstanceOf(Adventure);
     expect(result.Adventure.managers.map(m => m.id)).toContain(fakeOOS.id);
   });
