@@ -40,6 +40,21 @@ const getAdventures = ({
     .modify(nameFilter, name, themeName);
 };
 
+const createAdventure = async input => {
+  const dbInput = { ...input };
+  delete dbInput.clientMutationId;
+  try {
+    const adventure = await Adventure.query()
+      .insert(dbInput)
+      .returning('*');
+    return {
+      Adventure: adventure,
+    };
+  } catch (e) {
+    throw e;
+  }
+};
+
 const assignManagerToAdventure = async input => {
   const adventureId = fromGlobalId(input.adventureId).id;
   const oosId = fromGlobalId(input.oosId).id;
@@ -121,6 +136,7 @@ const removeManagerFromAdventure = async input => {
 module.exports = {
   getAdventure,
   getAdventures,
+  createAdventure,
   assignManagerToAdventure,
   removeManagerFromAdventure,
 };

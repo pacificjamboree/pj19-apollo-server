@@ -2,6 +2,7 @@ const { Adventure, OfferOfService } = require('../../../models');
 const {
   getAdventure,
   getAdventures,
+  createAdventure,
   assignManagerToAdventure,
   removeManagerFromAdventure,
 } = require('../adventure');
@@ -162,6 +163,29 @@ describe('getAdventures', () => {
   afterAll(async () => {
     await resetAfter();
   });
+});
+
+describe('createAdventure', () => {
+  const fakeAdventurePayload = {
+    adventureCode: '123',
+    name: 'test',
+    themeName: 'test',
+    description: 'wharrrrrrgarbl',
+    location: 'onsite',
+    capacityPerPeriod: 100,
+    periodsOffered: 11,
+    periodsRequired: 1,
+  };
+  beforeEach(async () => {
+    await resetBefore();
+  });
+
+  test('it creates an Adventure', async () => {
+    const result = await createAdventure(fakeAdventurePayload);
+    expect(result.Adventure).toBeInstanceOf(Adventure);
+  });
+
+  afterEach(async () => {});
 });
 
 describe('assignManagerToAdventure', () => {
