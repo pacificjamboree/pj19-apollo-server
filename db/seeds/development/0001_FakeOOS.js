@@ -2,7 +2,7 @@ const casual = require('casual');
 const TABLE = 'oos';
 
 const data = [];
-for (let i = 0; i < 30; i++) {
+for (let i = 0; i < 100; i++) {
   const prerecruited = casual.boolean;
   const prerecruited_by = prerecruited ? casual.full_name : null;
   data.push({
