@@ -1,4 +1,10 @@
-const { User, OfferOfService, PatrolScouter, Patrol } = require('../index');
+const {
+  User,
+  OfferOfService,
+  PatrolScouter,
+  Patrol,
+  Adventure,
+} = require('../index');
 
 const {
   resetBefore,
@@ -198,6 +204,77 @@ describe('User model with both OOS & PatrolScouter attached', async () => {
   test('returns true for both user types', async () => {
     expect(fakeUser.isOfferOfService()).toBe(true);
     expect(fakeUser.isPatrolScouter()).toBe(true);
+  });
+
+  afterEach(async () => {
+    await resetAfter();
+  });
+});
+
+describe('User model with OOS AdventureManager attached', async () => {
+  let fakeOOS, fakeAdventure, fakeUser;
+  beforeEach(async () => {
+    await resetBefore();
+    fakeAdventure = await Adventure.query()
+      .insert({
+        adventureCode: '123',
+        name: 'test',
+        themeName: 'test',
+        capacityPerPeriod: 100,
+        periodsOffered: 11,
+        periodsRequired: 1,
+        premiumAdventure: false,
+        hidden: false,
+      })
+      .returning('*');
+
+    fakeOOS = await OfferOfService.query()
+      .insert({
+        firstName: 'Michael',
+        lastName: 'Burnham',
+        oosNumber: '12345',
+        birthdate: '1979-01-01',
+        email: 'michael.burnham@starfleet.org',
+        phone1: '555-123-4567',
+        prerecruited: true,
+        prerecruitedBy: 'Gabriel Lorca',
+        specialSkills: 'mutiny',
+        workflowState: 'active',
+        assignedAdventureId: fakeAdventure.id,
+      })
+      .returning('*');
+
+    fakeUser = await User.query()
+      .insert({
+        oosId: fakeOOS.id,
+        username: fakeOOS.email,
+        passwordHash: 'passw0rd',
+      })
+      .returning('*');
+  });
+
+  test('it returns false when User has no OOS attached', async () => {
+    await fakeUser.$query().patch({ oosId: null });
+    expect(await fakeUser.isAdventureManager()).toBe(false);
+  });
+
+  test('it returns false when User is an unassigned OOS', async () => {
+    await fakeOOS.$query().patch({ assignedAdventureId: null });
+    expect(await fakeUser.isAdventureManager()).toBe(false);
+  });
+
+  test('it returns false when User is an assigned OOS but not a manager', async () => {
+    expect(await fakeUser.isAdventureManager()).toBe(false);
+  });
+
+  test('it returns true when User is a manager', async () => {
+    const knex = User.knex();
+    await knex('adventure_manager').insert({
+      oosId: fakeOOS.id,
+      adventureId: fakeAdventure.id,
+    });
+    console.log(fakeOOS.id);
+    expect(await fakeUser.isAdventureManager()).toBe(true);
   });
 
   afterEach(async () => {

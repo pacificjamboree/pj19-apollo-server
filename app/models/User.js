@@ -37,6 +37,22 @@ class User extends Model {
     return !!this.oosId;
   }
 
+  async isAdventureManager() {
+    if (!this.oosId) {
+      return false;
+    }
+    const extendedUser = await this.$query().eager(
+      '[offerOfService, offerOfService.assignment.managers]'
+    );
+
+    if (!extendedUser.offerOfService.assignment) {
+      return false;
+    }
+
+    const { managers } = extendedUser.offerOfService.assignment;
+    return managers.map(({ id }) => id).includes(this.oosId);
+  }
+
   isPatrolScouter() {
     return !!this.patrolScouterId;
   }
