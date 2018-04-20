@@ -32,6 +32,14 @@ class User extends Model {
   async verifyPassword(password) {
     return bcrypt.compare(password, this.passwordHash);
   }
+
+  isOfferOfService() {
+    return !!this.oosId;
+  }
+
+  isPatrolScouter() {
+    return !!this.patrolScouterId;
+  }
 }
 
 module.exports = User;
