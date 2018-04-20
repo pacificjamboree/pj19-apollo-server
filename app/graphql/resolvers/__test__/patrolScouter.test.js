@@ -1,20 +1,11 @@
 const { Patrol, PatrolScouter } = require('../../../models');
 const { getPatrolScouter, getPatrolScouters } = require('../patrolScouter');
-const casual = require('casual');
-
-const scouterFactory = (patrol_id, workflow_state = 'active') => ({
-  patrol_id,
-  first_name: casual.first_name,
-  last_name: casual.last_name,
-  email: casual.email,
-  workflow_state,
-});
-
 const {
   resetBefore,
   resetAfter,
   destroyDbConnection,
 } = require('../../../../test_helpers/resetDb');
+const scouterFactory = require('../../../../test_helpers/scouterFactory');
 
 describe('getPatrolScouter', () => {
   let fakePatrol, fakeScouters;
