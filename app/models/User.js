@@ -21,6 +21,14 @@ class User extends Model {
     };
   }
 
+  async setPassword(password, salt) {
+    const passwordHash = await bcrypt.hash(password, 10);
+    await this.$query()
+      .patch({ passwordHash })
+      .returning('*');
+    return this;
+  }
+
   async verifyPassword(password) {
     return bcrypt.compare(password, this.passwordHash);
   }
