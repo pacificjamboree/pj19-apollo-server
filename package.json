@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test-docker": "docker-compose run -e NODE_ENV=test --rm web yarn test --watchAll --runInBand",
     "knex": "knex --knexfile ./db/knexfile.js",
     "start": "node index.js"
   },
