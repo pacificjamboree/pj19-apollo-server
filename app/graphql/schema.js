@@ -23,6 +23,7 @@ const {
   Patrol,
   PatrolScouter,
   PatrolScoutersConnection,
+  User,
 } = require('./types');
 
 module.exports = makeExecutableSchema({
@@ -35,6 +36,7 @@ module.exports = makeExecutableSchema({
     Patrol,
     PatrolScouter,
     PatrolScoutersConnection,
+    User,
     enums,
     inputs,
     createAdventure.mutationType,

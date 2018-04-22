@@ -29,6 +29,8 @@ module.exports = gql`
     patrolScouter(search: PatrolScouterSearchInput!): PatrolScouter
     patrolScouters(filters: PatrolScouterFilters): [PatrolScouter]
 
+    user(search: UserSearchInput!): User
+
     ${nodeField}
     ${nodesField}
   }

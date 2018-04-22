@@ -24,6 +24,8 @@ const {
   getPatrolScouter,
   getPatrolScouters,
 } = require('../resolvers/patrolScouter');
+const { getUser } = require('../resolvers/user');
+
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
 const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
@@ -41,6 +43,9 @@ const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
 
     case 'PatrolScouter':
       return getPatrolScouter(searchField);
+
+    case 'User':
+      return getUser(searchField);
   }
   return null;
 });
@@ -64,6 +69,8 @@ module.exports = {
     // patrolScouters
     patrolScouter: (_, { search }) => getPatrolScouter(search),
     patrolScouters: (_, { filters = {} }) => getPatrolScouters(filters),
+
+    user: (_, { search }) => getUser(search),
 
     // nodes
     node: nodeResolver,
@@ -113,6 +120,11 @@ module.exports = {
     fullName: ({ firstName, lastName }) => `${firstName} ${lastName}`,
     Patrol: ({ patrolId }) =>
       getPatrol({ searchField: '_id', value: patrolId }),
+  },
+
+  User: {
+    id: globalIdResolver(),
+    _id: ({ id }) => id,
   },
 
   Node: {

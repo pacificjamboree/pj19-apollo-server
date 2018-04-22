@@ -62,4 +62,9 @@ module.exports = gql`
     name: String
     patrolNumber: String
   }
+
+  input UserSearchInput {
+    searchField: UserSearchFields!
+    value: String!
+  }
 `;

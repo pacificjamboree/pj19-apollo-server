@@ -33,4 +33,10 @@ module.exports = gql`
     id
     _id
   }
+
+  enum UserSearchFields {
+    id
+    _id
+    username
+  }
 `;
