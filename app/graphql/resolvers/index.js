@@ -13,6 +13,7 @@ const {
   removeManagerFromAdventure,
   toggleOfferOfServiceWorkflowState,
   updateOfferOfService,
+  createUser,
 } = require('../mutations');
 const {
   getOfferOfService,
@@ -87,6 +88,7 @@ module.exports = {
     updateOfferOfService: updateOfferOfService.mutationResolver,
     assignManagerToAdventure: assignManagerToAdventure.mutationResolver,
     removeManagerFromAdventure: removeManagerFromAdventure.mutationResolver,
+    createUser: createUser.mutationResolver,
   },
 
   OfferOfService: {
