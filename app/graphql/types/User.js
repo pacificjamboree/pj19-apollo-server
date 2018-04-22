@@ -7,6 +7,8 @@ module.exports = gql`
     admin: Boolean!
     passwordHash: String
     passwordResetToken: String
+    OfferOfService: OfferOfService
+    PatrolScouter: PatrolScouter
     workflowState: WorkflowState!
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!

@@ -125,6 +125,8 @@ module.exports = {
   User: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
+    OfferOfService: ({ offerOfService }) => offerOfService,
+    PatrolScouter: ({ patrolScouter }) => patrolScouter,
   },
 
   Node: {
