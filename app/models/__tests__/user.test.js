@@ -273,8 +273,49 @@ describe('User model with OOS AdventureManager attached', async () => {
       oosId: fakeOOS.id,
       adventureId: fakeAdventure.id,
     });
-    console.log(fakeOOS.id);
     expect(await fakeUser.isAdventureManager()).toBe(true);
+  });
+
+  afterEach(async () => {
+    await resetAfter();
+  });
+});
+
+describe('admin User model', async () => {
+  let fakeOOS, fakeUser;
+  beforeEach(async () => {
+    await resetBefore();
+    fakeOOS = await OfferOfService.query()
+      .insert({
+        firstName: 'Michael',
+        lastName: 'Burnham',
+        oosNumber: '12345',
+        birthdate: '1979-01-01',
+        email: 'michael.burnham@starfleet.org',
+        phone1: '555-123-4567',
+        prerecruited: true,
+        prerecruitedBy: 'Gabriel Lorca',
+        specialSkills: 'mutiny',
+        workflowState: 'active',
+      })
+      .returning('*');
+
+    fakeUser = await User.query()
+      .insert({
+        oosId: fakeOOS.id,
+        username: fakeOOS.email,
+        passwordHash: 'passw0rd',
+      })
+      .returning('*');
+  });
+
+  test('it returns false when user is not an admin', async () => {
+    expect(fakeUser.isAdmin()).toBe(false);
+  });
+
+  test('it returns true when user is an admin', async () => {
+    await fakeUser.$query().patch({ admin: true });
+    expect(fakeUser.isAdmin()).toBe(true);
   });
 
   afterEach(async () => {

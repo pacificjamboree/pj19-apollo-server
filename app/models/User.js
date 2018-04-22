@@ -33,6 +33,10 @@ class User extends Model {
     return bcrypt.compare(password, this.passwordHash);
   }
 
+  isAdmin() {
+    return !!this.admin;
+  }
+
   isOfferOfService() {
     return !!this.oosId;
   }
