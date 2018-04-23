@@ -4,7 +4,6 @@ module.exports = mutationWithClientMutationId({
   name: 'createUser',
   inputFields: `
     username: String!
-    password: String
     oosId: String,
     patrolScouterId: String,
     admin: Boolean
