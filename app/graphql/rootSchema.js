@@ -10,6 +10,7 @@ const {
   assignManagerToAdventure,
   removeManagerFromAdventure,
   createUser,
+  updateUser,
 } = require('./mutations');
 
 module.exports = gql`
@@ -49,5 +50,6 @@ module.exports = gql`
     assignManagerToAdventure${assignManagerToAdventure.mutationField}
     removeManagerFromAdventure${removeManagerFromAdventure.mutationField}
     createUser${createUser.mutationField}
+    updateUser${updateUser.mutationField}
   }
 `;

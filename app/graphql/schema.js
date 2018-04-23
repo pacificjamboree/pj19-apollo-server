@@ -15,6 +15,7 @@ const {
   assignManagerToAdventure,
   removeManagerFromAdventure,
   createUser,
+  updateUser,
 } = require('./mutations');
 
 const {
@@ -48,6 +49,7 @@ module.exports = makeExecutableSchema({
     assignManagerToAdventure.mutationType,
     removeManagerFromAdventure.mutationType,
     createUser.mutationType,
+    updateUser.mutationType,
     rootSchema,
   ],
   resolvers,

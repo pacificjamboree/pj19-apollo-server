@@ -14,6 +14,7 @@ const {
   toggleOfferOfServiceWorkflowState,
   updateOfferOfService,
   createUser,
+  updateUser,
 } = require('../mutations');
 const {
   getOfferOfService,
@@ -25,6 +26,7 @@ const {
   getPatrolScouter,
   getPatrolScouters,
 } = require('../resolvers/patrolScouter');
+
 const { getUser } = require('../resolvers/user');
 
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
@@ -89,6 +91,7 @@ module.exports = {
     assignManagerToAdventure: assignManagerToAdventure.mutationResolver,
     removeManagerFromAdventure: removeManagerFromAdventure.mutationResolver,
     createUser: createUser.mutationResolver,
+    updateUser: updateUser.mutationResolver,
   },
 
   OfferOfService: {
