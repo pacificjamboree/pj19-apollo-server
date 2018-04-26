@@ -8,14 +8,19 @@ const resolvers = require('./resolvers');
 
 const {
   createAdventure,
+
   createOfferOfService,
   toggleOfferOfServiceWorkflowState,
   assignOfferOfServiceToAdventure,
   updateOfferOfService,
+
   assignManagerToAdventure,
   removeManagerFromAdventure,
+
   createUser,
   updateUser,
+
+  createPatrol,
 } = require('./mutations');
 
 const {
@@ -50,6 +55,7 @@ module.exports = makeExecutableSchema({
     removeManagerFromAdventure.mutationType,
     createUser.mutationType,
     updateUser.mutationType,
+    createPatrol.mutationType,
     rootSchema,
   ],
   resolvers,

@@ -26,7 +26,23 @@ const getPatrols = ({ workflowState = 'active', name, fullyPaid }) => {
     .modify(fullyPaidFilter, fullyPaid);
 };
 
+const createPatrol = async input => {
+  const dbInput = { ...input };
+  delete dbInput.clientMutationId;
+  try {
+    const patrol = await Patrol.query()
+      .insert(dbInput)
+      .returning('*');
+    return {
+      Patrol: patrol,
+    };
+  } catch (e) {
+    throw e;
+  }
+};
+
 module.exports = {
   getPatrol,
   getPatrols,
+  createPatrol,
 };

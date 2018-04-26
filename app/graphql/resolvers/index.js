@@ -15,6 +15,7 @@ const {
   updateOfferOfService,
   createUser,
   updateUser,
+  createPatrol,
 } = require('../mutations');
 const {
   getOfferOfService,
@@ -92,6 +93,7 @@ module.exports = {
     removeManagerFromAdventure: removeManagerFromAdventure.mutationResolver,
     createUser: createUser.mutationResolver,
     updateUser: updateUser.mutationResolver,
+    createPatrol: createPatrol.mutationResolver,
   },
 
   OfferOfService: {
