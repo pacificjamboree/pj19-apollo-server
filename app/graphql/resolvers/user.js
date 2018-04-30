@@ -9,21 +9,24 @@ const getUser = input =>
     .eager('[offerOfService, offerOfService.assignment, patrolScouter]')
     .first();
 
-const createUser = async input => {
-  const dbInput = { ...input };
-  delete dbInput.clientMutationId;
-
+const createUser = async ({ User: input, clientMutationId }) => {
   // translate oosId and patrolScouterId fields to DB IDs
-  if (dbInput.hasOwnProperty('oosId')) {
-    dbInput.oosId = fromGlobalId(dbInput.oosId).id;
+  if (Object.prototype.hasOwnProperty.call(input, 'oosId')) {
+    input.oosId = fromGlobalId(input.oosId).id;
   }
-  if (dbInput.hasOwnProperty('patrolScouterId')) {
-    dbInput.patrolScouterId = fromGlobalId(dbInput.patrolScouterId).id;
+  if (Object.prototype.hasOwnProperty.call(input, 'patrolScouterId')) {
+    input.patrolScouterId = fromGlobalId(input.patrolScouterId).id;
+  }
+
+  // if `password` field present, replace with hash
+  if (Object.prototype.hasOwnProperty.call(input, 'password')) {
+    input.passwordHash = await User.hashPassword(input.password);
+    delete input.password;
   }
 
   try {
     const user = await User.query()
-      .insert(dbInput)
+      .insert(input)
       .returning('*');
     return {
       User: user,

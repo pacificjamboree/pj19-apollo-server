@@ -3,11 +3,7 @@ const { createUser } = require('../resolvers/user');
 module.exports = mutationWithClientMutationId({
   name: 'createUser',
   inputFields: `
-    username: String!
-    oosId: String,
-    patrolScouterId: String,
-    admin: Boolean
-    workflowState: WorkflowState!
+    User: UserDraft
   `,
   outputFields: `
     User: User
