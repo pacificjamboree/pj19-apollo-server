@@ -3,12 +3,7 @@ const { createPatrol } = require('../resolvers/patrol');
 module.exports = mutationWithClientMutationId({
   name: 'createPatrol',
   inputFields: `
-    patrolNumber: String!
-    name: String!
-    numberOfScouts: Int!
-    numberOfScouters: Int!
-    fullyPaid: Boolean
-    workflowState: WorkflowState
+    Patrol: PatrolDraft!
   `,
   outputFields: `
     Patrol: Patrol
