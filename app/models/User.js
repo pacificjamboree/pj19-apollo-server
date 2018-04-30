@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const Model = require('./BaseModel');
 
+const makeHash = async password => await bcrypt.hash(password, 10);
+
 class User extends Model {
   static get tableName() {
     return 'user';
@@ -21,8 +23,12 @@ class User extends Model {
     };
   }
 
-  async setPassword(password, salt) {
-    const passwordHash = await bcrypt.hash(password, 10);
+  static async hashPassword(password) {
+    return await makeHash(password);
+  }
+
+  async setPassword(password) {
+    const passwordHash = await makeHash(password);
     await this.$query()
       .patch({ passwordHash })
       .returning('*');
