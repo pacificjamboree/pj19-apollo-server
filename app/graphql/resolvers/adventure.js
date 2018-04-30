@@ -40,12 +40,10 @@ const getAdventures = ({
     .modify(nameFilter, name, themeName);
 };
 
-const createAdventure = async input => {
-  const dbInput = { ...input };
-  delete dbInput.clientMutationId;
+const createAdventure = async ({ Adventure: input, clientMutationId }) => {
   try {
     const adventure = await Adventure.query()
-      .insert(dbInput)
+      .insert(input)
       .returning('*');
     return {
       Adventure: adventure,
