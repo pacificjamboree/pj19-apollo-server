@@ -57,12 +57,13 @@ const getOffersOfService = ({
     .eager('assignment');
 };
 
-const createOfferOfService = async input => {
-  const dbinput = { ...input };
-  delete dbinput.clientMutationId;
+const createOfferOfService = async ({
+  OfferOfService: input,
+  clientMutationId,
+}) => {
   try {
     const oos = await OfferOfService.query()
-      .insert(dbinput)
+      .insert(input)
       .returning('*');
     return {
       OfferOfService: oos,

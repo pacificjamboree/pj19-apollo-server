@@ -5,7 +5,25 @@ module.exports = gql`
     value: String!
   }
 
-  input OfferOfServiceInput {
+  input OfferOfServiceDraft {
+    oosNumber: String!
+    firstName: String!
+    lastName: String!
+    preferredName: String
+    birthdate: GraphQLDate!
+    email: String
+    phone1: String
+    phone2: String
+    prerecruited: Boolean
+    prerecruitedBy: String
+    additionalInformation: String
+    previousExperience: String
+    specialSkills: String
+    registrationStatus: String
+    workflowState: WorkflowState
+  }
+
+  input OfferOfServiceUpdate {
     firstName: String
     lastName: String
     preferredName: String
@@ -19,6 +37,7 @@ module.exports = gql`
     previousExperience: String
     specialSkills: String
     registrationStatus: String
+    workflowState: WorkflowState
   }
 
   input OfferOfServiceFilters {
