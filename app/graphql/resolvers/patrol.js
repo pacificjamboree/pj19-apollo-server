@@ -1,3 +1,4 @@
+const { fromGlobalId } = require('graphql-relay-tools/dist/node');
 const { Patrol } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
@@ -39,7 +40,13 @@ const createPatrol = async ({ Patrol: input, clientMutationId }) => {
   }
 };
 
-      .returning('*');
+const updatePatrol = async ({ Patrol: input, clientMutationId, id }) => {
+  try {
+    const patrol = await Patrol.query()
+      .patch(input)
+      .where({ id: fromGlobalId(id).id })
+      .returning('*')
+      .first();
     return {
       Patrol: patrol,
     };
@@ -52,4 +59,5 @@ module.exports = {
   getPatrol,
   getPatrols,
   createPatrol,
+  updatePatrol,
 };

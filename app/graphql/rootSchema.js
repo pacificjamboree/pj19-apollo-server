@@ -12,6 +12,7 @@ const {
   createUser,
   updateUser,
   createPatrol,
+  updatePatrol,
 } = require('./mutations');
 
 module.exports = gql`
@@ -53,5 +54,6 @@ module.exports = gql`
     createUser${createUser.mutationField}
     updateUser${updateUser.mutationField}
     createPatrol${createPatrol.mutationField}
+    updatePatrol${updatePatrol.mutationField}
   }
 `;

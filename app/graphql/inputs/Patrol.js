@@ -15,6 +15,15 @@ module.exports = gql`
     workflowState: WorkflowState
   }
 
+  input PatrolUpdate {
+    patrolNumber: String
+    name: String
+    numberOfScouts: Int
+    numberOfScouters: Int
+    finalPaymentReceived: GraphQLDate
+    workflowState: WorkflowState
+  }
+
   input PatrolSearchInput {
     searchField: PatrolSearchFields!
     value: String!
