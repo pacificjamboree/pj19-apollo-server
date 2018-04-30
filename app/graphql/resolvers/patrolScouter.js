@@ -54,8 +54,31 @@ const createPatrolScouter = async ({
   }
 };
 
+const updatePatrolScouter = async ({
+  PatrolScouter: input,
+  clientMutationId,
+  id,
+}) => {
+  try {
+    if (input.patrolId) {
+      input.patrolId = fromGlobalId(input.patrolId).id;
+    }
+    const patrolScouter = await PatrolScouter.query()
+      .patch(input)
+      .where({ id: fromGlobalId(id).id })
+      .returning('*')
+      .first();
+    return {
+      PatrolScouter: patrolScouter,
+    };
+  } catch (e) {
+    throw e;
+  }
+};
+
 module.exports = {
   getPatrolScouter,
   getPatrolScouters,
   createPatrolScouter,
+  updatePatrolScouter,
 };

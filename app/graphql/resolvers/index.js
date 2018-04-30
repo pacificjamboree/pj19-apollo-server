@@ -18,6 +18,7 @@ const {
   createPatrol,
   updatePatrol,
   createPatrolScouter,
+  updatePatrolScouter,
 } = require('../mutations');
 const {
   getOfferOfService,
@@ -98,6 +99,7 @@ module.exports = {
     createPatrol: createPatrol.mutationResolver,
     updatePatrol: updatePatrol.mutationResolver,
     createPatrolScouter: createPatrolScouter.mutationResolver,
+    updatePatrolScouter: updatePatrolScouter.mutationResolver,
   },
 
   OfferOfService: {

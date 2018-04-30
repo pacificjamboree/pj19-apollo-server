@@ -18,4 +18,12 @@ module.exports = gql`
     patrolId: String!
     workflowState: WorkflowState
   }
+
+  input PatrolScouterUpdate {
+    firstName: String
+    lastName: String
+    email: String
+    patrolId: String
+    workflowState: WorkflowState
+  }
 `;
