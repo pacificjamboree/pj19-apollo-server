@@ -10,4 +10,12 @@ module.exports = gql`
     name: String
     patrolNumber: String
   }
+
+  input PatrolScouterDraft {
+    firstName: String!
+    lastName: String!
+    email: String!
+    patrolId: String!
+    workflowState: WorkflowState
+  }
 `;
