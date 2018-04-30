@@ -14,10 +14,10 @@ module.exports = gql`
     workflowState: WorkflowState
   }
 
-  input UserUpdateInput {
-    username: String!
+  input UserUpdate {
+    username: String
     oosId: String
-    admin: String
+    admin: Boolean
     workflowState: WorkflowState
   }
 `;

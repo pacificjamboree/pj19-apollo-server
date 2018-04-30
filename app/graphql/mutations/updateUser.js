@@ -4,7 +4,7 @@ module.exports = mutationWithClientMutationId({
   name: 'updateUser',
   inputFields: `
     id: ID!
-    User: UserUpdateInput!
+    User: UserUpdate!
   `,
   outputFields: `
     User: User
