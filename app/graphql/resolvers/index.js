@@ -9,6 +9,7 @@ const {
   assignManagerToAdventure,
   assignOfferOfServiceToAdventure,
   createAdventure,
+  updateAdventure,
   createOfferOfService,
   removeManagerFromAdventure,
   toggleOfferOfServiceWorkflowState,
@@ -86,6 +87,7 @@ module.exports = {
 
   Mutation: {
     createAdventure: createAdventure.mutationResolver,
+    updateAdventure: updateAdventure.mutationResolver,
     createOfferOfService: createOfferOfService.mutationResolver,
     toggleOfferOfServiceWorkflowState:
       toggleOfferOfServiceWorkflowState.mutationResolver,

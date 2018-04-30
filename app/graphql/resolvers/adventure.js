@@ -53,6 +53,22 @@ const createAdventure = async ({ Adventure: input, clientMutationId }) => {
   }
 };
 
+const updateAdventure = async ({ id, Adventure: input, clientMutationId }) => {
+  try {
+    const adventure = await Adventure.query()
+      .where({ id: fromGlobalId(id).id })
+      .patch(input)
+      .returning('*')
+      .first();
+
+    return {
+      Adventure: adventure,
+    };
+  } catch (e) {
+    throw e;
+  }
+};
+
 const assignManagerToAdventure = async input => {
   const adventureId = fromGlobalId(input.adventureId).id;
   const oosId = fromGlobalId(input.oosId).id;
@@ -135,6 +151,7 @@ module.exports = {
   getAdventure,
   getAdventures,
   createAdventure,
+  updateAdventure,
   assignManagerToAdventure,
   removeManagerFromAdventure,
 };

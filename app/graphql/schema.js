@@ -8,6 +8,7 @@ const resolvers = require('./resolvers');
 
 const {
   createAdventure,
+  updateAdventure,
 
   createOfferOfService,
   toggleOfferOfServiceWorkflowState,
@@ -51,6 +52,7 @@ module.exports = makeExecutableSchema({
     enums,
     inputs,
     createAdventure.mutationType,
+    updateAdventure.mutationType,
     createOfferOfService.mutationType,
     toggleOfferOfServiceWorkflowState.mutationType,
     assignOfferOfServiceToAdventure.mutationType,

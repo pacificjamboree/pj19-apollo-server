@@ -3,6 +3,7 @@ const { nodeField, nodesField } = require('graphql-relay-tools');
 
 const {
   createAdventure,
+  updateAdventure,
   createOfferOfService,
   toggleOfferOfServiceWorkflowState,
   assignOfferOfServiceToAdventure,
@@ -43,7 +44,8 @@ module.exports = gql`
 
   type Mutation {
     createAdventure${createAdventure.mutationField}
-    createOfferOfService${createOfferOfService.mutationField},
+    updateAdventure${updateAdventure.mutationField}
+    createOfferOfService${createOfferOfService.mutationField}
     toggleOfferOfServiceWorkflowState${
       toggleOfferOfServiceWorkflowState.mutationField
     }
