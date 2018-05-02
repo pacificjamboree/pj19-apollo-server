@@ -26,6 +26,8 @@ const {
 
   createPatrolScouter,
   updatePatrolScouter,
+
+  createLoginToken,
 } = require('./mutations');
 
 const {
@@ -65,6 +67,7 @@ module.exports = makeExecutableSchema({
     updatePatrol.mutationType,
     createPatrolScouter.mutationType,
     updatePatrolScouter.mutationType,
+    createLoginToken.mutationType,
     rootSchema,
   ],
   resolvers,

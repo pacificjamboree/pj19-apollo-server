@@ -16,6 +16,7 @@ const {
   updatePatrol,
   createPatrolScouter,
   updatePatrolScouter,
+  createLoginToken,
 } = require('./mutations');
 
 module.exports = gql`
@@ -61,5 +62,6 @@ module.exports = gql`
     updatePatrol${updatePatrol.mutationField}
     createPatrolScouter${createPatrolScouter.mutationField}
     updatePatrolScouter${updatePatrolScouter.mutationField}
+    createLoginToken${createLoginToken.mutationField}
   }
 `;
