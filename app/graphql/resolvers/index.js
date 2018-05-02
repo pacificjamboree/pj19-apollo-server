@@ -142,6 +142,10 @@ module.exports = {
     _id: ({ id }) => id,
     OfferOfService: ({ offerOfService }) => offerOfService,
     PatrolScouter: ({ patrolScouter }) => patrolScouter,
+    isAdmin: async user => await user.isAdmin(),
+    isOfferOfService: user => user.isOfferOfService(),
+    isPatrolScouter: user => user.isPatrolScouter(),
+    isAdventureManager: async user => user.isAdventureManager(),
   },
 
   Node: {
