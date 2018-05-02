@@ -22,9 +22,7 @@ module.exports = async (username, password) => {
 
     const passwordValid = await user.verifyPassword(password);
     if (passwordValid) {
-      const retUser = Object.assign({}, user);
-      delete retUser.passwordHash;
-      return retUser;
+      return user;
     } else {
       throw new EINVALIDCREDENTIALS();
     }
