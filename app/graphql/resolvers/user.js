@@ -1,5 +1,4 @@
 const { fromGlobalId } = require('graphql-relay-tools');
-const bcrypt = require('bcrypt');
 const { User } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
