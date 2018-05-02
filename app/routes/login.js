@@ -2,7 +2,6 @@ const { authenticateUser, generateJWTForUser } = require('../lib/auth');
 
 module.exports = async (req, res) => {
   const { username, password } = req.body;
-  console.log({ username, password });
   try {
     const user = await authenticateUser(username, password);
     const jwt = generateJWTForUser(user);
