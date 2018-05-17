@@ -66,6 +66,24 @@ class User extends Model {
   isPatrolScouter() {
     return !!this.patrolScouterId;
   }
+
+  async calculateRoles() {
+    const roleValues = {
+      admin: 0,
+      adventureManager: 1,
+      offerOfService: 2,
+      patrolScouter: 3,
+      user: 4,
+    };
+    let roles = ['user'];
+
+    if (this.isOfferOfService()) roles.push('offerOfService');
+    if (this.isPatrolScouter()) roles.push('patrolScouter');
+    if (await this.isAdventureManager()) roles.push('adventureManager');
+    if (this.isAdmin()) roles.push('admin');
+
+    return roles.sort((a, b) => roleValues[a] - roleValues[b]);
+  }
 }
 
 module.exports = User;
