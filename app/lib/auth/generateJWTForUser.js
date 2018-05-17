@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const { ECUSTOM } = require('../errors');
 
 module.exports = user => {
-  const { username, oosId, patrolScouterId } = user;
+  const { id, username, oosId, patrolScouterId } = user;
   const { JWT_SECRET, JWT_EXP } = process.env;
 
   if (!JWT_SECRET) {
@@ -10,6 +10,7 @@ module.exports = user => {
   }
 
   const sub = {
+    id,
     username,
     oosId,
     patrolScouterId,
