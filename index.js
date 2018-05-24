@@ -21,7 +21,7 @@ app.post(
     requestProperty: 'auth',
   }),
   async (req, res, next) => {
-    if (req.auth === undefined) next();
+    if (req.auth === undefined) return next();
     const user = await User.query()
       .where({ id: req.auth.sub.id })
       .select([
