@@ -5,7 +5,9 @@ const whereSearchField = require('../../lib/whereSearchField');
 const getUser = input =>
   User.query()
     .where(whereSearchField(input))
-    .eager('[offerOfService, offerOfService.assignment, patrolScouter]')
+    .eager(
+      '[offerOfService, offerOfService.assignment, offerOfService.assignment.managers, offerOfService.assignment.offersOfService, patrolScouter]'
+    )
     .first();
 
 const createUser = async ({ User: input, clientMutationId }) => {
