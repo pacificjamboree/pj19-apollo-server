@@ -40,8 +40,16 @@ const {
   User,
 } = require('./types');
 
+const directiveResolvers = require('./directiveResolvers');
+
+const directives = `
+  directive @isAuthenticated on FIELD | FIELD_DEFINITION | QUERY
+  directive @isAuthorized(roles: [UserRoles]) on FIELD | FIELD_DEFINITION | QUERY
+`;
+
 module.exports = makeExecutableSchema({
   typeDefs: [
+    directives,
     pageInfoType,
     nodeInterface,
     Adventure,
@@ -71,4 +79,5 @@ module.exports = makeExecutableSchema({
     rootSchema,
   ],
   resolvers,
+  directiveResolvers,
 });
