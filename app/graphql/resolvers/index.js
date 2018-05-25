@@ -35,6 +35,8 @@ const {
 
 const { getUser } = require('../resolvers/user');
 
+const { getViewer } = require('../resolvers/viewer');
+
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
 const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
@@ -63,6 +65,8 @@ module.exports = {
   GraphQLDate,
   GraphQLDateTime,
   Query: {
+    viewer: (_, __, { user: { id } }) => getViewer(id),
+
     // offers of service
     offerOfService: (_, { search }) => getOfferOfService(search),
     offersOfService: (_, { filters = {} }) => getOffersOfService(filters),
