@@ -15,8 +15,6 @@ module.exports = gql`
     premiumAdventure: Boolean!
     fee: Float!
     hidden: Boolean!
-    OffersOfServiceConnection${connectionArgs()}: OffersOfServiceConnection
-    ManagersConnection${connectionArgs()}: OffersOfServiceConnection
     OffersOfServiceConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     ManagersConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     createdAt: GraphQLDateTime!
