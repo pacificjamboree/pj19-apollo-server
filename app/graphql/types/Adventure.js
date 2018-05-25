@@ -17,6 +17,8 @@ module.exports = gql`
     hidden: Boolean!
     OffersOfServiceConnection${connectionArgs()}: OffersOfServiceConnection
     ManagersConnection${connectionArgs()}: OffersOfServiceConnection
+    OffersOfServiceConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
+    ManagersConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!
     workflowState: WorkflowState
