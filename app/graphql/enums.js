@@ -39,4 +39,12 @@ module.exports = gql`
     _id
     username
   }
+
+  enum UserRoles {
+    USER
+    PATROL_SCOUTER
+    OFFER_OF_SERVICE
+    ADVENTURE_MANAGER
+    ADMIN
+  }
 `;
