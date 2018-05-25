@@ -41,10 +41,10 @@ module.exports = gql`
   }
 
   enum UserRoles {
-    USER
-    PATROL_SCOUTER
-    OFFER_OF_SERVICE
-    ADVENTURE_MANAGER
-    ADMIN
+    user
+    patrolScouter
+    offerOfService
+    adventureManager
+    admin
   }
 `;
