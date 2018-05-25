@@ -43,8 +43,9 @@ const {
 const directiveResolvers = require('./directiveResolvers');
 
 const directives = `
-  directive @isAuthenticated on FIELD | FIELD_DEFINITION | QUERY
-  directive @isAuthorized(roles: [UserRoles]) on FIELD | FIELD_DEFINITION | QUERY
+  directive @isAuthenticated on FIELD | FIELD_DEFINITION 
+  directive @isAuthorized(roles: [UserRoles]) on FIELD | FIELD_DEFINITION 
+  directive @managerOnly on FIELD
 `;
 
 module.exports = makeExecutableSchema({
