@@ -10,8 +10,10 @@ module.exports = {
   },
   isAuthorized: (next, src, { roles }, { user }) => {
     if (!user) throw new AuthenticationRequiredError();
-    if (user.roles.includes(roles) || user.roles.includes('admin')) {
-      return next();
+    if (user.roles.includes('admin')) return next();
+    if (roles.some(role => user.roles.includes(role))) return next();
+    throw new UnauthorizedActionError();
+  },
     }
     throw new UnauthorizedActionError();
   },
