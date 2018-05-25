@@ -13,7 +13,7 @@ const UnauthorizedActionError = createError('UnauthorizedActionError', {
 });
 
 const AuthenticationRequiredError = createError('AuthenticationRequiredError', {
-  message: 'You are not logged in',
+  message: 'You must be logged in to perform that action',
 });
 
 const InvalidAuthenticationError = createError('InvalidAuthenticationError', {
