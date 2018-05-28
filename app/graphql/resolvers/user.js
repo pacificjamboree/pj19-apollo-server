@@ -6,7 +6,7 @@ const getUser = input =>
   User.query()
     .where(whereSearchField(input))
     .eager(
-      '[offerOfService, offerOfService.assignment, offerOfService.assignment.managers, offerOfService.assignment.offersOfService, patrolScouter]'
+      '[offerOfService.assignment.[offersOfService, managers], patrolScouter]'
     )
     .first();
 
