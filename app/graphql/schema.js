@@ -33,6 +33,7 @@ const {
 const {
   Adventure,
   OfferOfService,
+  OfferOfServiceNode,
   OffersOfServiceConnection,
   Patrol,
   PatrolScouter,
@@ -55,6 +56,7 @@ module.exports = makeExecutableSchema({
     nodeInterface,
     Adventure,
     OfferOfService,
+    OfferOfServiceNode,
     OffersOfServiceConnection,
     Patrol,
     PatrolScouter,
