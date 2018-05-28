@@ -39,6 +39,8 @@ module.exports = gql`
 
     user(search: UserSearchInput!): User
 
+    viewer: User
+
     ${nodeField}
     ${nodesField}
   }
