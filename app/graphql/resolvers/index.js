@@ -61,6 +61,13 @@ const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
   return null;
 });
 
+const baseOfferOfServiceFieldResolvers = {
+  id: globalIdResolver(),
+  _id: ({ id }) => id,
+  isYouth: o => o.isYouth(),
+  fullName: o => o.fullName(),
+};
+
 module.exports = {
   GraphQLDate,
   GraphQLDateTime,
@@ -111,13 +118,11 @@ module.exports = {
   },
 
   OfferOfService: {
-    id: globalIdResolver(),
-    _id: ({ id }) => id,
-    isYouth: o => o.isYouth(),
+    ...baseOfferOfServiceFieldResolvers,
     assigned: o => o.assigned(),
     assignment: o => o.assignment,
-    fullName: o => o.fullName(),
   },
+  OfferOfServiceNode: baseOfferOfServiceFieldResolvers,
   Adventure: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
