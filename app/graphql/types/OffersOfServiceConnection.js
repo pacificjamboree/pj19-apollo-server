@@ -6,7 +6,7 @@ module.exports = gql`
   }
 
   type OffersOfServiceEdge {
-    node: OfferOfService!
+    node: OfferOfServiceNode!
     cursor: ID!
   }
 `;
