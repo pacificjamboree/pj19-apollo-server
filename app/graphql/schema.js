@@ -47,6 +47,7 @@ const directives = `
   directive @isAuthenticated on FIELD | FIELD_DEFINITION 
   directive @isAuthorized(roles: [UserRoles]) on FIELD | FIELD_DEFINITION 
   directive @managerOnly on FIELD
+  directive @adminOnly on FIELD
 `;
 
 module.exports = makeExecutableSchema({

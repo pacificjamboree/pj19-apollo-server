@@ -28,4 +28,8 @@ module.exports = {
     if (managerIds.includes(user.oosId)) return next();
     throw new UnauthorizedActionError();
   },
+  adminOnly: (next, src, args, { user }) => {
+    if (user.roles.includes('admin')) return next();
+    // throw new UnauthorizedActionError();
+  },
 };
