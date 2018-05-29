@@ -5,8 +5,8 @@ module.exports = gql`
     _id: ID!
     username: String!
     admin: Boolean!
-    passwordHash: String
-    passwordResetToken: String
+    passwordHash: String @adminOnly
+    passwordResetToken: String @adminOnly
     OfferOfService: OfferOfService
     PatrolScouter: PatrolScouter
     isAdmin: Boolean
