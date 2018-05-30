@@ -30,6 +30,8 @@ module.exports = {
   },
   adminOnly: (next, src, args, { user }) => {
     if (user.roles.includes('admin')) return next();
-    // throw new UnauthorizedActionError();
+    if (args.throw) {
+      throw new UnauthorizedActionError();
+    }
   },
 };
