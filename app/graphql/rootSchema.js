@@ -25,19 +25,19 @@ module.exports = gql`
   scalar GraphQLDateTime
 
   type Query {
-    offerOfService(search: OfferOfServiceSearchInput!): OfferOfService
-    offersOfService(filters: OfferOfServiceFilters): [OfferOfService]
+    offerOfService(search: OfferOfServiceSearchInput!): OfferOfService @adminOnly
+    offersOfService(filters: OfferOfServiceFilters): [OfferOfService] @adminOnly
 
     adventure(search: AdventureSearchInput!): Adventure
     adventures(filters: AdventureFilters): [Adventure]
 
-    patrol(search: PatrolSearchInput!): Patrol
-    patrols(filters: PatrolFilters): [Patrol]
+    patrol(search: PatrolSearchInput!): Patrol @adminOnly
+    patrols(filters: PatrolFilters): [Patrol] @adminOnly
 
-    patrolScouter(search: PatrolScouterSearchInput!): PatrolScouter
-    patrolScouters(filters: PatrolScouterFilters): [PatrolScouter]
+    patrolScouter(search: PatrolScouterSearchInput!): PatrolScouter @adminOnly
+    patrolScouters(filters: PatrolScouterFilters): [PatrolScouter] @adminOnly
 
-    user(search: UserSearchInput!): User
+    user(search: UserSearchInput!): User @adminOnly
 
     viewer: User
 
