@@ -6,7 +6,7 @@ services:
       - "55432:5432"
   web:
     build: .
-    command: ./node_modules/.bin/nodemon --ext js,graphql,json -L /usr/src/app/index.js
+    command: ./node_modules/.bin/nodemon --ext js,graphql,json /usr/src/app/index.js
     volumes:
       - .:/usr/src/app
     ports:
