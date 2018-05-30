@@ -1,6 +1,6 @@
-FROM node:8.9.4-alpine
+FROM node:8.11.2-alpine
 WORKDIR /usr/src/app
-RUN apk --no-cache add --virtual builds-deps build-base python
+RUN apk --no-cache add --virtual builds-deps build-base python procps
 COPY package*.json ./
 COPY yarn.lock ./
 COPY . .
