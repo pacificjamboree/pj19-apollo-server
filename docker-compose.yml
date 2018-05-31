@@ -17,5 +17,4 @@ services:
       - db
     environment:
       - NODE_ENV=development
-      - VIRTUAL_HOST=test.docker
 
