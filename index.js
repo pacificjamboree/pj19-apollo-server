@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
 const compression = require('compression');
 const jwtMiddleware = require('express-jwt');
+const cors = require('cors');
 const schema = require('./app/graphql/schema');
 const PORT = process.env.PORT || 3000;
 const { User } = require('./app/models');
@@ -10,16 +11,7 @@ const { login } = require('./app/routes');
 
 const app = express();
 app.use(compression());
-
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  next();
-});
-
+app.use(cors());
 app.post('/login', bodyParser.urlencoded({ extended: false }), login);
 app.post(
   '/graphql',
