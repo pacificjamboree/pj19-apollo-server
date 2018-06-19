@@ -5,7 +5,8 @@ const data = [
     adventure_code: 'ADV_0001',
     name: 'SUP',
     theme_name: 'SUP',
-    description: 'SUP',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus convallis felis consectetur quam condimentum ornare. Sed suscipit, turpis eu consectetur placerat, massa velit fringilla massa, a sagittis est velit non erat. Nunc rhoncus turpis ut magna faucibus malesuada. Fusce et eros vitae neque dignissim venenatis.',
     location: 'onsite',
     capacity_per_period: 50,
     periods_offered: 11,
@@ -19,7 +20,8 @@ const data = [
     adventure_code: 'ADV_0002',
     name: 'Kayaking',
     theme_name: 'Kayaking',
-    description: 'Kayaking',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus convallis felis consectetur quam condimentum ornare. Sed suscipit, turpis eu consectetur placerat, massa velit fringilla massa, a sagittis est velit non erat. Nunc rhoncus turpis ut magna faucibus malesuada. Fusce et eros vitae neque dignissim venenatis.',
     location: 'offsite',
     capacity_per_period: 36,
     periods_offered: 11,
@@ -33,7 +35,8 @@ const data = [
     adventure_code: 'ADV_0003',
     name: 'SCUBA',
     theme_name: 'SCUBA',
-    description: 'SCUBA',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus convallis felis consectetur quam condimentum ornare. Sed suscipit, turpis eu consectetur placerat, massa velit fringilla massa, a sagittis est velit non erat. Nunc rhoncus turpis ut magna faucibus malesuada. Fusce et eros vitae neque dignissim venenatis.',
     location: 'offsite',
     capacity_per_period: 50,
     periods_offered: 10,
@@ -47,7 +50,8 @@ const data = [
     adventure_code: 'ADV_0004',
     name: 'Townsite',
     theme_name: 'Townsite',
-    description: 'Townsite',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus convallis felis consectetur quam condimentum ornare. Sed suscipit, turpis eu consectetur placerat, massa velit fringilla massa, a sagittis est velit non erat. Nunc rhoncus turpis ut magna faucibus malesuada. Fusce et eros vitae neque dignissim venenatis.',
     location: 'onsite',
     capacity_per_period: 200,
     periods_offered: 11,
@@ -61,7 +65,8 @@ const data = [
     adventure_code: 'ADV_0005',
     name: 'Mtn. Biking',
     theme_name: 'Mtn. Biking',
-    description: 'Mtn. Biking',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus convallis felis consectetur quam condimentum ornare. Sed suscipit, turpis eu consectetur placerat, massa velit fringilla massa, a sagittis est velit non erat. Nunc rhoncus turpis ut magna faucibus malesuada. Fusce et eros vitae neque dignissim venenatis.',
     location: 'onsite',
     capacity_per_period: 50,
     periods_offered: 11,
