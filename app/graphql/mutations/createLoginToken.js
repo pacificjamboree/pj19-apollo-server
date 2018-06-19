@@ -9,13 +9,15 @@ module.exports = mutationWithClientMutationId({
   `,
   outputFields: `
     token: String
+    viewer: User
   `,
   mutateAndGetPayload: async ({ username, password }) => {
     try {
-      const user = await authenticateUser(username, password);
+      const user = await authenticateUser(username.toLowerCase(), password);
       const token = await generateJWTForUser(user);
       return {
         token,
+        viewer: user,
       };
     } catch (e) {
       throw e;
