@@ -72,7 +72,7 @@ module.exports = {
   GraphQLDate,
   GraphQLDateTime,
   Query: {
-    viewer: (_, __, { user: { id } }) => getViewer(id),
+    viewer: (_, __, { user }) => (user ? getViewer(user.id) : null),
 
     // offers of service
     offerOfService: (_, { search }) => getOfferOfService(search),
