@@ -15,6 +15,10 @@ module.exports = gql`
     premiumAdventure: Boolean!
     fee: Float!
     hidden: Boolean!
+    pdrPlan: [String]
+    pdrDo: [String]
+    pdrReview: [String]
+    pdrSafetyTips: [String]
     OffersOfServiceConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     ManagersConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     createdAt: GraphQLDateTime!

@@ -126,6 +126,10 @@ module.exports = {
   Adventure: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
+    pdrPlan: ({ pdrPlan }) => pdrPlan || [],
+    pdrDo: ({ pdrDo }) => pdrDo || [],
+    pdrReview: ({ pdrReview }) => pdrReview || [],
+    pdrSafetyTips: ({ pdrSafetyTips }) => pdrSafetyTips || [],
     OffersOfServiceConnection: (adventure, args) =>
       connectionFromArray(adventure.offersOfService, args),
     ManagersConnection: (adventure, args) =>
