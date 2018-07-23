@@ -14,6 +14,7 @@ module.exports = mutationWithClientMutationId({
   mutateAndGetPayload: async ({ username, password }) => {
     try {
       const user = await authenticateUser(username.toLowerCase(), password);
+      user.roles = await user.calculateRoles();
       const token = await generateJWTForUser(user);
       return {
         token,
