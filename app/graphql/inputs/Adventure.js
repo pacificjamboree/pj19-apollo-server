@@ -24,6 +24,11 @@ module.exports = gql`
     periodsRequired: Int
     premiumAdventure: Boolean = false
     fee: Float
+    hidden: Boolean = false
+    pdrPlan: [String]
+    pdrDo: [String]
+    pdrReview: [String]
+    pdrSafetyTips: [String]
   }
 
   input AdventureSearchInput {
@@ -38,4 +43,5 @@ module.exports = gql`
     themeName: String
     premiumAdventure: Boolean
   }
+
 `;
