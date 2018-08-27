@@ -26,9 +26,11 @@ const getAdventures = ({
 
   const nameFilter = (qb, name, themeName) => {
     if (name || themeName) {
-      qb
-        .where('name', 'ilike', `%${name}%`)
-        .orWhere('theme_name', 'ilike', `%${themeName}%`);
+      qb.where('name', 'ilike', `%${name}%`).orWhere(
+        'theme_name',
+        'ilike',
+        `%${themeName}%`
+      );
     }
   };
 
