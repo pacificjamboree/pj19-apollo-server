@@ -54,6 +54,12 @@ const createAdventure = async ({ Adventure: input, clientMutationId }) => {
 };
 
 const updateAdventure = async ({ id, Adventure: input, clientMutationId }) => {
+  ['pdrPlan', 'pdrDo', 'pdrReview', 'pdrSafetyTips'].forEach(x => {
+    if (input[x]) {
+      input[x] = JSON.stringify(input[x]);
+    }
+  });
+
   try {
     const adventure = await Adventure.query()
       .where({ id: fromGlobalId(id).id })
