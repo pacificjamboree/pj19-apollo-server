@@ -12,12 +12,13 @@ const getAdventure = input =>
     .first();
 
 const getAdventures = ({
-  workflowState = 'active',
+  workflowState = ['active'],
   location = ['onsite', 'offsite'],
   premiumAdventure,
   name,
   themeName,
 }) => {
+  console.log({workflowState, location})
   const premiumActivityFilter = (qb, premiumAdventure) => {
     if (premiumAdventure) {
       qb.andWhere('premiumAdventure', premiumAdventure);
