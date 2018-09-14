@@ -1,4 +1,4 @@
-const { makeExecutableSchema } = require('graphql-tools');
+const { makeExecutableSchema } = require('apollo-server-express');
 const { nodeInterface, pageInfoType } = require('graphql-relay-tools');
 
 const rootSchema = require('./rootSchema');
