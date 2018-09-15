@@ -4,3 +4,4 @@ docker-compose.local.*
 .env
 yarn-error.log
 coverage
+notes.md
