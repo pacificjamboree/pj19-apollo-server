@@ -32,7 +32,13 @@ const addUserMiddleware = async (req, res, next) => {
 
 const app = express();
 const path = '/graphql';
-const server = new ApolloServer({ schema });
+const server = new ApolloServer({
+  schema,
+  context: ({ req }) => ({
+    auth: req.auth,
+    user: req.user,
+  }),
+});
 
 app.use(compression());
 app.use(cors());
