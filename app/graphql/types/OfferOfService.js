@@ -13,6 +13,7 @@ module.exports = gql`
     birthdate: GraphQLDate!
     isYouth: Boolean!
     email: String
+    parentEmail: String
     phone1: String
     phone2: String
     prerecruited: Boolean!
