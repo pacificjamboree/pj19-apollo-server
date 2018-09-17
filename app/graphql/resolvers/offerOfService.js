@@ -24,7 +24,7 @@ const getOfferOfService = input =>
     .eager('[assignment, assignment.offersOfService]');
 
 const getOffersOfService = ({
-  workflowState = 'active',
+  workflowState = ['active'],
   assigned,
   email,
   name,
@@ -44,9 +44,11 @@ const getOffersOfService = ({
 
   const nameFilter = (qb, name) => {
     if (name !== undefined) {
-      qb
-        .where('firstName', 'ilike', `${name}%`)
-        .orWhere('lastName', 'ilike', `${name}%`);
+      qb.where('firstName', 'ilike', `${name}%`).orWhere(
+        'lastName',
+        'ilike',
+        `${name}%`
+      );
     }
   };
   return OfferOfService.query()
