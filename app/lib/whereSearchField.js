@@ -10,6 +10,10 @@ module.exports = ({ searchField, value }) => {
       searchField = 'id';
       break;
 
+    case 'oosNumber':
+      searchField = 'oos_number';
+      break;
+
     default:
       searchField = searchField; // eslint-disable-line
       break;
