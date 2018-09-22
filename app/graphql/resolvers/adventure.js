@@ -18,7 +18,6 @@ const getAdventures = ({
   name,
   themeName,
 }) => {
-  console.log({workflowState, location})
   const premiumActivityFilter = (qb, premiumAdventure) => {
     if (premiumAdventure) {
       qb.andWhere('premiumAdventure', premiumAdventure);
