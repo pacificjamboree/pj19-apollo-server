@@ -7,7 +7,7 @@ const selectOfferOfService = async id => {
   try {
     const oos = await OfferOfService.query()
       .findById(id)
-      .eager('[assignment, assignment.managers]')
+      .eager('assignment.[offersOfService]')
       .first();
     if (!oos) {
       throw new Error(`No Offer of Service with ID ${id} exists`);
@@ -21,7 +21,9 @@ const selectOfferOfService = async id => {
 const getOfferOfService = input =>
   OfferOfService.query()
     .findOne(whereSearchField(input))
-    .eager('[assignment, assignment.offersOfService]');
+    .eager(
+      'assignment.[offersOfService]' /*[assignment, assignment.offersOfService]'*/
+    );
 
 const getOffersOfService = ({
   workflowState = ['active'],
