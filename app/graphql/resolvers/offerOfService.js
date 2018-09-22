@@ -58,7 +58,8 @@ const getOffersOfService = ({
     .modify(assignedFilter, assigned)
     .modify(emailFilter, email)
     .modify(nameFilter, name)
-    .eager('assignment');
+    .eager('assignment')
+    .orderBy('oosNumber');
 };
 
 const createOfferOfService = async ({
@@ -159,11 +160,13 @@ const updateOfferOfService = async input => {
 
   try {
     let oos = await selectOfferOfService(id);
-    await oos
+    oos = await oos
       .$query()
-      .patchAndFetch(payload)
+      .patch(payload)
       .returning('*')
-      .eager('assignment');
+      .eager('assignment')
+      .first();
+
     return { OfferOfService: oos };
   } catch (e) {
     /* istanbul ignore next */
