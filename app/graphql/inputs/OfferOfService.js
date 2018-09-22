@@ -24,19 +24,21 @@ module.exports = gql`
   }
 
   input OfferOfServiceUpdate {
-    firstName: String
-    lastName: String
+    oosNumber: String!
+    firstName: String!
+    lastName: String!
     preferredName: String
-    birthdate: GraphQLDate
-    email: String
-    phone1: String
+    birthdate: GraphQLDate!
+    email: String!
+    parentEmail: String
+    phone1: String!
     phone2: String
     prerecruited: Boolean
     prerecruitedBy: String
     additionalInformation: String
     previousExperience: String
     specialSkills: String
-    registrationStatus: String
+    assignedAdventureId: ID
     workflowState: WorkflowState
   }
 
