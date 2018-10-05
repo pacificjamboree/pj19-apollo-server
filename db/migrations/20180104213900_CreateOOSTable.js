@@ -2,8 +2,7 @@ const TABLE = 'oos';
 exports.up = (knex, Promise) => {
   return knex.schema
     .createTable(TABLE, t => {
-      t
-        .uuid('id')
+      t.uuid('id')
         .primary()
         .default(knex.raw('gen_random_uuid()'));
 
@@ -11,14 +10,16 @@ exports.up = (knex, Promise) => {
       t.string('first_name').notNullable();
       t.string('last_name').notNullable();
       t.string('preferred_name');
-      t.date('birthdate');
+
+      t.boolean('is_youth')
+        .notNullable()
+        .defaultTo(false);
 
       t.string('email');
       t.string('phone1');
       t.string('phone2');
 
-      t
-        .boolean('prerecruited')
+      t.boolean('prerecruited')
         .notNullable()
         .defaultTo(false);
       t.string('prerecruited_by');

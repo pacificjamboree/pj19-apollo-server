@@ -1,4 +1,4 @@
-const { User, OfferOfService, PatrolScouter } = require('../../../models');
+const { User, OfferOfService } = require('../../../models');
 const { getUser } = require('../user');
 const {
   resetBefore,
@@ -7,7 +7,7 @@ const {
 } = require('../../../../test_helpers/resetDb');
 
 describe('getUser', () => {
-  let fakeOOS, fakePatrolScouter, fakeUser;
+  let fakeOOS, fakeUser;
   beforeEach(async () => {
     await resetBefore();
     fakeOOS = await OfferOfService.query()
@@ -15,7 +15,7 @@ describe('getUser', () => {
         firstName: 'Michael',
         lastName: 'Burnham',
         oosNumber: '12345',
-        birthdate: '1979-01-01',
+        isYouth: false,
         email: 'michael.burnham@starfleet.org',
         phone1: '555-123-4567',
         prerecruited: true,

@@ -9,7 +9,7 @@ for (let i = 0; i < 100; i++) {
     oos_number: `OOS_${(i + 1).toString().padStart('4', '0')}`,
     first_name: casual.first_name,
     last_name: casual.last_name,
-    birthdate: casual.date(),
+    is_youth: casual.boolean,
     email: casual.email,
     phone1: casual.phone,
     phone2: casual.phone,

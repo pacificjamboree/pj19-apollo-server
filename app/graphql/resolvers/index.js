@@ -64,7 +64,6 @@ const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
 const baseOfferOfServiceFieldResolvers = {
   id: globalIdResolver(),
   _id: ({ id }) => id,
-  isYouth: o => o.isYouth(),
   fullName: o => o.fullName(),
 };
 

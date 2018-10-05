@@ -1,4 +1,3 @@
-const differenceInYears = require('date-fns/difference_in_years');
 const Model = require('./BaseModel');
 
 class OfferOfService extends Model {
@@ -25,10 +24,6 @@ class OfferOfService extends Model {
     return `${this.preferredName ? this.preferredName : this.firstName} ${
       this.lastName
     }`;
-  }
-
-  isYouth() {
-    return differenceInYears(new Date(), this.birthdate) <= 18;
   }
 }
 

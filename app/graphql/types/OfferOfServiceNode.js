@@ -8,7 +8,6 @@ module.exports = gql`
     lastName: String!
     preferredName: String
     fullName: String!
-    birthdate: GraphQLDate!
     isYouth: Boolean!
     email: String
     phone1: String
