@@ -174,6 +174,19 @@ const updateOfferOfService = async input => {
   }
 };
 
+const batchImportOffersOfService = async ({ OffersOfService }) => {
+  console.log(OffersOfService);
+  try {
+    const oos = await OfferOfService.query()
+      .insert(OffersOfService)
+      .returning('*');
+    console.log(oos);
+    return { offersOfService: oos };
+  } catch (e) {
+    throw e;
+  }
+};
+
 module.exports = {
   selectOfferOfService,
   getOfferOfService,
@@ -182,4 +195,5 @@ module.exports = {
   toggleWorkflowState,
   changeAssignment,
   updateOfferOfService,
+  batchImportOffersOfService,
 };

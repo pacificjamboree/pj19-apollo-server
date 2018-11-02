@@ -14,6 +14,7 @@ const {
   removeManagerFromAdventure,
   toggleOfferOfServiceWorkflowState,
   updateOfferOfService,
+  batchImportOffersOfService,
   createUser,
   updateUser,
   createPatrol,
@@ -105,6 +106,7 @@ module.exports = {
     assignOfferOfServiceToAdventure:
       assignOfferOfServiceToAdventure.mutationResolver,
     updateOfferOfService: updateOfferOfService.mutationResolver,
+    batchImportOffersOfService: batchImportOffersOfService.mutationResolver,
     assignManagerToAdventure: assignManagerToAdventure.mutationResolver,
     removeManagerFromAdventure: removeManagerFromAdventure.mutationResolver,
     createUser: createUser.mutationResolver,

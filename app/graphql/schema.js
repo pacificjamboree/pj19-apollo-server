@@ -14,6 +14,7 @@ const {
   toggleOfferOfServiceWorkflowState,
   assignOfferOfServiceToAdventure,
   updateOfferOfService,
+  batchImportOffersOfService,
 
   assignManagerToAdventure,
   removeManagerFromAdventure,
@@ -71,6 +72,7 @@ module.exports = makeExecutableSchema({
     toggleOfferOfServiceWorkflowState.mutationType,
     assignOfferOfServiceToAdventure.mutationType,
     updateOfferOfService.mutationType,
+    batchImportOffersOfService.mutationType,
     assignManagerToAdventure.mutationType,
     removeManagerFromAdventure.mutationType,
     createUser.mutationType,

@@ -8,6 +8,7 @@ const {
   toggleOfferOfServiceWorkflowState,
   assignOfferOfServiceToAdventure,
   updateOfferOfService,
+  batchImportOffersOfService,
   assignManagerToAdventure,
   removeManagerFromAdventure,
   createUser,
@@ -56,6 +57,7 @@ module.exports = gql`
       assignOfferOfServiceToAdventure.mutationField
     }
     updateOfferOfService${updateOfferOfService.mutationField}
+    batchImportOffersOfService${batchImportOffersOfService.mutationField}
     assignManagerToAdventure${assignManagerToAdventure.mutationField}
     removeManagerFromAdventure${removeManagerFromAdventure.mutationField}
     createUser${createUser.mutationField}
