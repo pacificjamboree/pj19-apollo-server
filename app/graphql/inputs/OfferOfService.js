@@ -21,6 +21,7 @@ module.exports = gql`
     previousExperience: String
     specialSkills: String
     registrationStatus: String
+    assignedAdventureId: ID
     workflowState: WorkflowState
   }
 
