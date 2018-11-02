@@ -23,6 +23,7 @@ module.exports = gql`
     registrationStatus: String
     assignedAdventureId: ID
     workflowState: WorkflowState
+    importId: String
   }
 
   input OfferOfServiceUpdate {
@@ -49,5 +50,6 @@ module.exports = gql`
     assigned: Boolean
     email: String
     name: String
+    importId: String
   }
 `;

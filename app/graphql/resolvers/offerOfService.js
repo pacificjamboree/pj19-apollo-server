@@ -30,6 +30,7 @@ const getOffersOfService = ({
   assigned,
   email,
   name,
+  importId,
 }) => {
   const assignedFilter = (qb, assigned) => {
     if (assigned === undefined) return;
@@ -53,11 +54,18 @@ const getOffersOfService = ({
       );
     }
   };
+
+  const importIdFilter = (qb, importId) => {
+    if (importId !== undefined) {
+      qb.andWhere({ importId });
+    }
+  };
   return OfferOfService.query()
     .whereIn('workflowState', workflowState)
     .modify(assignedFilter, assigned)
     .modify(emailFilter, email)
     .modify(nameFilter, name)
+    .modify(importIdFilter, importId)
     .eager('assignment')
     .orderBy('oosNumber');
 };

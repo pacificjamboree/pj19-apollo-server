@@ -24,5 +24,6 @@ module.exports = gql`
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!
     workflowState: WorkflowState
+    importId: String
   }
 `;
