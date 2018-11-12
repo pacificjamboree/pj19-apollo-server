@@ -183,12 +183,10 @@ const updateOfferOfService = async input => {
 };
 
 const batchImportOffersOfService = async ({ OffersOfService }) => {
-  console.log(OffersOfService);
   try {
     const oos = await OfferOfService.query()
       .insert(OffersOfService)
       .returning('*');
-    console.log(oos);
     return { offersOfService: oos };
   } catch (e) {
     throw e;
