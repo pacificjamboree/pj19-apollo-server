@@ -1,4 +1,5 @@
 const table = 'adventure';
+const randomInt = () => Math.floor(Math.random() * (50 - 5) + 5);
 
 const data = [
   {
@@ -15,6 +16,7 @@ const data = [
     fee: 0.0,
     hidden: false,
     workflow_state: 'active',
+    oos_required: randomInt(),
   },
   {
     adventure_code: 'ADV_0002',
@@ -30,6 +32,7 @@ const data = [
     fee: 0.0,
     hidden: false,
     workflow_state: 'active',
+    oos_required: randomInt(),
   },
   {
     adventure_code: 'ADV_0003',
@@ -45,6 +48,7 @@ const data = [
     fee: 50.0,
     hidden: false,
     workflow_state: 'active',
+    oos_required: randomInt(),
   },
   {
     adventure_code: 'ADV_0004',
@@ -60,6 +64,7 @@ const data = [
     fee: 0.0,
     hidden: false,
     workflow_state: 'active',
+    oos_required: randomInt(),
   },
   {
     adventure_code: 'ADV_0005',
@@ -75,6 +80,7 @@ const data = [
     fee: 0.0,
     hidden: false,
     workflow_state: 'active',
+    oos_required: randomInt(),
   },
 ];
 
