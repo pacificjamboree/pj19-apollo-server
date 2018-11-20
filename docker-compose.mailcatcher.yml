@@ -1,0 +1,13 @@
+# shamelessly stolen from https://github.com/instructure/canvas-lms/blob/master/docker-compose/mailcatcher.override.yml
+
+version: '3'
+services:
+  web:
+    links:
+      - mailcatcher
+
+  mailcatcher:
+    image: instructure/mailcatcher
+    environment:
+      VIRTUAL_HOST: pjmail.docker
+      VIRTUAL_PORT: 8080
