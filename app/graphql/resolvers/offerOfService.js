@@ -2,6 +2,10 @@ const { transaction } = require('objection');
 const { OfferOfService } = require('../../models');
 const { fromGlobalId } = require('graphql-relay-tools');
 const whereSearchField = require('../../lib/whereSearchField');
+const {
+  sendOOSAssignmentMessage,
+  sendOOSWelcomeMessage,
+} = require('../../lib/mail');
 
 const selectOfferOfService = async id => {
   try {
@@ -187,6 +191,16 @@ const batchImportOffersOfService = async ({ OffersOfService }) => {
     const oos = await OfferOfService.query()
       .insert(OffersOfService)
       .returning('*');
+
+    // send welcome emails
+    oos.filter(o => o.assignedAdventureId).forEach(async o => {
+      await sendOOSAssignmentMessage(o);
+    });
+
+    oos.filter(o => !o.assignedAdventureId).forEach(async o => {
+      await sendOOSWelcomeMessage(o);
+    });
+
     return { offersOfService: oos };
   } catch (e) {
     throw e;
