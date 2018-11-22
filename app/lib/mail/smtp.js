@@ -13,7 +13,7 @@ const options = {
   host: SMTP_HOST,
   port: SMTP_PORT,
   secure: SMTP_MODE === 'secure',
-  debug: true,
+  debug: false,
   logger: true,
   tls: {
     rejectUnauthorized: false,
