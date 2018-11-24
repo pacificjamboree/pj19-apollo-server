@@ -4,6 +4,7 @@ const { ApolloServer } = require('apollo-server-express');
 const compression = require('compression');
 const jwtMiddleware = require('express-jwt');
 const cors = require('cors');
+const dotenv = require('dotenv').config();
 const schema = require('./app/graphql/schema');
 const PORT = process.env.PORT || 3000;
 const { User } = require('./app/models');
