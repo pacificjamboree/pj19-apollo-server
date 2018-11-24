@@ -1,4 +1,5 @@
 #!/bin/bash
+PATH=/usr/local/bin:$PATH
 
 # get params from ssm and write to file
 # install fx
