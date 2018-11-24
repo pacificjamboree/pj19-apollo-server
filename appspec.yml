@@ -3,3 +3,8 @@ os: linux
 files:
   - source: /
     destination: /home/ec2-user/server/
+hooks:
+  AfterInstall:
+    - location: scripts/codedeploy/after-install.sh
+      runas: root
+      timeout: 300
