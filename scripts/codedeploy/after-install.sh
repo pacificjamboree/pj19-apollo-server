@@ -15,4 +15,4 @@ chown -R ec2-user:ec2-user /home/ec2-user/server
 su - ec2-user -c "cd /home/ec2-user/server && yarn"
 
 # run database migrations
-su - ec2-user -c "yarn knex migrate:latest"
+su - ec2-user -c "cd /home/ec2-user/server && yarn knex migrate:latest"
