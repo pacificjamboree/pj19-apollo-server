@@ -1,3 +1,7 @@
+const path = require('path');
+const configPath = path.resolve(__dirname, '../.env');
+require('dotenv').config({ path: configPath });
+
 const baseConnection = {
   host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT || 5432,
