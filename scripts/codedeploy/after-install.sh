@@ -10,3 +10,9 @@ aws ssm get-parameters-by-path --path /graphql/prod/env/ --output json --region 
 
 # chown app directory
 chown -R ec2-user:ec2-user /home/ec2-user/server
+
+# yarn install
+su - ec2-user -c "cd /home/ec2-user/server && yarn"
+
+# run database migrations
+su - ec2-user -c "yarn knex migrate:latest"
