@@ -4,7 +4,15 @@ files:
   - source: /
     destination: /var/www/server
 hooks:
+  ApplicationStop:
+    - location: scripts/codedeploy/application-stop.sh
+      runas: root
+      timeout: 300
   AfterInstall:
     - location: scripts/codedeploy/after-install.sh
+      runas: root
+      timeout: 300
+  ApplicationStart:
+    - location: scripts/codedeploy/application-start.sh
       runas: root
       timeout: 300

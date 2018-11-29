@@ -17,6 +17,3 @@ su - apache -c "cd $DEPLOY_DIR && yarn"
 
 # run database migrations
 su - apache -c "cd $DEPLOY_DIR && yarn knex migrate:latest"
-
-# restart apache
-service httpd start
