@@ -35,4 +35,10 @@ module.exports = {
       directory: './seeds/development',
     },
   },
+  production: {
+    ...baseConfig,
+    seeds: {
+      directory: './seeds/production',
+    },
+  },
 };
