@@ -1,18 +1,22 @@
 #!/bin/bash
 PATH=/usr/local/bin:$PATH
+DEPLOY_DIR=/var/www/server
 
 # get params from ssm and write to file
 # install fx
 if [ ! -L /usr/local/bin/fx ] ; then npm -g i fx ; fi
 aws ssm get-parameters-by-path --path /graphql/prod/env/ --output json --region ca-central-1 | \
   fx 'this.Parameters.map(x => `${x.Name.replace(/\/graphql\/prod\/env\//, "")}=${x.Value}`).join("\n")' \
-  > /home/ec2-user/server/.env
+  > $DEPLOY_DIR/.env
 
 # chown app directory
-chown -R ec2-user:ec2-user /home/ec2-user/server
+chown -R apache:ec2-user $DEPLOY_DIR
 
 # yarn install
-su - ec2-user -c "cd /home/ec2-user/server && yarn"
+su - apache -c "cd /home/ec2-user/server && yarn"
 
 # run database migrations
-su - ec2-user -c "cd /home/ec2-user/server && yarn knex migrate:latest"
+su - apache -c "cd /home/ec2-user/server && yarn knex migrate:latest"
+
+# restart apache
+service httpd start
