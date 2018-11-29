@@ -9,11 +9,11 @@ aws ssm get-parameters-by-path --path /graphql/prod/env/ --output json --region 
   fx 'this.Parameters.map(x => `${x.Name.replace(/\/graphql\/prod\/env\//, "")}=${x.Value}`).join("\n")' \
   > $DEPLOY_DIR/.env
 
-# chown app directory
-chown -R apache:ec2-user $DEPLOY_DIR
-
 # yarn install
-su - apache -c "cd $DEPLOY_DIR && yarn"
+cd $DEPLOY_DIR && yarn
 
 # run database migrations
-su - apache -c "cd $DEPLOY_DIR && yarn knex migrate:latest"
+cd $DEPLOY_DIR && yarn knex migrate:latest
+
+# chown app directory
+chown -R apache:ec2-user $DEPLOY_DIR
