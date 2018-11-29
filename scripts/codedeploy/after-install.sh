@@ -13,10 +13,10 @@ aws ssm get-parameters-by-path --path /graphql/prod/env/ --output json --region 
 chown -R apache:ec2-user $DEPLOY_DIR
 
 # yarn install
-su - apache -c "cd /home/ec2-user/server && yarn"
+su - apache -c "cd $DEPLOY_DIR && yarn"
 
 # run database migrations
-su - apache -c "cd /home/ec2-user/server && yarn knex migrate:latest"
+su - apache -c "cd $DEPLOY_DIR && yarn knex migrate:latest"
 
 # restart apache
 service httpd start
