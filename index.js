@@ -39,6 +39,8 @@ const server = new ApolloServer({
     auth: req.auth,
     user: req.user,
   }),
+  introspection: true,
+  playground: true,
 });
 
 app.use(compression());
