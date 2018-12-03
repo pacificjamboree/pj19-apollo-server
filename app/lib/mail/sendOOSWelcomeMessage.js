@@ -22,6 +22,7 @@ module.exports = async oos => {
     const text = htmlToText.fromString(html, { ignoreImage: true });
 
     const {
+      oosNumber,
       firstName,
       preferredName,
       lastName,
@@ -34,8 +35,7 @@ module.exports = async oos => {
       : `${firstName} ${lastName}`;
     const messageOptions = {
       to: { name: `${name}`, address: email },
-      subject:
-        'Welcome to the PJ 2019 Adventure Team (${name} - OOS ${oosNumber})',
+      subject: `Welcome to the PJ 2019 Adventure Team (${name} - OOS ${oosNumber})`,
       html,
       text,
     };
