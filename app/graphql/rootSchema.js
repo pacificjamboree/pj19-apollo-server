@@ -18,6 +18,11 @@ const {
   createPatrolScouter,
   updatePatrolScouter,
   createLoginToken,
+  sendOfferOfServiceWelcomeEmail,
+  sendOfferOfServiceWelcomeEmailBatch,
+  sendOfferOfServiceAssignmentEmail,
+  sendOfferOfServiceAssignmentEmailBatch,
+  sendOfferOfServiceWelcomeMessagesBulk,
 } = require('./mutations');
 
 module.exports = gql`
@@ -67,5 +72,20 @@ module.exports = gql`
     createPatrolScouter${createPatrolScouter.mutationField}
     updatePatrolScouter${updatePatrolScouter.mutationField}
     createLoginToken${createLoginToken.mutationField}
+    sendOfferOfServiceWelcomeEmail${
+      sendOfferOfServiceWelcomeEmail.mutationField
+    }
+    sendOfferOfServiceWelcomeEmailBatch${
+      sendOfferOfServiceWelcomeEmailBatch.mutationField
+    }
+    sendOfferOfServiceAssignmentEmail${
+      sendOfferOfServiceAssignmentEmail.mutationField
+    }
+    sendOfferOfServiceAssignmentEmailBatch${
+      sendOfferOfServiceAssignmentEmailBatch.mutationField
+    }
+    sendOfferOfServiceWelcomeMessagesBulk${
+      sendOfferOfServiceWelcomeMessagesBulk.mutationField
+    }
   }
 `;

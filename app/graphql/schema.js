@@ -29,6 +29,12 @@ const {
   updatePatrolScouter,
 
   createLoginToken,
+
+  sendOfferOfServiceWelcomeEmail,
+  sendOfferOfServiceWelcomeEmailBatch,
+  sendOfferOfServiceAssignmentEmail,
+  sendOfferOfServiceAssignmentEmailBatch,
+  sendOfferOfServiceWelcomeMessagesBulk,
 } = require('./mutations');
 
 const {
@@ -82,6 +88,11 @@ module.exports = makeExecutableSchema({
     createPatrolScouter.mutationType,
     updatePatrolScouter.mutationType,
     createLoginToken.mutationType,
+    sendOfferOfServiceWelcomeEmail.mutationType,
+    sendOfferOfServiceWelcomeEmailBatch.mutationType,
+    sendOfferOfServiceAssignmentEmail.mutationType,
+    sendOfferOfServiceAssignmentEmailBatch.mutationType,
+    sendOfferOfServiceWelcomeMessagesBulk.mutationType,
     rootSchema,
   ],
   resolvers,

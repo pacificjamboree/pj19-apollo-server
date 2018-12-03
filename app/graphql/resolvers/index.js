@@ -22,6 +22,11 @@ const {
   createPatrolScouter,
   updatePatrolScouter,
   createLoginToken,
+  sendOfferOfServiceWelcomeEmail,
+  sendOfferOfServiceWelcomeEmailBatch,
+  sendOfferOfServiceAssignmentEmail,
+  sendOfferOfServiceAssignmentEmailBatch,
+  sendOfferOfServiceWelcomeMessagesBulk,
 } = require('../mutations');
 const {
   getOfferOfService,
@@ -116,6 +121,16 @@ module.exports = {
     createPatrolScouter: createPatrolScouter.mutationResolver,
     updatePatrolScouter: updatePatrolScouter.mutationResolver,
     createLoginToken: createLoginToken.mutationResolver,
+    sendOfferOfServiceWelcomeEmail:
+      sendOfferOfServiceWelcomeEmail.mutationResolver,
+    sendOfferOfServiceWelcomeEmailBatch:
+      sendOfferOfServiceWelcomeEmailBatch.mutationResolver,
+    sendOfferOfServiceAssignmentEmail:
+      sendOfferOfServiceAssignmentEmail.mutationResolver,
+    sendOfferOfServiceAssignmentEmailBatch:
+      sendOfferOfServiceAssignmentEmailBatch.mutationResolver,
+    sendOfferOfServiceWelcomeMessagesBulk:
+      sendOfferOfServiceWelcomeMessagesBulk.mutationResolver,
   },
 
   OfferOfService: {
