@@ -52,40 +52,44 @@ module.exports = gql`
   }
 
   type Mutation {
-    createAdventure${createAdventure.mutationField}
+    createAdventure${createAdventure.mutationField} @adminOnly
     updateAdventure${updateAdventure.mutationField}
-    createOfferOfService${createOfferOfService.mutationField}
+    createOfferOfService${createOfferOfService.mutationField} @adminOnly
     toggleOfferOfServiceWorkflowState${
       toggleOfferOfServiceWorkflowState.mutationField
-    }
+    } @adminOnly
     assignOfferOfServiceToAdventure${
       assignOfferOfServiceToAdventure.mutationField
-    }
-    updateOfferOfService${updateOfferOfService.mutationField}
-    batchImportOffersOfService${batchImportOffersOfService.mutationField}
-    assignManagerToAdventure${assignManagerToAdventure.mutationField}
-    removeManagerFromAdventure${removeManagerFromAdventure.mutationField}
-    createUser${createUser.mutationField}
-    updateUser${updateUser.mutationField}
-    createPatrol${createPatrol.mutationField}
-    updatePatrol${updatePatrol.mutationField}
-    createPatrolScouter${createPatrolScouter.mutationField}
-    updatePatrolScouter${updatePatrolScouter.mutationField}
-    createLoginToken${createLoginToken.mutationField}
+    } @adminOnly
+    updateOfferOfService${updateOfferOfService.mutationField} @adminOnly
+    batchImportOffersOfService${
+      batchImportOffersOfService.mutationField
+    } @adminOnly
+    assignManagerToAdventure${assignManagerToAdventure.mutationField} @adminOnly
+    removeManagerFromAdventure${
+      removeManagerFromAdventure.mutationField
+    } @adminOnly
+    createUser${createUser.mutationField} @adminOnly
+    updateUser${updateUser.mutationField} @adminOnly
+    createPatrol${createPatrol.mutationField} @adminOnly
+    updatePatrol${updatePatrol.mutationField} @adminOnly
+    createPatrolScouter${createPatrolScouter.mutationField} @adminOnly
+    updatePatrolScouter${updatePatrolScouter.mutationField} @adminOnly
+    createLoginToken${createLoginToken.mutationField} 
     sendOfferOfServiceWelcomeEmail${
       sendOfferOfServiceWelcomeEmail.mutationField
-    }
+    } @adminOnly
     sendOfferOfServiceWelcomeEmailBatch${
       sendOfferOfServiceWelcomeEmailBatch.mutationField
-    }
+    } @adminOnly
     sendOfferOfServiceAssignmentEmail${
       sendOfferOfServiceAssignmentEmail.mutationField
-    }
+    } @adminOnly
     sendOfferOfServiceAssignmentEmailBatch${
       sendOfferOfServiceAssignmentEmailBatch.mutationField
-    }
+    } @adminOnly
     sendOfferOfServiceWelcomeMessagesBulk${
       sendOfferOfServiceWelcomeMessagesBulk.mutationField
-    }
+    } @adminOnly
   }
 `;
