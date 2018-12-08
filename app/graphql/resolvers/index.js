@@ -137,6 +137,7 @@ module.exports = {
     ...baseOfferOfServiceFieldResolvers,
     assigned: o => o.assigned(),
     assignment: o => o.assignment,
+    isAdventureManager: async o => await o.isAdventureManager(),
   },
   OfferOfServiceNode: baseOfferOfServiceFieldResolvers,
   Adventure: {

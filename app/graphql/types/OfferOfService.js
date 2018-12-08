@@ -25,5 +25,6 @@ module.exports = gql`
     updatedAt: GraphQLDateTime!
     workflowState: WorkflowState
     importId: String
+    isAdventureManager: Boolean
   }
 `;
