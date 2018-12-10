@@ -21,9 +21,7 @@ const selectOfferOfService = async id => {
 const getOfferOfService = input =>
   OfferOfService.query()
     .findOne(whereSearchField(input))
-    .eager(
-      'assignment.[offersOfService]' /*[assignment, assignment.offersOfService]'*/
-    );
+    .eager('[user, assignment.[offersOfService]]');
 
 const getOffersOfService = ({
   workflowState = ['active'],

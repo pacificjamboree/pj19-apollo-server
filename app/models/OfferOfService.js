@@ -6,12 +6,17 @@ class OfferOfService extends Model {
   }
 
   static get relationMappings() {
-    const Adventure = require('./Adventure');
+    const { Adventure, User } = require('./index');
     return {
       assignment: {
         relation: Model.BelongsToOneRelation,
         modelClass: Adventure,
         join: { from: 'oos.assignedAdventureId', to: 'adventure.id' },
+      },
+      user: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: User,
+        join: { from: 'oos.id', to: 'user.oosId' },
       },
     };
   }

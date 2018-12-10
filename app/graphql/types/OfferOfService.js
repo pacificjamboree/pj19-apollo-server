@@ -26,5 +26,6 @@ module.exports = gql`
     workflowState: WorkflowState
     importId: String
     isAdventureManager: Boolean
+    user: User
   }
 `;
