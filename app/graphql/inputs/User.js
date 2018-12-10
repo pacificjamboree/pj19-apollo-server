@@ -7,8 +7,8 @@ module.exports = gql`
 
   input UserDraft {
     username: String!
-    oosId: String
-    patrolScouterId: String
+    oosId: ID
+    patrolScouterId: ID
     admin: Boolean
     password: String
     workflowState: WorkflowState
