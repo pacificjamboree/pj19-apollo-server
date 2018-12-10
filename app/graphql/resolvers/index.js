@@ -27,6 +27,7 @@ const {
   sendOfferOfServiceAssignmentEmail,
   sendOfferOfServiceAssignmentEmailBatch,
   sendOfferOfServiceWelcomeMessagesBulk,
+  sendPasswordResetEmail,
 } = require('../mutations');
 const {
   getOfferOfService,
@@ -131,6 +132,7 @@ module.exports = {
       sendOfferOfServiceAssignmentEmailBatch.mutationResolver,
     sendOfferOfServiceWelcomeMessagesBulk:
       sendOfferOfServiceWelcomeMessagesBulk.mutationResolver,
+    sendPasswordResetEmail: sendPasswordResetEmail.mutationResolver,
   },
 
   OfferOfService: {

@@ -23,6 +23,7 @@ const {
   sendOfferOfServiceAssignmentEmail,
   sendOfferOfServiceAssignmentEmailBatch,
   sendOfferOfServiceWelcomeMessagesBulk,
+  sendPasswordResetEmail,
 } = require('./mutations');
 
 module.exports = gql`
@@ -91,5 +92,6 @@ module.exports = gql`
     sendOfferOfServiceWelcomeMessagesBulk${
       sendOfferOfServiceWelcomeMessagesBulk.mutationField
     } @adminOnly
+    sendPasswordResetEmail${sendPasswordResetEmail.mutationField}
   }
 `;
