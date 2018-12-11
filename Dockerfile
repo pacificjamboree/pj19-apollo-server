@@ -1,4 +1,4 @@
-FROM node:10.10.0-alpine
+FROM node:10.14.1-alpine
 RUN apk --no-cache add --virtual builds-deps build-base python procps shadow
 RUN groupadd -r nodejs && useradd -m -r -g nodejs -s /bin/sh nodejs && mkdir -p /usr/src/app && chown nodejs:nodejs /usr/src/app
 USER nodejs
