@@ -36,6 +36,7 @@ const {
   sendOfferOfServiceAssignmentEmailBatch,
   sendOfferOfServiceWelcomeMessagesBulk,
   sendPasswordResetEmail,
+  resetPassword,
 } = require('./mutations');
 
 const {
@@ -95,6 +96,7 @@ module.exports = makeExecutableSchema({
     sendOfferOfServiceAssignmentEmailBatch.mutationType,
     sendOfferOfServiceWelcomeMessagesBulk.mutationType,
     sendPasswordResetEmail.mutationType,
+    resetPassword.mutationType,
     rootSchema,
   ],
   resolvers,

@@ -1,4 +1,5 @@
 const { fromGlobalId } = require('graphql-relay-tools');
+const jwt = require('jsonwebtoken');
 const { User } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
@@ -61,8 +62,33 @@ const updateUser = async ({ User: input, id, clientMutationId }) => {
   }
 };
 
+const resetPasswordForUser = async ({ passwordResetToken, password }) => {
+  try {
+    // decode the JWT and get the user id
+    const decodedToken = jwt.verify(passwordResetToken, process.env.JWT_SECRET);
+    const { id } = decodedToken.sub;
+    // compare the JWT to the saved reset token, bail if different
+    const user = await User.query()
+      .where({ id })
+      .first();
+    if (user.passwordResetToken !== passwordResetToken) {
+      throw new Error('Tokens no matchy');
+    }
+
+    // hash and set new password
+    const passwordHash = await User.hashPassword(password);
+    await user.$query().patch({ passwordHash, passwordResetToken: null });
+    return {
+      status: 'ok',
+    };
+  } catch (e) {
+    throw e;
+  }
+};
+
 module.exports = {
   getUser,
   createUser,
   updateUser,
+  resetPasswordForUser,
 };
