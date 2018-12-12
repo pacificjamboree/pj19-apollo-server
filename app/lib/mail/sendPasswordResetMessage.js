@@ -1,12 +1,6 @@
-const htmlToText = require('html-to-text');
 const dedent = require('dedent');
 const transporter = require('./smtp');
 const { BASE_URL } = process.env;
-
-const messageText = `
-
-
-`;
 
 module.exports = async ({ user, token }) => {
   try {

@@ -332,7 +332,7 @@ module.exports = ({ username, resetUrl }) => /*html*/ `
                                               <tbody>
                                                 <tr style="padding: 0; text-align: left; vertical-align: top;">
                                                 <td style="-moz-hyphens: auto; -webkit-hyphens: auto; background: #00b5ad; border: 2px solid #00b5ad; border-collapse: collapse !important; color: #fefefe; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; hyphens: auto; line-height: 1.3; margin: 0; padding: 0; text-align: left; vertical-align: top; word-wrap: break-word;">
-                                                <a href="href="${resetUrl}">
+                                                <a href="${resetUrl}">
                                                       <center data-parsed="" style="min-width: 532px; width: 100%;">
                                                         <p class="button large float-center" style="border: 0 solid #00b5ad; border-radius: 3px; color: #fefefe; display: inline-block; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: bold; line-height: 1.3; margin: 0; padding: 10px 20px 10px 20px; text-align: left; text-decoration: none;">Reset Password</p>
                                                       </center>
