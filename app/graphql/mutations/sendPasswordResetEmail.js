@@ -19,10 +19,11 @@ const sendPasswordResetEmail = mutationWithClientMutationId({
         .where({ username })
         .first();
 
+      // we return an 'ok' status even when no user
+      // matches the input to avoid leaking valid/invalid usernames
       if (!user)
         return {
-          status: 'error',
-          error: 'No user found',
+          status: 'ok',
         };
 
       if (!['active', 'pending'].includes(user.workflowState)) {
