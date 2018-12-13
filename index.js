@@ -11,24 +11,33 @@ const { User } = require('./app/models');
 const { login } = require('./app/routes');
 
 const addUserMiddleware = async (req, res, next) => {
-  if (req.auth === undefined) return next();
-  const user = await User.query()
-    .where({ id: req.auth.sub.id })
-    .select([
-      'id',
-      'oosId',
-      'patrolScouterId',
-      'username',
-      'workflowState',
-      'admin',
-    ])
-    .first();
-  const roles = await user.calculateRoles();
-  req.user = {
-    ...user,
-    roles,
-  };
-  next();
+  try {
+    if (req.auth === undefined) return next();
+    const user = await User.query()
+      .where({ id: req.auth.sub.id })
+      .select([
+        'id',
+        'oosId',
+        'patrolScouterId',
+        'username',
+        'workflowState',
+        'admin',
+      ])
+      .first();
+    if (!user) {
+      res.status(401).send({ error: 'Unauthorized' });
+      return;
+    }
+    const roles = await user.calculateRoles();
+    req.user = {
+      ...user,
+      roles,
+    };
+    next();
+  } catch (e) {
+    console.log('caught?');
+    throw e;
+  }
 };
 
 const app = express();
