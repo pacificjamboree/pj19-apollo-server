@@ -46,6 +46,7 @@ module.exports = async oos => {
     }
 
     transporter.sendMail(messageOptions);
+    await oos.$query().patch({ welcomeEmailSentAt: new Date() });
   } catch (e) {
     throw e;
   }

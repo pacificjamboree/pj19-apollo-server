@@ -40,6 +40,7 @@ module.exports = async oos => {
       messageOptions.bcc = 'safescouting.pj@scouts.ca';
     }
     transporter.sendMail(messageOptions);
+    await oos.$query().patch({ assignmentEmailSentAt: new Date() });
   } catch (e) {
     throw e;
   }
