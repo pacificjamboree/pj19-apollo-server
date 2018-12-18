@@ -192,6 +192,42 @@ const batchImportOffersOfService = async ({ OffersOfService }) => {
   }
 };
 
+const totalOfferOfServiceCount = async () => {
+  try {
+    const { count } = await OfferOfService.query()
+      .count('id')
+      .where({ workflowState: 'active' })
+      .first();
+    return count;
+  } catch (e) {
+    throw e;
+  }
+};
+
+const totalAssignedOfferOfServiceCount = async () => {
+  try {
+    const { count } = await OfferOfService.query()
+      .count('id')
+      .whereNotNull('assigned_adventure_id')
+      .first();
+    return count || 0;
+  } catch (e) {
+    throw e;
+  }
+};
+
+const totalUnassignedOfferOfServiceCount = async () => {
+  try {
+    const { count } = await OfferOfService.query()
+      .count('id')
+      .whereNull('assigned_adventure_id')
+      .first();
+    return count || 0;
+  } catch (e) {
+    throw e;
+  }
+};
+
 module.exports = {
   selectOfferOfService,
   getOfferOfService,
@@ -201,4 +237,7 @@ module.exports = {
   changeAssignment,
   updateOfferOfService,
   batchImportOffersOfService,
+  totalOfferOfServiceCount,
+  totalAssignedOfferOfServiceCount,
+  totalUnassignedOfferOfServiceCount,
 };

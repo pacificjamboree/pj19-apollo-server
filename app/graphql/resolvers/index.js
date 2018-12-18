@@ -33,6 +33,9 @@ const {
 const {
   getOfferOfService,
   getOffersOfService,
+  totalOfferOfServiceCount,
+  totalAssignedOfferOfServiceCount,
+  totalUnassignedOfferOfServiceCount,
 } = require('../resolvers/offerOfService');
 const { getAdventure, getAdventures } = require('../resolvers/adventure');
 const { getPatrol, getPatrols } = require('../resolvers/patrol');
@@ -84,6 +87,7 @@ module.exports = {
     // offers of service
     offerOfService: (_, { search }) => getOfferOfService(search),
     offersOfService: (_, { filters = {} }) => getOffersOfService(filters),
+    offerOfServiceCount: () => ({}),
 
     // adventures
     adventure: (_, { search }) => getAdventure(search),
@@ -135,6 +139,12 @@ module.exports = {
       sendOfferOfServiceWelcomeMessagesBulk.mutationResolver,
     sendPasswordResetEmail: sendPasswordResetEmail.mutationResolver,
     resetPassword: resetPassword.mutationResolver,
+  },
+
+  OfferOfServiceCount: {
+    total: () => totalOfferOfServiceCount(),
+    assigned: () => totalAssignedOfferOfServiceCount(),
+    unassigned: () => totalUnassignedOfferOfServiceCount(),
   },
 
   OfferOfService: {
