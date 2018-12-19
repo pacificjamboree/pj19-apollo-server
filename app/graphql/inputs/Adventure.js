@@ -11,6 +11,11 @@ module.exports = gql`
     periodsRequired: Int!
     premiumAdventure: Boolean = false
     fee: Float = 0.00
+    hidden: Boolean = false
+    pdrPlan: [String]
+    pdrDo: [String]
+    pdrReview: [String]
+    pdrSafetyTips: [String]
   }
 
   input AdventureUpdate {
