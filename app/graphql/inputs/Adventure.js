@@ -16,6 +16,7 @@ module.exports = gql`
     pdrDo: [String]
     pdrReview: [String]
     pdrSafetyTips: [String]
+    workflowState: WorkflowState = active
   }
 
   input AdventureUpdate {
@@ -48,5 +49,4 @@ module.exports = gql`
     themeName: String
     premiumAdventure: Boolean
   }
-
 `;
