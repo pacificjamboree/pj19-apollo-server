@@ -43,10 +43,16 @@ const getAdventures = ({
 };
 
 const createAdventure = async ({ Adventure: input, clientMutationId }) => {
+  ['pdrPlan', 'pdrDo', 'pdrReview', 'pdrSafetyTips'].forEach(x => {
+    if (input[x]) {
+      input[x] = JSON.stringify(input[x]);
+    }
+  });
   try {
     const adventure = await Adventure.query()
       .insert(input)
       .returning('*');
+
     return {
       Adventure: adventure,
     };
