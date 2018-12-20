@@ -48,6 +48,8 @@ const { getUser } = require('../resolvers/user');
 
 const { getViewer } = require('../resolvers/viewer');
 
+const { UnauthorizedActionError } = require('../errors');
+
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 
 const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
@@ -85,7 +87,22 @@ module.exports = {
     viewer: (_, __, { user }) => (user ? getViewer(user.id) : null),
 
     // offers of service
-    offerOfService: (_, { search }) => getOfferOfService(search),
+    offerOfService: async function(_, { search }, { user }) {
+      const oos = await getOfferOfService(search);
+      if (
+        // must be an admin
+        user.roles.includes('admin') ||
+        // or a manager of the adventure to which the oos is assigned
+        (user.roles.includes('adventureManager') &&
+          oos.assignment.managers.map(x => x.id).includes(user.oosId)) ||
+        // or the actual oos
+        user.oosId === oos.id
+      ) {
+        return oos;
+      } else {
+        throw new UnauthorizedActionError();
+      }
+    },
     offersOfService: (_, { filters = {} }) => getOffersOfService(filters),
     offerOfServiceCount: () => ({}),
 

@@ -33,7 +33,7 @@ module.exports = gql`
   scalar GraphQLDateTime
 
   type Query {
-    offerOfService(search: OfferOfServiceSearchInput!): OfferOfService @adminOnly
+    offerOfService(search: OfferOfServiceSearchInput!): OfferOfService @isAuthenticated
     offersOfService(filters: OfferOfServiceFilters): [OfferOfService] @adminOnly
     offerOfServiceCount: OfferOfServiceCount
 
