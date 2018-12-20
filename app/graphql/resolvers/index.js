@@ -157,6 +157,8 @@ module.exports = {
   Adventure: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
+    fullName: ({ name, themeName }) =>
+      themeName ? `${themeName} (${name})` : name,
     pdrPlan: ({ pdrPlan }) => pdrPlan || [],
     pdrDo: ({ pdrDo }) => pdrDo || [],
     pdrReview: ({ pdrReview }) => pdrReview || [],

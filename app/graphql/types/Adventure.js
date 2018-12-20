@@ -7,6 +7,7 @@ module.exports = gql`
     adventureCode: String!
     name: String!
     themeName: String!
+    fullName: String
     description: String
     location: AdventureLocation
     capacityPerPeriod: Int!
