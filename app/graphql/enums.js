@@ -17,6 +17,11 @@ module.exports = gql`
     oosNumber
   }
 
+  enum OfferOfServiceForAdventureSearchFields {
+    id
+    _id
+  }
+
   enum AdventureSearchFields {
     id
     _id

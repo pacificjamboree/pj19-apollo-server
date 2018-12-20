@@ -35,6 +35,7 @@ module.exports = gql`
   type Query {
     offerOfService(search: OfferOfServiceSearchInput!): OfferOfService @isAuthenticated
     offersOfService(filters: OfferOfServiceFilters): [OfferOfService] @adminOnly
+    offersOfServiceForAdventure(search: OfferOfServiceForAdventureSearchInput!): [OfferOfService] @isAuthenticated
     offerOfServiceCount: OfferOfServiceCount
 
     adventure(search: AdventureSearchInput!): Adventure

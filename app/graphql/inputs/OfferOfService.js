@@ -5,6 +5,11 @@ module.exports = gql`
     value: String!
   }
 
+  input OfferOfServiceForAdventureSearchInput {
+    searchField: OfferOfServiceForAdventureSearchFields!
+    value: String!
+  }
+
   input OfferOfServiceDraft {
     oosNumber: String!
     firstName: String!

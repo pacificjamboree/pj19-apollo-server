@@ -33,6 +33,7 @@ const {
 const {
   getOfferOfService,
   getOffersOfService,
+  getOffersOfServiceForAdventure,
   totalOfferOfServiceCount,
   totalAssignedOfferOfServiceCount,
   totalUnassignedOfferOfServiceCount,
@@ -104,6 +105,20 @@ module.exports = {
       }
     },
     offersOfService: (_, { filters = {} }) => getOffersOfService(filters),
+
+    offersOfServiceForAdventure: async (_, { search }, { user }) => {
+      const adventure = await getAdventure(search);
+      if (
+        user.roles.includes('admin') ||
+        (user.roles.includes('adventureManager') &&
+          adventure.managers.map(x => x.id).includes(user.oosId))
+      ) {
+        return getOffersOfServiceForAdventure(search);
+      } else {
+        throw new UnauthorizedActionError();
+      }
+    },
+
     offerOfServiceCount: () => ({}),
 
     // adventures

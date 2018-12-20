@@ -68,6 +68,15 @@ const getOffersOfService = ({
     .orderBy('oosNumber');
 };
 
+const getOffersOfServiceForAdventure = async input => {
+  const assignedAdventureId = whereSearchField(input).id;
+  return OfferOfService.query()
+    .eager('assignment')
+    .where({
+      assignedAdventureId,
+    });
+};
+
 const createOfferOfService = async ({
   OfferOfService: input,
   clientMutationId,
@@ -232,6 +241,7 @@ module.exports = {
   selectOfferOfService,
   getOfferOfService,
   getOffersOfService,
+  getOffersOfServiceForAdventure,
   createOfferOfService,
   toggleWorkflowState,
   changeAssignment,
