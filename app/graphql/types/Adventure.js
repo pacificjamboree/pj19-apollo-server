@@ -20,6 +20,8 @@ module.exports = gql`
     pdrDo: [String]
     pdrReview: [String]
     pdrSafetyTips: [String]
+    oosRequired: Int @managerOnly
+    oosAssignedCount: Int @managerOnly
     OffersOfServiceConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     ManagersConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     createdAt: GraphQLDateTime!

@@ -163,6 +163,7 @@ module.exports = {
     pdrDo: ({ pdrDo }) => pdrDo || [],
     pdrReview: ({ pdrReview }) => pdrReview || [],
     pdrSafetyTips: ({ pdrSafetyTips }) => pdrSafetyTips || [],
+    oosAssignedCount: adventure => adventure.offersOfService.length,
     OffersOfServiceConnection: (adventure, args) =>
       connectionFromArray(adventure.offersOfService, args),
     ManagersConnection: (adventure, args) =>

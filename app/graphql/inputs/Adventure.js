@@ -17,6 +17,7 @@ module.exports = gql`
     pdrReview: [String]
     pdrSafetyTips: [String]
     workflowState: WorkflowState = active
+    oosRequired: Int
   }
 
   input AdventureUpdate {
@@ -35,6 +36,7 @@ module.exports = gql`
     pdrDo: [String]
     pdrReview: [String]
     pdrSafetyTips: [String]
+    oosRequired: Int
   }
 
   input AdventureSearchInput {
