@@ -18,7 +18,7 @@ module.exports = async ({ user, token }) => {
       We've received a request to reset your password for your "${username}" account on the
       2019 Pacific Jamboree Adventure site.
 
-      Your passwor reset link is:
+      Your password reset link is:
       ${resetUrl}
       
       This link is good for the next one hour and can only be
@@ -33,7 +33,7 @@ module.exports = async ({ user, token }) => {
       adventure@pacificjamboree.ca
       `,
     };
-    transporter.sendMail(messageOptions);
+    await transporter.sendMail(messageOptions);
   } catch (e) {
     throw e;
   }
