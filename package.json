@@ -8,7 +8,9 @@
     "test-docker": "docker-compose run -e NODE_ENV=test --rm web yarn test --watchAll --runInBand",
     "knex": "knex --knexfile ./db/knexfile.js",
     "start": "node index.js",
-    "createdb": "docker-compose exec -u postgres db createdb pj"
+    "createuser": "docker-compose exec -u postgres db createuser -s pj",
+    "createdb": "docker-compose exec -u postgres db createdb pj -O pj",
+    "initdb": "yarn createuser && yarn createdb"
   },
   "keywords": [],
   "author": "",

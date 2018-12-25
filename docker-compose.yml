@@ -1,9 +1,9 @@
 version: '3'
 services:
   db:
-    image: postgres:9.6.6-alpine
-    ports: 
-      - "55432:5432"
+    image: postgres:10.4-alpine
+    ports:
+      - '55432:5432'
   web:
     build: .
     command: ./node_modules/.bin/nodemon --ext js,graphql,json /usr/src/app/index.js
@@ -11,7 +11,7 @@ services:
       - .:/usr/src/app
       - node_modules:/usr/src/app/node_modules
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - db
     links:
