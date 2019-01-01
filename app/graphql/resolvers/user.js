@@ -77,7 +77,13 @@ const resetPasswordForUser = async ({ passwordResetToken, password }) => {
 
     // hash and set new password
     const passwordHash = await User.hashPassword(password);
-    await user.$query().patch({ passwordHash, passwordResetToken: null });
+    await user
+      .$query()
+      .patch({
+        passwordHash,
+        passwordResetToken: null,
+        workflowState: 'active',
+      });
     return {
       status: 'ok',
     };
