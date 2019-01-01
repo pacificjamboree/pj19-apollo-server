@@ -26,7 +26,7 @@ const sendPasswordResetEmail = mutationWithClientMutationId({
           status: 'ok',
         };
 
-      if (!['active', 'pending'].includes(user.workflowState)) {
+      if (!['active', 'defined'].includes(user.workflowState)) {
         return {
           status: 'error',
           error: 'Can not reset password for this user',
