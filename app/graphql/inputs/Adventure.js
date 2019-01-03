@@ -5,6 +5,7 @@ module.exports = gql`
     name: String!
     themeName: String!
     description: String
+    oosDescription: String
     location: AdventureLocation!
     capacityPerPeriod: Int!
     periodsOffered: Int!
@@ -25,6 +26,7 @@ module.exports = gql`
     name: String
     themeName: String
     description: String
+    oosDescription: String
     location: AdventureLocation
     capacityPerPeriod: Int
     periodsOffered: Int

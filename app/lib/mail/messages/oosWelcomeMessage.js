@@ -6,7 +6,7 @@ const adventureList = adventures =>
           a.id
         }" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">${
           a.name
-        }</a>: ${a.description}</p>`
+        }</a>${a.oosDescription ? `: ${a.oosDescription}` : ''}</p>`
     )
     .join('\n');
 

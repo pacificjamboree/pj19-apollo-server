@@ -9,6 +9,7 @@ module.exports = gql`
     themeName: String!
     fullName: String
     description: String
+    oosDescription: String
     location: AdventureLocation
     capacityPerPeriod: Int!
     periodsOffered: Int!

@@ -9,7 +9,8 @@ module.exports = async oos => {
   try {
     const allAdventures = await Adventure.query()
       .eager('offersOfService')
-      .where('workflowState', 'active');
+      .where('workflowState', 'active')
+      .andWhere('hidden', false);
     const adventures = allAdventures.filter(
       a => a.offersOfService.length < a.oosRequired
     );

@@ -5,4 +5,5 @@ const sendPasswordResetMessage = require('./sendPasswordResetMessage');
 module.exports = {
   sendOOSAssignmentMessage,
   sendOOSWelcomeMessage,
+  sendPasswordResetMessage,
 };
