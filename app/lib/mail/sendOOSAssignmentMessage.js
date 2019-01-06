@@ -30,7 +30,7 @@ module.exports = async oos => {
     const messageOptions = {
       to: { name, address: email },
       cc,
-      bcc: ['adventure@pacificjamboree.ca'],
+      bcc: [process.env.SMTP_FROM_ADDRESS],
       subject: `PJ 2019 Program Offer of Service Assignment (${name} - OOS ${oosNumber})  ${
         isYouth ? '(Y)' : ''
       }`,
