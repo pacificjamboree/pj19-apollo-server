@@ -52,7 +52,7 @@ module.exports = async oos => {
       messageOptions.cc = parentEmail;
       messageOptions.bcc.push = 'safescouting.pj@scouts.ca';
     }
-    console.log(messageOptions);
+
     await transporter.sendMail(messageOptions);
     await oos.$query().patch({ welcomeEmailSentAt: new Date() });
   } catch (e) {

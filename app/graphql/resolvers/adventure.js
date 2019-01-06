@@ -1,15 +1,28 @@
-const { fromGlobalId } = require('graphql-relay-tools');
+const { toGlobalId, fromGlobalId } = require('graphql-relay-tools');
 const { Adventure } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 const { selectOfferOfService } = require('./offerOfService');
 
 const ADVENTURE_EAGERS = '[offersOfService, managers]';
 
-const getAdventure = input =>
-  Adventure.query()
+const getAdventure = input => {
+  if (input.searchField === 'id') {
+    // this is here because at one point the welcome email
+    // was sent using the DB ID as the URL slug,
+    // and not the global-unique ID.
+
+    // if the "id" is a UUID, convert it to the global id
+    const re = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (input.value.match(re)) {
+      input.value = toGlobalId('Adventuyre', input.value);
+    }
+  }
+
+  return Adventure.query()
     .where(whereSearchField(input))
     .eager(ADVENTURE_EAGERS)
     .first();
+};
 
 const getAdventures = ({
   workflowState = ['active'],
