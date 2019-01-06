@@ -40,14 +40,17 @@ module.exports = async oos => {
       : `${firstName} ${lastName}`;
     const messageOptions = {
       to: { name: `${name}`, address: email },
-      subject: `Welcome to the PJ 2019 Adventure Team (${name} - OOS ${oosNumber})`,
+      bcc: ['adventure@pacificjamboree.ca'],
+      subject: `Welcome to the PJ 2019 Adventure Team (${name} - OOS ${oosNumber} ${
+        isYouth ? '(Y)' : ''
+      })`,
       html,
       text,
     };
 
     if (process.env.NODE_ENV === 'production' && isYouth && parentEmail) {
       messageOptions.cc = parentEmail;
-      messageOptions.bcc = 'safescouting.pj@scouts.ca';
+      messageOptions.bcc.push = 'safescouting.pj@scouts.ca';
     }
 
     await transporter.sendMail(messageOptions);
