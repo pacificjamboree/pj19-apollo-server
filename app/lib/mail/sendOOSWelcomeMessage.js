@@ -11,9 +11,13 @@ module.exports = async oos => {
       .eager('offersOfService')
       .where('workflowState', 'active')
       .andWhere('hidden', false);
-    const adventures = allAdventures.filter(
-      a => a.offersOfService.length < a.oosRequired
-    );
+    const adventures = allAdventures
+      .filter(a => a.offersOfService.length < a.oosRequired)
+      .sort((a, b) => {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+      });
     const template = require('./messages/oosWelcomeMessage');
     const html = template({
       oos,
