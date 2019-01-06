@@ -27,5 +27,7 @@ module.exports = gql`
     importId: String
     isAdventureManager: Boolean
     user: User
+    welcomeEmailSentAt: GraphQLDateTime
+    assignmentEmailSentAt: GraphQLDateTime
   }
 `;
