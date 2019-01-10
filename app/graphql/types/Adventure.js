@@ -24,6 +24,7 @@ module.exports = gql`
     oosRequired: Int @managerOnly
     adultOOSRequired: Int @managerOnly
     oosAssignedCount: Int @managerOnly
+    adultOOSAssignedCount: Int @managerOnly
     OffersOfServiceConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     ManagersConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     createdAt: GraphQLDateTime!

@@ -197,6 +197,8 @@ module.exports = {
     pdrSafetyTips: ({ pdrSafetyTips }) => pdrSafetyTips || [],
     adultOOSRequired: adventure => adventure.adultOosRequired,
     oosAssignedCount: adventure => adventure.offersOfService.length,
+    adultOOSAssignedCount: adventure =>
+      adventure.offersOfService.filter(o => !o.isYouth).length,
     OffersOfServiceConnection: (adventure, args) =>
       connectionFromArray(adventure.offersOfService, args),
     ManagersConnection: (adventure, args) =>
