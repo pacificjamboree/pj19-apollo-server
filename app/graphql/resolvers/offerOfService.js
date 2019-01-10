@@ -1,5 +1,5 @@
 const { transaction } = require('objection');
-const { OfferOfService } = require('../../models');
+const { OfferOfService, Adventure } = require('../../models');
 const { fromGlobalId } = require('graphql-relay-tools');
 const whereSearchField = require('../../lib/whereSearchField');
 
@@ -201,13 +201,26 @@ const batchImportOffersOfService = async ({ OffersOfService }) => {
   }
 };
 
-const totalOfferOfServiceCount = async () => {
+const totalOfferOfServiceAllocatedCount = async () => {
   try {
     const { count } = await OfferOfService.query()
       .count('id')
       .where({ workflowState: 'active' })
       .first();
     return count;
+  } catch (e) {
+    throw e;
+  }
+};
+
+const totalAdultOfferOfServiceAllocatedCount = async () => {
+  try {
+    const { count } = await OfferOfService.query()
+      .count('id')
+      .where({ workflowState: 'active' })
+      .andWhere({ isYouth: false })
+      .first();
+    return count || 0;
   } catch (e) {
     throw e;
   }
@@ -237,6 +250,27 @@ const totalUnassignedOfferOfServiceCount = async () => {
   }
 };
 
+const totalOOSRequiredCount = async () => {
+  try {
+    const { sum } = await Adventure.query()
+      .sum('oos_required')
+      .first();
+    return sum || 0;
+  } catch (e) {
+    throw e;
+  }
+};
+
+const totalAdultOOSRequiredCount = async () => {
+  try {
+    const { sum } = await Adventure.query()
+      .sum('adult_oos_required')
+      .first();
+    return sum || 0;
+  } catch (e) {
+    throw e;
+  }
+};
 module.exports = {
   selectOfferOfService,
   getOfferOfService,
@@ -247,7 +281,10 @@ module.exports = {
   changeAssignment,
   updateOfferOfService,
   batchImportOffersOfService,
-  totalOfferOfServiceCount,
+  totalOfferOfServiceAllocatedCount,
+  totalAdultOfferOfServiceAllocatedCount,
   totalAssignedOfferOfServiceCount,
   totalUnassignedOfferOfServiceCount,
+  totalOOSRequiredCount,
+  totalAdultOOSRequiredCount,
 };

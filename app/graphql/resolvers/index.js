@@ -34,9 +34,12 @@ const {
   getOfferOfService,
   getOffersOfService,
   getOffersOfServiceForAdventure,
-  totalOfferOfServiceCount,
+  totalOfferOfServiceAllocatedCount,
+  totalAdultOfferOfServiceAllocatedCount,
   totalAssignedOfferOfServiceCount,
   totalUnassignedOfferOfServiceCount,
+  totalOOSRequiredCount,
+  totalAdultOOSRequiredCount,
 } = require('../resolvers/offerOfService');
 const { getAdventure, getAdventures } = require('../resolvers/adventure');
 const { getPatrol, getPatrols } = require('../resolvers/patrol');
@@ -174,7 +177,10 @@ module.exports = {
   },
 
   OfferOfServiceCount: {
-    total: () => totalOfferOfServiceCount(),
+    required: () => totalOOSRequiredCount(),
+    adultRequired: () => totalAdultOOSRequiredCount(),
+    allocated: () => totalOfferOfServiceAllocatedCount(),
+    adultAllocated: () => totalAdultOfferOfServiceAllocatedCount(),
     assigned: () => totalAssignedOfferOfServiceCount(),
     unassigned: () => totalUnassignedOfferOfServiceCount(),
   },
