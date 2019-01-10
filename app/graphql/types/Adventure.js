@@ -22,6 +22,7 @@ module.exports = gql`
     pdrReview: [String]
     pdrSafetyTips: [String]
     oosRequired: Int @managerOnly
+    adultOOSRequired: Int @managerOnly
     oosAssignedCount: Int @managerOnly
     OffersOfServiceConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     ManagersConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
