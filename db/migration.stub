@@ -1,7 +1,7 @@
-exports.up = (knex, Promise) => {
+exports.up = knex => {
 
 };
 
-exports.down = (knex, Promise) => {
+exports.down = knex => {
 
 };
