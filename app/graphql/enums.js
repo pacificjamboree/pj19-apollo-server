@@ -52,4 +52,10 @@ module.exports = gql`
     adventureManager
     admin
   }
+
+  enum Subcamp {
+    S
+    O
+    V
+  }
 `;

@@ -213,7 +213,7 @@ module.exports = {
   Patrol: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
-    fullyPaid: ({ finalPaymentReceived }) => !!finalPaymentReceived,
+    fullyPaid: ({ finalPaymentDate }) => !!finalPaymentDate,
     totalUnitSize: ({ numberOfScouts, numberOfScouters }) =>
       numberOfScouts + numberOfScouters,
     PatrolScoutersConnection: (patrol, args) =>
