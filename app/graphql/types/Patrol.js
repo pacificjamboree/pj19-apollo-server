@@ -5,8 +5,8 @@ module.exports = gql`
     id: ID!
     _id: ID!
     patrolNumber: String!
-    group_name: String!
-    patrol_name: String!
+    groupName: String!
+    patrolName: String!
     subcamp: Subcamp
     numberOfScouts: Int!
     numberOfScouters: Int!
