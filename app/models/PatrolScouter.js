@@ -8,10 +8,10 @@ class PatrolScouter extends Model {
   static get relationMappings() {
     const Patrol = require('./Patrol');
     return {
-      patrol: {
-        relation: Model.HasOneRelation,
+      patrols: {
+        relation: Model.HasManyRelation,
         modelClass: Patrol,
-        join: { from: 'patrol_scouter.patrolId', to: 'patrol.id' },
+        join: { from: 'patrol_scouter.id', to: 'patrol.patrolScouterId' },
       },
     };
   }
