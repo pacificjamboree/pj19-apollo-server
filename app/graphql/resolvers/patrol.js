@@ -5,7 +5,7 @@ const whereSearchField = require('../../lib/whereSearchField');
 const getPatrol = input =>
   Patrol.query()
     .where(whereSearchField(input))
-    .eager('patrolScouters')
+    .eager('patrolScouter')
     .first();
 
 const getPatrols = ({ workflowState = 'active', name, fullyPaid }) => {
@@ -22,6 +22,7 @@ const getPatrols = ({ workflowState = 'active', name, fullyPaid }) => {
   };
 
   return Patrol.query()
+    .eager('patrolScouter')
     .whereIn('workflowState', workflowState)
     .modify(nameFilter, name)
     .modify(fullyPaidFilter, fullyPaid);

@@ -5,7 +5,7 @@ const whereSearchField = require('../../lib/whereSearchField');
 const getPatrolScouter = input =>
   PatrolScouter.query()
     .where(whereSearchField(input))
-    .eager('patrol')
+    .eager('patrols')
     .first();
 
 const getPatrolScouters = ({
@@ -15,9 +15,11 @@ const getPatrolScouters = ({
 }) => {
   const nameFilter = (qb, name) => {
     if (name === undefined) return;
-    qb
-      .where('firstName', 'ilike', `${name}%`)
-      .orWhere('lastName', 'ilike', `${name}%`);
+    qb.where('firstName', 'ilike', `${name}%`).orWhere(
+      'lastName',
+      'ilike',
+      `${name}%`
+    );
   };
 
   const patrolNumberFilter = (qb, patrolNumber) => {
@@ -32,6 +34,7 @@ const getPatrolScouters = ({
   };
 
   return PatrolScouter.query()
+    .eager('patrols')
     .whereIn('workflowState', workflowState)
     .modify(nameFilter, name)
     .modify(patrolNumberFilter, patrolNumber);

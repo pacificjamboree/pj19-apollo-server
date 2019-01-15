@@ -1,4 +1,3 @@
-const { connectionArgs } = require('graphql-relay-tools');
 const gql = require('../gql');
 module.exports = gql`
   type Patrol implements Node {
@@ -13,7 +12,7 @@ module.exports = gql`
     totalUnitSize: Int!
     fullyPaid: Boolean!
     finalPaymentReceived: GraphQLDate
-    PatrolScoutersConnection${connectionArgs()}: PatrolScoutersConnection
+    patrolScouter: PatrolScouter
     workflowState: WorkflowState!
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!

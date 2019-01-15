@@ -216,15 +216,13 @@ module.exports = {
     fullyPaid: ({ finalPaymentDate }) => !!finalPaymentDate,
     totalUnitSize: ({ numberOfScouts, numberOfScouters }) =>
       numberOfScouts + numberOfScouters,
-    PatrolScoutersConnection: (patrol, args) =>
-      connectionFromArray(patrol.patrolScouters, args),
   },
   PatrolScouter: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
     fullName: ({ firstName, lastName }) => `${firstName} ${lastName}`,
-    Patrol: ({ patrolId }) =>
-      getPatrol({ searchField: '_id', value: patrolId }),
+    Patrols: patrolScouter =>
+      console.log(patrolScouter) || patrolScouter.patrols,
   },
 
   User: {
