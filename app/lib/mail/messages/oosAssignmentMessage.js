@@ -363,7 +363,7 @@ module.exports = oos => /*html*/ `
                                     (${oos.assignment.name})</b>.</p>
 
                                     ${
-                                      oos.assignment.managers
+                                      oos.assignment.managers.length
                                         ? /*html*/ `
                                     <p style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       The Adventure ${pluralize(
@@ -383,7 +383,7 @@ module.exports = oos => /*html*/ `
   `
                                         : /*html*/ `
                                           <p style = "color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                            An Adventure Manager has not yet been recruited to the activity. When your manager is in place, they will be in touch with you directly to provide more information about your Adventure.
+                                            There is no designated Adventure Manager for this activity. You will be contacted soon with more details about this Adventure.
                                           </p>
                                     `
                                     }
