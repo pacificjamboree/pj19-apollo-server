@@ -15,6 +15,7 @@ const {
   updateUser,
   createPatrol,
   updatePatrol,
+  batchImportPatrols,
   createPatrolScouter,
   updatePatrolScouter,
   createLoginToken,
@@ -77,6 +78,7 @@ module.exports = gql`
     updateUser${updateUser.mutationField} @adminOnly
     createPatrol${createPatrol.mutationField} @adminOnly
     updatePatrol${updatePatrol.mutationField} @adminOnly
+    batchImportPatrols${batchImportPatrols.mutationField} @adminOnly
     createPatrolScouter${createPatrolScouter.mutationField} @adminOnly
     updatePatrolScouter${updatePatrolScouter.mutationField} @adminOnly
     createLoginToken${createLoginToken.mutationField} 

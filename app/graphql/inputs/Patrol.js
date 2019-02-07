@@ -28,4 +28,17 @@ module.exports = gql`
     searchField: PatrolSearchFields!
     value: String!
   }
+
+  input PatrolImportDraft {
+    patrolNumber: String!
+    groupName: String!
+    patrolName: String!
+    subcamp: String!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phone: String!
+    numberOfScouts: Int!
+    numberOfScouters: Int!
+  }
 `;

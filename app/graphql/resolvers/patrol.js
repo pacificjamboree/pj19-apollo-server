@@ -1,5 +1,5 @@
 const { fromGlobalId } = require('graphql-relay-tools/dist/node');
-const { Patrol } = require('../../models');
+const { Patrol, PatrolScouter } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
 const getPatrol = input =>
@@ -56,9 +56,70 @@ const updatePatrol = async ({ Patrol: input, clientMutationId, id }) => {
   }
 };
 
+const batchImportPatrols = async (
+  { Patrols: newPatrols },
+  clientMutationId
+) => {
+  let errors = [];
+  let patrols = [];
+
+  for (const patrol of newPatrols) {
+    try {
+      // does patrolScouter exist?
+      let scouter = await PatrolScouter.query()
+        .where({ email: patrol.email })
+        .returning('id')
+        .first();
+
+      // if not, create one
+      if (!scouter) {
+        scouter = await PatrolScouter.query()
+          .insert({
+            firstName: patrol.firstName,
+            lastName: patrol.lastName,
+            phone: patrol.phone,
+            email: patrol.email,
+            workflowState: 'active',
+          })
+          .returning('id');
+      }
+
+      // now create the patrol with the patrolScouter ID as FK
+      const p = await Patrol.query()
+        .insert({
+          patrolNumber: patrol.patrolNumber,
+          subcamp: patrol.subcamp,
+          groupName: patrol.groupName,
+          patrolName: patrol.patrolName,
+          numberOfScouts: patrol.numberOfScouts,
+          numberOfScouters: patrol.numberOfScouters,
+          patrolScouterId: scouter.id,
+          workflowState: 'active',
+        })
+        .returning('*');
+
+      p.patrolScouter = await p.$relatedQuery('patrolScouter');
+      patrols.push(p);
+    } catch (error) {
+      patrols.push(error);
+      // console.log({ error });
+      // errors.push({ patrol, error });
+    }
+  }
+  const ret = {
+    newPatrols: patrols,
+  };
+
+  // if (errors.length) {
+  //   ret.error = errors;
+  // }
+  return ret;
+};
+
 module.exports = {
   getPatrol,
   getPatrols,
   createPatrol,
   updatePatrol,
+  batchImportPatrols,
 };
