@@ -40,6 +40,7 @@ const {
   totalUnassignedOfferOfServiceCount,
   totalOOSRequiredCount,
   totalAdultOOSRequiredCount,
+  offerOfServiceOverdueAssignment,
 } = require('../resolvers/offerOfService');
 const { getAdventure, getAdventures } = require('../resolvers/adventure');
 const { getPatrol, getPatrols } = require('../resolvers/patrol');
@@ -123,6 +124,8 @@ module.exports = {
     },
 
     offerOfServiceCount: () => ({}),
+
+    offerOfServiceOverdueAssignment: () => offerOfServiceOverdueAssignment(),
 
     // adventures
     adventure: (_, { search }) => getAdventure(search),
