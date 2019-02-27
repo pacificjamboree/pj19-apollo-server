@@ -87,6 +87,7 @@ const updateAdventure = async ({ id, Adventure: input, clientMutationId }) => {
     const adventure = await Adventure.query()
       .where({ id: fromGlobalId(id).id })
       .patch(input)
+      .eager('managers')
       .returning('*')
       .first();
 
