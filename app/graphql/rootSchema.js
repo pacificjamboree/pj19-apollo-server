@@ -38,6 +38,7 @@ module.exports = gql`
     offersOfService(filters: OfferOfServiceFilters): [OfferOfService] @adminOnly
     offersOfServiceForAdventure(search: OfferOfServiceForAdventureSearchInput!): [OfferOfService] @isAuthenticated
     offerOfServiceCount: OfferOfServiceCount
+    offerOfServiceOverdueAssignment: [OfferOfService] @adminOnly
 
     adventure(search: AdventureSearchInput!): Adventure
     adventures(filters: AdventureFilters): [Adventure]

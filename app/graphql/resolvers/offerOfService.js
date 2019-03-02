@@ -1,6 +1,9 @@
 const { transaction } = require('objection');
 const { OfferOfService, Adventure } = require('../../models');
 const { fromGlobalId } = require('graphql-relay-tools');
+const subDays = require('date-fns/sub_days');
+const formatDate = require('date-fns/format');
+
 const whereSearchField = require('../../lib/whereSearchField');
 
 const selectOfferOfService = async id => {
@@ -271,6 +274,24 @@ const totalAdultOOSRequiredCount = async () => {
     throw e;
   }
 };
+
+const offerOfServiceOverdueAssignment = async () => {
+  // get OOS who are active, unassigned,
+  // and where assignment email sent > 10 days ago
+
+  try {
+    const tenDaysAgo = subDays(new Date(), 10);
+    const overdue = OfferOfService.query()
+      .where({ workflowState: 'active', assignedAdventureId: null })
+      .andWhereRaw(
+        `welcome_email_sent_at <= '${formatDate(tenDaysAgo, 'YYYY-MM-DD')}'`
+      );
+    return overdue;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   selectOfferOfService,
   getOfferOfService,
@@ -287,4 +308,5 @@ module.exports = {
   totalUnassignedOfferOfServiceCount,
   totalOOSRequiredCount,
   totalAdultOOSRequiredCount,
+  offerOfServiceOverdueAssignment,
 };

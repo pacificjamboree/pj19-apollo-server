@@ -5,6 +5,7 @@ const OfferOfServiceNode = require('./OfferOfServiceNode');
 const OffersOfServiceConnection = require('./OffersOfServiceConnection');
 const Patrol = require('./Patrol');
 const PatrolScouter = require('./PatrolScouter');
+const PatrolAdventureSelection = require('./PatrolAdventureSelection');
 const User = require('./User');
 
 module.exports = {
@@ -15,5 +16,6 @@ module.exports = {
   OffersOfServiceConnection,
   Patrol,
   PatrolScouter,
+  PatrolAdventureSelection,
   User,
 };

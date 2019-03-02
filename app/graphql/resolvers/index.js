@@ -41,6 +41,7 @@ const {
   totalUnassignedOfferOfServiceCount,
   totalOOSRequiredCount,
   totalAdultOOSRequiredCount,
+  offerOfServiceOverdueAssignment,
 } = require('../resolvers/offerOfService');
 const { getAdventure, getAdventures } = require('../resolvers/adventure');
 const { getPatrol, getPatrols } = require('../resolvers/patrol');
@@ -50,12 +51,10 @@ const {
 } = require('../resolvers/patrolScouter');
 
 const { getUser } = require('../resolvers/user');
-
 const { getViewer } = require('../resolvers/viewer');
-
 const { UnauthorizedActionError } = require('../errors');
-
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
+const { Adventure } = require('../../models');
 
 const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
   const { type, id } = fromGlobalId(globalId);
@@ -124,6 +123,8 @@ module.exports = {
     },
 
     offerOfServiceCount: () => ({}),
+
+    offerOfServiceOverdueAssignment: () => offerOfServiceOverdueAssignment(),
 
     // adventures
     adventure: (_, { search }) => getAdventure(search),
@@ -225,6 +226,11 @@ module.exports = {
     fullName: ({ firstName, lastName }) => `${firstName} ${lastName}`,
     Patrols: patrolScouter =>
       console.log(patrolScouter) || patrolScouter.patrols,
+  },
+
+  PatrolAdventureSelection: {
+    selectionOrder: ({ selectionOrder }) =>
+      Adventure.query().whereIn('id', selectionOrder),
   },
 
   User: {

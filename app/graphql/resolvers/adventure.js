@@ -30,6 +30,7 @@ const getAdventures = ({
   premiumAdventure,
   name,
   themeName,
+  hidden = false,
 }) => {
   const premiumActivityFilter = (qb, premiumAdventure) => {
     if (premiumAdventure) {
@@ -51,6 +52,7 @@ const getAdventures = ({
     .eager(ADVENTURE_EAGERS)
     .whereIn('workflowState', workflowState)
     .whereIn('location', location)
+    .andWhere('hidden', hidden)
     .modify(premiumActivityFilter, premiumAdventure)
     .modify(nameFilter, name, themeName);
 };
@@ -85,6 +87,7 @@ const updateAdventure = async ({ id, Adventure: input, clientMutationId }) => {
     const adventure = await Adventure.query()
       .where({ id: fromGlobalId(id).id })
       .patch(input)
+      .eager('managers')
       .returning('*')
       .first();
 

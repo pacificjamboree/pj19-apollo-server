@@ -58,4 +58,10 @@ module.exports = gql`
     O
     V
   }
+
+  enum PatrolAdventureSelectionWorkflowState {
+    draft
+    saved
+    locked
+  }
 `;
