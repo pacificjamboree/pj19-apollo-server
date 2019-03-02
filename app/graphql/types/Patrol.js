@@ -12,6 +12,7 @@ module.exports = gql`
     fullyPaid: Boolean!
     finalPaymentReceived: GraphQLDate
     PatrolScoutersConnection${connectionArgs()}: PatrolScoutersConnection
+    adventureSelection: PatrolAdventureSelection
     workflowState: WorkflowState!
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!

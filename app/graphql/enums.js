@@ -52,4 +52,10 @@ module.exports = gql`
     adventureManager
     admin
   }
+
+  enum PatrolAdventureSelectionWorkflowState {
+    draft
+    saved
+    locked
+  }
 `;

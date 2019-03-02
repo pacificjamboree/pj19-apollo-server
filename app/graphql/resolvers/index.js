@@ -50,12 +50,10 @@ const {
 } = require('../resolvers/patrolScouter');
 
 const { getUser } = require('../resolvers/user');
-
 const { getViewer } = require('../resolvers/viewer');
-
 const { UnauthorizedActionError } = require('../errors');
-
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
+const { Adventure } = require('../../models');
 
 const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
   const { type, id } = fromGlobalId(globalId);
@@ -228,6 +226,11 @@ module.exports = {
     fullName: ({ firstName, lastName }) => `${firstName} ${lastName}`,
     Patrol: ({ patrolId }) =>
       getPatrol({ searchField: '_id', value: patrolId }),
+  },
+
+  PatrolAdventureSelection: {
+    selectionOrder: ({ selectionOrder }) =>
+      Adventure.query().whereIn('id', selectionOrder),
   },
 
   User: {
