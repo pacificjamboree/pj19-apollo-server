@@ -245,7 +245,7 @@ const totalUnassignedOfferOfServiceCount = async () => {
   try {
     const { count } = await OfferOfService.query()
       .count('id')
-      .whereNull('assigned_adventure_id')
+      .where({ workflowState: 'active', assignedAdventureId: null })
       .first();
     return count || 0;
   } catch (e) {
