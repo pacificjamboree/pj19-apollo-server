@@ -18,6 +18,8 @@ module.exports = async oos => {
       email,
     } = oos;
 
+    console.log({ isYouth, parentEmail });
+
     const name = preferredName
       ? `${preferredName} ${lastName}`
       : `${firstName} ${lastName}`;
@@ -38,11 +40,10 @@ module.exports = async oos => {
       text,
     };
 
-    if (process.env.NODE_ENV === 'production' && isYouth && parentEmail) {
-      messageOptions.cc.push = parentEmail;
-      messageOptions.bcc.push = 'safescouting.pj@scouts.ca';
+    if (isYouth && parentEmail) {
+      messageOptions.cc.push(parentEmail);
+      messageOptions.bcc.push('safescouting.pj@scouts.ca');
     }
-
     await transporter.sendMail(messageOptions);
     await oos.$query().patch({ assignmentEmailSentAt: new Date() });
   } catch (e) {
