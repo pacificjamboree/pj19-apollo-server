@@ -1,3 +1,6 @@
+const toc = require('markdown-toc');
+const slugify = require('slugify');
+
 const {
   nodeDefinitions,
   globalIdResolver,
@@ -239,6 +242,11 @@ module.exports = {
   TextContent: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
+    toc: ({ body }) =>
+      toc(body, {
+        firsth1: false,
+        slugify: body => slugify(body).toLowerCase(),
+      }).content,
   },
 
   User: {

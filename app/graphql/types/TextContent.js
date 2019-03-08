@@ -5,6 +5,7 @@ module.exports = gql`
     _id: ID!
     title: String!
     body: String!
+    toc: String
     revisions: [TextContent]
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!
