@@ -58,4 +58,10 @@ module.exports = gql`
     saved
     locked
   }
+
+  enum TextContentSearchFields {
+    id
+    _id
+    title
+  }
 `;

@@ -51,6 +51,7 @@ const {
 
 const { getUser } = require('../resolvers/user');
 const { getViewer } = require('../resolvers/viewer');
+const { getTextContent } = require('../resolvers/textContent');
 const { UnauthorizedActionError } = require('../errors');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 const { Adventure } = require('../../models');
@@ -136,6 +137,8 @@ module.exports = {
     // patrolScouters
     patrolScouter: (_, { search }) => getPatrolScouter(search),
     patrolScouters: (_, { filters = {} }) => getPatrolScouters(filters),
+
+    textContent: (_, { search }) => getTextContent(search),
 
     user: (_, { search }) => getUser(search),
 
@@ -231,6 +234,11 @@ module.exports = {
   PatrolAdventureSelection: {
     selectionOrder: ({ selectionOrder }) =>
       Adventure.query().whereIn('id', selectionOrder),
+  },
+
+  TextContent: {
+    id: globalIdResolver(),
+    _id: ({ id }) => id,
   },
 
   User: {

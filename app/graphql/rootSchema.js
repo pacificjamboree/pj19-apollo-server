@@ -50,6 +50,8 @@ module.exports = gql`
 
     user(search: UserSearchInput!): User @adminOnly
 
+    textContent(search: TextContentSearchInput!): TextContent
+
     viewer: User
 
     ${nodeField}
