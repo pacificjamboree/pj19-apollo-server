@@ -5,3 +5,4 @@ docker-compose.local.*
 yarn-error.log
 coverage
 notes.md
+tmp
