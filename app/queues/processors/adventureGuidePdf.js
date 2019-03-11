@@ -5,6 +5,10 @@ const tempy = require('tempy');
 const AWS = require('aws-sdk');
 const fs = require('fs');
 
+const {
+  generateAdventureGuideMarkdown,
+} = require('../../graphql/resolvers/adventureGuide');
+
 const { S3_BUCKET, AWS_REGION, AWS_ENDPOINT } = process.env;
 
 const awsConfig = {
@@ -26,9 +30,13 @@ AWS.config.update(awsConfig);
 module.exports = () => async job => {
   console.log('Generating Adventure Guide PDF');
   try {
+    // Get the generated markdown for the adventure guide
+    // with adventures inserted
+    const guide = await generateAdventureGuideMarkdown();
+
     // md-to-pdf requires an actual file on disk
     // Write the data to a tempfile
-    const mdTempFile = tempWrite.sync(job.data.guide);
+    const mdTempFile = tempWrite.sync(guide.body);
 
     // Create a temp dir to write the output file
     const pdfFile = tempy.file({ extension: 'pdf' });
