@@ -54,6 +54,7 @@ const {
 
 const { getUser } = require('../resolvers/user');
 const { getViewer } = require('../resolvers/viewer');
+const { generateAdventureGuideMarkdown } = require('./adventureGuide');
 const { getTextContent } = require('../resolvers/textContent');
 const { UnauthorizedActionError } = require('../errors');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
@@ -141,6 +142,7 @@ module.exports = {
     patrolScouter: (_, { search }) => getPatrolScouter(search),
     patrolScouters: (_, { filters = {} }) => getPatrolScouters(filters),
 
+    adventureGuideMarkdown: () => generateAdventureGuideMarkdown(),
     textContent: (_, { search }) => getTextContent(search),
 
     user: (_, { search }) => getUser(search),

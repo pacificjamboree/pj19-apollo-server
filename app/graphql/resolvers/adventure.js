@@ -24,7 +24,7 @@ const getAdventure = input => {
     .first();
 };
 
-const getAdventures = ({
+const getAdventures = async ({
   workflowState = ['active'],
   location = ['onsite', 'offsite'],
   premiumAdventure,
@@ -48,13 +48,16 @@ const getAdventures = ({
     }
   };
 
-  return Adventure.query()
+  const a = await Adventure.query()
     .eager(ADVENTURE_EAGERS)
     .whereIn('workflowState', workflowState)
     .whereIn('location', location)
     .andWhere('hidden', hidden)
     .modify(premiumActivityFilter, premiumAdventure)
     .modify(nameFilter, name, themeName);
+
+  console.log(a);
+  return a;
 };
 
 const createAdventure = async ({ Adventure: input, clientMutationId }) => {

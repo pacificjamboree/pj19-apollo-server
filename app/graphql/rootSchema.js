@@ -50,6 +50,7 @@ module.exports = gql`
 
     user(search: UserSearchInput!): User @adminOnly
 
+    adventureGuideMarkdown: TextContent
     textContent(search: TextContentSearchInput!): TextContent
 
     viewer: User
