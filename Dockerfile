@@ -1,6 +1,20 @@
-FROM node:10.14.1-alpine
-RUN apk --no-cache add --virtual builds-deps build-base python procps shadow
-RUN groupadd -r nodejs && useradd -m -r -g nodejs -s /bin/sh nodejs && mkdir -p /usr/src/app && chown nodejs:nodejs /usr/src/app
+FROM node:10.15.3-alpine
+RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories && \
+  echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories && \
+  apk --no-cache add --virtual \
+  builds-deps \
+  build-base \
+  python \
+  procps \
+  shadow \
+  chromium \
+  harfbuzz \
+  nss && \
+  groupadd -r nodejs && \
+  useradd -m -r -g nodejs -s /bin/sh nodejs && \
+  mkdir -p /usr/src/app && \
+  chown nodejs:nodejs /usr/src/app
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 USER nodejs
 WORKDIR /usr/src/app
 COPY package*.json ./
