@@ -3,6 +3,10 @@ const { Adventure } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 const { selectOfferOfService } = require('./offerOfService');
 
+const {
+  queues: { ADVENTURE_GUIDE_PDF },
+} = require('../../queues');
+
 const ADVENTURE_EAGERS = '[offersOfService, managers]';
 
 const getAdventure = input => {
@@ -71,6 +75,9 @@ const createAdventure = async ({ Adventure: input, clientMutationId }) => {
       .insert(input)
       .returning('*');
 
+    // queue adventure guide pdf generation
+    ADVENTURE_GUIDE_PDF.add();
+
     return {
       Adventure: adventure,
     };
@@ -93,6 +100,9 @@ const updateAdventure = async ({ id, Adventure: input, clientMutationId }) => {
       .eager('managers')
       .returning('*')
       .first();
+
+    // queue adventure guide pdf generation
+    ADVENTURE_GUIDE_PDF.add();
 
     return {
       Adventure: adventure,
