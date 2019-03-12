@@ -59,9 +59,14 @@ module.exports = () => async job => {
       });
       uploadParams.Body = fileStream;
       uploadParams.Key = 'documents/pj-2019-adventure-guide.pdf';
+      uploadParams.ContentType = 'application/pdf';
+      uploadParams.ContentDisposition = 'inline';
 
       const s3 = new AWS.S3();
-      return s3.upload(uploadParams).promise();
+      return s3
+        .upload(uploadParams)
+        .promise()
+        .then(console.log);
     }
   } catch (e) {
     console.log(e);
