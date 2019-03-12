@@ -7,4 +7,18 @@ const getTextContent = input =>
     .eager('revisions')
     .first();
 
-module.exports = { getTextContent };
+const updateTextContent = async ({ title, TextContent: input }) => {
+  try {
+    const textContent = await TextContent.query()
+      .where({ title })
+      .patch(input)
+      .returning('*')
+      .first();
+
+    return { TextContent: textContent };
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { getTextContent, updateTextContent };

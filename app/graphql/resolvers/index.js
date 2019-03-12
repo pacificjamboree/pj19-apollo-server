@@ -32,6 +32,7 @@ const {
   sendOfferOfServiceWelcomeMessagesBulk,
   sendPasswordResetEmail,
   resetPassword,
+  updateAdventureGuide,
 } = require('../mutations');
 const {
   getOfferOfService,
@@ -183,6 +184,7 @@ module.exports = {
       sendOfferOfServiceWelcomeMessagesBulk.mutationResolver,
     sendPasswordResetEmail: sendPasswordResetEmail.mutationResolver,
     resetPassword: resetPassword.mutationResolver,
+    updateAdventureGuide: updateAdventureGuide.mutationResolver,
   },
 
   OfferOfServiceCount: {

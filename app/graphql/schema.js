@@ -37,6 +37,8 @@ const {
   sendOfferOfServiceWelcomeMessagesBulk,
   sendPasswordResetEmail,
   resetPassword,
+
+  updateAdventureGuide,
 } = require('./mutations');
 
 const {
@@ -103,6 +105,7 @@ module.exports = makeExecutableSchema({
     sendOfferOfServiceWelcomeMessagesBulk.mutationType,
     sendPasswordResetEmail.mutationType,
     resetPassword.mutationType,
+    updateAdventureGuide.mutationType,
     rootSchema,
   ],
   resolvers,

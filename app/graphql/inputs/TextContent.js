@@ -5,4 +5,8 @@ module.exports = gql`
     searchField: TextContentSearchFields!
     value: String!
   }
+
+  input TextContentUpdate {
+    body: String!
+  }
 `;
