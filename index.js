@@ -40,7 +40,6 @@ const addUserMiddleware = async (req, res, next) => {
     };
     next();
   } catch (e) {
-    console.log('caught?');
     throw e;
   }
 };

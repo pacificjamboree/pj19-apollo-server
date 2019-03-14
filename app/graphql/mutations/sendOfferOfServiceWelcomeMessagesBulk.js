@@ -21,7 +21,6 @@ module.exports = mutationWithClientMutationId({
       .whereIn('id', _ids)
       .eager('assignment.[offersOfService]');
 
-    console.log(oos.length);
     for (let i = 0; i < oos.length; i++) {
       if (oos[i].assignedAdventureId) {
         sendOOSAssignmentMessage(oos[i]);

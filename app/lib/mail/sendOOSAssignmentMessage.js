@@ -18,8 +18,6 @@ module.exports = async oos => {
       email,
     } = oos;
 
-    console.log({ isYouth, parentEmail });
-
     const name = preferredName
       ? `${preferredName} ${lastName}`
       : `${firstName} ${lastName}`;
