@@ -1,3 +1,4 @@
+const dedent = require('dedent');
 const { Adventure, TextContent } = require('../../models');
 
 const sortByName = (a, b) => {
@@ -6,10 +7,38 @@ const sortByName = (a, b) => {
   return 0;
 };
 
-const adventureToMarkdown = ({ name, themeName, description }) => `
-#### ${themeName ? `${themeName} (${name})` : name}  
+const adventureLabelTable = ({ periodsRequired, location, fee }) => {
+  const formattedFee = fee ? `$${fee}` : 'None';
+  const locationFormatted = location
+    .replace(/^\w/, c => c.toUpperCase())
+    .replace('site', '-site');
 
-${description}
+  const durationFormatted = duration => {
+    switch (duration) {
+      case 1:
+        return 'Half Day Adventure';
+      case 2:
+        return 'Full Day Adventure';
+      case 3:
+        return 'Overnight Adventure';
+      default:
+        return '';
+    }
+  };
+  return dedent`
+    | Duration      | Location   | Additional Fee |
+    | :------------ | :--------- | :------------- |
+    | ${durationFormatted(
+      periodsRequired
+    )} | ${locationFormatted} | ${formattedFee} | 
+  `;
+};
+
+const adventureToMarkdown = a => `
+#### ${a.themeName ? `${a.themeName} (${a.name})` : a.name}  
+${adventureLabelTable(a)}
+
+${a.description}
 `;
 
 const generateAdventureGuideMarkdown = async () => {
