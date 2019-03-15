@@ -3,6 +3,10 @@ const { Adventure } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 const { selectOfferOfService } = require('./offerOfService');
 
+const {
+  queues: { ADVENTURE_GUIDE_PDF },
+} = require('../../queues');
+
 const ADVENTURE_EAGERS = '[offersOfService, managers]';
 
 const getAdventure = input => {
@@ -14,7 +18,7 @@ const getAdventure = input => {
     // if the "id" is a UUID, convert it to the global id
     const re = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     if (input.value.match(re)) {
-      input.value = toGlobalId('Adventuyre', input.value);
+      input.value = toGlobalId('Adventure', input.value);
     }
   }
 
@@ -24,7 +28,7 @@ const getAdventure = input => {
     .first();
 };
 
-const getAdventures = ({
+const getAdventures = async ({
   workflowState = ['active'],
   location = ['onsite', 'offsite'],
   premiumAdventure,
@@ -48,13 +52,16 @@ const getAdventures = ({
     }
   };
 
-  return Adventure.query()
+  const a = await Adventure.query()
     .eager(ADVENTURE_EAGERS)
     .whereIn('workflowState', workflowState)
     .whereIn('location', location)
     .andWhere('hidden', hidden)
     .modify(premiumActivityFilter, premiumAdventure)
     .modify(nameFilter, name, themeName);
+
+  console.log(a);
+  return a;
 };
 
 const createAdventure = async ({ Adventure: input, clientMutationId }) => {
@@ -67,6 +74,9 @@ const createAdventure = async ({ Adventure: input, clientMutationId }) => {
     const adventure = await Adventure.query()
       .insert(input)
       .returning('*');
+
+    // queue adventure guide pdf generation
+    ADVENTURE_GUIDE_PDF.add();
 
     return {
       Adventure: adventure,
@@ -90,6 +100,9 @@ const updateAdventure = async ({ id, Adventure: input, clientMutationId }) => {
       .eager('managers')
       .returning('*')
       .first();
+
+    // queue adventure guide pdf generation
+    ADVENTURE_GUIDE_PDF.add();
 
     return {
       Adventure: adventure,

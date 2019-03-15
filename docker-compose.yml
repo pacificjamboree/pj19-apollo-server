@@ -4,7 +4,7 @@ services:
     image: postgres:10.4-alpine
     ports:
       - '55432:5432'
-  web:
+  web: &WEB
     build: .
     command: ./node_modules/.bin/nodemon --ext js,graphql,json /usr/src/app/index.js
     volumes:
@@ -18,6 +18,19 @@ services:
       - db
     environment:
       - NODE_ENV=development
+  jobs:
+    <<: *WEB
+    command: './node_modules/.bin/nodemon /usr/src/app/app/queues/worker.js'
+    ports:
+      - '3001:3001'
+  redis:
+    image: redis:5.0.3-alpine
+    ports:
+      - '6379:6379'
+  s3:
+    image: lphoward/fake-s3:latest
+    ports:
+      - '4569:4569'
 
 volumes:
   node_modules: {}

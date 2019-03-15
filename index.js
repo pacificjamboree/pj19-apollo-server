@@ -4,11 +4,16 @@ const { ApolloServer } = require('apollo-server-express');
 const compression = require('compression');
 const jwtMiddleware = require('express-jwt');
 const cors = require('cors');
+const Queue = require('bull');
+const pdfQueue = new Queue('ADVENTURE_GUIDE_PDF', 'redis://redis:6379');
+const arena = require('bull-arena');
 require('dotenv').config();
 const schema = require('./app/graphql/schema');
 const PORT = process.env.PORT || 3000;
 const { User } = require('./app/models');
 const { login } = require('./app/routes');
+
+const { JOBS_REDIS_HOST, JOBS_REDIS_PORT } = process.env;
 
 const addUserMiddleware = async (req, res, next) => {
   try {
@@ -35,7 +40,6 @@ const addUserMiddleware = async (req, res, next) => {
     };
     next();
   } catch (e) {
-    console.log('caught?');
     throw e;
   }
 };
@@ -55,6 +59,25 @@ const server = new ApolloServer({
 app.use(compression());
 app.use(cors());
 app.post('/login', bodyParser.urlencoded({ extended: false }), login);
+
+app.use(
+  '/',
+  arena(
+    {
+      queues: [
+        {
+          name: 'ADVENTURE_GUIDE_PDF',
+          hostId: 'Worker',
+          redis: `redis://${JOBS_REDIS_HOST}:${JOBS_REDIS_PORT}`,
+        },
+      ],
+    },
+    {
+      basePath: '/jobs',
+      disableListen: true,
+    }
+  )
+);
 
 app.use(
   path,

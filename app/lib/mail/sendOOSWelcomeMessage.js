@@ -48,9 +48,9 @@ module.exports = async oos => {
       text,
     };
 
-    if (process.env.NODE_ENV === 'production' && isYouth && parentEmail) {
+    if (isYouth && parentEmail) {
       messageOptions.cc = parentEmail;
-      messageOptions.bcc.push = 'safescouting.pj@scouts.ca';
+      messageOptions.bcc.push('safescouting.pj@scouts.ca');
     }
 
     await transporter.sendMail(messageOptions);

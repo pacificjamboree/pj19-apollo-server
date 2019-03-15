@@ -1,3 +1,6 @@
+const toc = require('markdown-toc');
+const slugify = require('slugify');
+
 const {
   nodeDefinitions,
   globalIdResolver,
@@ -30,6 +33,7 @@ const {
   sendOfferOfServiceWelcomeMessagesBulk,
   sendPasswordResetEmail,
   resetPassword,
+  updateAdventureGuide,
 } = require('../mutations');
 const {
   getOfferOfService,
@@ -52,6 +56,8 @@ const {
 
 const { getUser } = require('../resolvers/user');
 const { getViewer } = require('../resolvers/viewer');
+const { generateAdventureGuideMarkdown } = require('./adventureGuide');
+const { getTextContent } = require('../resolvers/textContent');
 const { UnauthorizedActionError } = require('../errors');
 const { GraphQLDate, GraphQLDateTime } = require('graphql-iso-date');
 const { Adventure } = require('../../models');
@@ -138,6 +144,9 @@ module.exports = {
     patrolScouter: (_, { search }) => getPatrolScouter(search),
     patrolScouters: (_, { filters = {} }) => getPatrolScouters(filters),
 
+    adventureGuideMarkdown: () => generateAdventureGuideMarkdown(),
+    textContent: (_, { search }) => getTextContent(search),
+
     user: (_, { search }) => getUser(search),
 
     // nodes
@@ -177,6 +186,7 @@ module.exports = {
       sendOfferOfServiceWelcomeMessagesBulk.mutationResolver,
     sendPasswordResetEmail: sendPasswordResetEmail.mutationResolver,
     resetPassword: resetPassword.mutationResolver,
+    updateAdventureGuide: updateAdventureGuide.mutationResolver,
   },
 
   OfferOfServiceCount: {
@@ -231,6 +241,16 @@ module.exports = {
   PatrolAdventureSelection: {
     selectionOrder: ({ selectionOrder }) =>
       Adventure.query().whereIn('id', selectionOrder),
+  },
+
+  TextContent: {
+    id: globalIdResolver(),
+    _id: ({ id }) => id,
+    toc: ({ body }) =>
+      toc(body, {
+        firsth1: false,
+        slugify: body => slugify(body).toLowerCase(),
+      }).content,
   },
 
   User: {

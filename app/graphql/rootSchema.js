@@ -26,6 +26,7 @@ const {
   sendOfferOfServiceWelcomeMessagesBulk,
   sendPasswordResetEmail,
   resetPassword,
+  updateAdventureGuide,
 } = require('./mutations');
 
 module.exports = gql`
@@ -50,6 +51,9 @@ module.exports = gql`
     patrolScouters(filters: PatrolScouterFilters): [PatrolScouter] @adminOnly
 
     user(search: UserSearchInput!): User @adminOnly
+
+    adventureGuideMarkdown: TextContent
+    textContent(search: TextContentSearchInput!): TextContent
 
     viewer: User
 
@@ -100,5 +104,6 @@ module.exports = gql`
     } @adminOnly
     sendPasswordResetEmail${sendPasswordResetEmail.mutationField}
     resetPassword${resetPassword.mutationField}
+    updateAdventureGuide${updateAdventureGuide.mutationField} @adminOnly
   }
 `;

@@ -27,6 +27,10 @@ class Adventure extends Model {
       },
     };
   }
+
+  fullName() {
+    return `${this.themeName ? `${this.themeName} (${this.name})` : this.name}`;
+  }
 }
 
 module.exports = Adventure;

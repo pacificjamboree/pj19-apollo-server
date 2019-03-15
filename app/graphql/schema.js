@@ -38,6 +38,8 @@ const {
   sendOfferOfServiceWelcomeMessagesBulk,
   sendPasswordResetEmail,
   resetPassword,
+
+  updateAdventureGuide,
 } = require('./mutations');
 
 const {
@@ -49,6 +51,7 @@ const {
   Patrol,
   PatrolScouter,
   PatrolAdventureSelection,
+  TextContent,
   User,
 } = require('./types');
 
@@ -74,6 +77,7 @@ module.exports = makeExecutableSchema({
     Patrol,
     PatrolScouter,
     PatrolAdventureSelection,
+    TextContent,
     User,
     enums,
     inputs,
@@ -101,6 +105,7 @@ module.exports = makeExecutableSchema({
     sendOfferOfServiceWelcomeMessagesBulk.mutationType,
     sendPasswordResetEmail.mutationType,
     resetPassword.mutationType,
+    updateAdventureGuide.mutationType,
     rootSchema,
   ],
   resolvers,
