@@ -43,6 +43,10 @@ module.exports = () => async job => {
 
     const pdfResult = await mdToPdf(mdTempFile, {
       dest: pdfFile,
+      stylesheet: [
+        'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css',
+      ],
+      body_class: 'markdown_body',
       launch_options: {
         executablePath: CHROME_PATH,
         args: ['--no-sandbox'],
