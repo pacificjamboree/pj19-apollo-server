@@ -4,8 +4,6 @@ const { ApolloServer } = require('apollo-server-express');
 const compression = require('compression');
 const jwtMiddleware = require('express-jwt');
 const cors = require('cors');
-const Queue = require('bull');
-const pdfQueue = new Queue('ADVENTURE_GUIDE_PDF', 'redis://redis:6379');
 const arena = require('bull-arena');
 require('dotenv').config();
 const schema = require('./app/graphql/schema');
