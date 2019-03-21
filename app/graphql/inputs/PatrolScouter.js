@@ -9,6 +9,7 @@ module.exports = gql`
     workflowState: [WorkflowState]
     name: String
     patrolNumber: String
+    importId: String
   }
 
   input PatrolScouterDraft {
