@@ -24,7 +24,7 @@ const {
 
   createPatrol,
   updatePatrol,
-  batchImportPatrols,
+  batchPatrols,
 
   createPatrolScouter,
   updatePatrolScouter,
@@ -94,7 +94,7 @@ module.exports = makeExecutableSchema({
     updateUser.mutationType,
     createPatrol.mutationType,
     updatePatrol.mutationType,
-    batchImportPatrols.mutationType,
+    batchPatrols.mutationType,
     createPatrolScouter.mutationType,
     updatePatrolScouter.mutationType,
     createLoginToken.mutationType,

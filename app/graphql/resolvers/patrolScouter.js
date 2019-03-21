@@ -5,13 +5,14 @@ const whereSearchField = require('../../lib/whereSearchField');
 const getPatrolScouter = input =>
   PatrolScouter.query()
     .where(whereSearchField(input))
-    .eager('patrols')
+    .eager('[patrols, user]')
     .first();
 
 const getPatrolScouters = ({
   workflowState = 'active',
   name,
   patrolNumber,
+  importId,
 }) => {
   const nameFilter = (qb, name) => {
     if (name === undefined) return;
@@ -33,11 +34,18 @@ const getPatrolScouters = ({
     );
   };
 
+  const importIdFilter = (qb, importId) => {
+    if (importId !== undefined) {
+      qb.andWhere({ importId });
+    }
+  };
+
   return PatrolScouter.query()
-    .eager('patrols')
+    .eager('[patrols, user]')
     .whereIn('workflowState', workflowState)
     .modify(nameFilter, name)
-    .modify(patrolNumberFilter, patrolNumber);
+    .modify(patrolNumberFilter, patrolNumber)
+    .modify(importIdFilter, importId);
 };
 
 const createPatrolScouter = async ({

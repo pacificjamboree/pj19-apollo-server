@@ -1,4 +1,5 @@
 const { fromGlobalId } = require('graphql-relay-tools/dist/node');
+const { transaction } = require('objection');
 const { Patrol, PatrolScouter } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
@@ -56,64 +57,58 @@ const updatePatrol = async ({ Patrol: input, clientMutationId, id }) => {
   }
 };
 
-const batchImportPatrols = async (
-  { Patrols: newPatrols },
+const batchPatrols = async (
+  { ImportPatrols, DeletedPatrols },
   clientMutationId
 ) => {
-  let errors = [];
-  let patrols = [];
+  let ImportedPatrols = [];
+  const knex = Patrol.knex();
+  try {
+    await transaction(knex, async t => {
+      for (const patrol of ImportPatrols) {
+        // does patrolScouter exist?
+        let scouter = await PatrolScouter.query()
+          .where({ email: patrol.email })
+          .returning('id')
+          .first();
 
-  for (const patrol of newPatrols) {
-    try {
-      // does patrolScouter exist?
-      let scouter = await PatrolScouter.query()
-        .where({ email: patrol.email })
-        .returning('id')
-        .first();
+        // if not, create one
+        if (!scouter) {
+          scouter = await PatrolScouter.query()
+            .insert({
+              firstName: patrol.firstName,
+              lastName: patrol.lastName,
+              phone: patrol.phone,
+              email: patrol.email,
+              importId: patrol.importId,
+              workflowState: 'active',
+            })
+            .returning('id');
+        }
 
-      // if not, create one
-      if (!scouter) {
-        scouter = await PatrolScouter.query()
+        // now create the patrol with the patrolScouter ID as FK
+        const p = await Patrol.query()
           .insert({
-            firstName: patrol.firstName,
-            lastName: patrol.lastName,
-            phone: patrol.phone,
-            email: patrol.email,
+            patrolNumber: patrol.patrolNumber,
+            subcamp: patrol.subcamp,
+            groupName: patrol.groupName,
+            patrolName: patrol.patrolName,
+            numberOfScouts: patrol.numberOfScouts,
+            numberOfScouters: patrol.numberOfScouters,
+            patrolScouterId: scouter.id,
+            importId: patrol.importId,
             workflowState: 'active',
           })
-          .returning('id');
+          .returning('*');
+
+        p.patrolScouter = await p.$relatedQuery('patrolScouter');
+        ImportedPatrols.push(p);
       }
-
-      // now create the patrol with the patrolScouter ID as FK
-      const p = await Patrol.query()
-        .insert({
-          patrolNumber: patrol.patrolNumber,
-          subcamp: patrol.subcamp,
-          groupName: patrol.groupName,
-          patrolName: patrol.patrolName,
-          numberOfScouts: patrol.numberOfScouts,
-          numberOfScouters: patrol.numberOfScouters,
-          patrolScouterId: scouter.id,
-          workflowState: 'active',
-        })
-        .returning('*');
-
-      p.patrolScouter = await p.$relatedQuery('patrolScouter');
-      patrols.push(p);
-    } catch (error) {
-      patrols.push(error);
-      // console.log({ error });
-      // errors.push({ patrol, error });
-    }
+    });
+    return { ImportedPatrols };
+  } catch (error) {
+    throw error;
   }
-  const ret = {
-    newPatrols: patrols,
-  };
-
-  // if (errors.length) {
-  //   ret.error = errors;
-  // }
-  return ret;
 };
 
 module.exports = {
@@ -121,5 +116,5 @@ module.exports = {
   getPatrols,
   createPatrol,
   updatePatrol,
-  batchImportPatrols,
+  batchPatrols,
 };

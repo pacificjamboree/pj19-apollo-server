@@ -12,10 +12,11 @@ const {
   assignManagerToAdventure,
   removeManagerFromAdventure,
   createUser,
+  createUsers,
   updateUser,
   createPatrol,
   updatePatrol,
-  batchImportPatrols,
+  batchPatrols,
   createPatrolScouter,
   updatePatrolScouter,
   createLoginToken,
@@ -83,7 +84,7 @@ module.exports = gql`
     updateUser${updateUser.mutationField} @adminOnly
     createPatrol${createPatrol.mutationField} @adminOnly
     updatePatrol${updatePatrol.mutationField} @adminOnly
-    batchImportPatrols${batchImportPatrols.mutationField} @adminOnly
+    batchPatrols${batchPatrols.mutationField} @adminOnly
     createPatrolScouter${createPatrolScouter.mutationField} @adminOnly
     updatePatrolScouter${updatePatrolScouter.mutationField} @adminOnly
     createLoginToken${createLoginToken.mutationField} 
