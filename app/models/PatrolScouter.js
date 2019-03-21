@@ -17,7 +17,7 @@ class PatrolScouter extends Model {
       user: {
         relation: Model.HasOneRelation,
         modelClass: User,
-        join: { from: 'patrol_scouter.id', to: 'patrolScouterId.id' },
+        join: { from: 'patrol_scouter.id', to: 'user.patrolScouterId' },
       },
     };
   }
