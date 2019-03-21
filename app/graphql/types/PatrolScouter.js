@@ -9,6 +9,7 @@ module.exports = gql`
     fullName: String!
     email: String!
     phone: String!
+    user: User
     workflowState: WorkflowState!
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!
