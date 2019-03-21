@@ -20,6 +20,7 @@ const {
   removeManagerFromAdventure,
 
   createUser,
+  createUsers,
   updateUser,
 
   createPatrol,
@@ -91,6 +92,7 @@ module.exports = makeExecutableSchema({
     assignManagerToAdventure.mutationType,
     removeManagerFromAdventure.mutationType,
     createUser.mutationType,
+    createUsers.mutationType,
     updateUser.mutationType,
     createPatrol.mutationType,
     updatePatrol.mutationType,

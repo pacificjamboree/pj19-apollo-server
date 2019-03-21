@@ -168,6 +168,7 @@ module.exports = {
     assignManagerToAdventure: assignManagerToAdventure.mutationResolver,
     removeManagerFromAdventure: removeManagerFromAdventure.mutationResolver,
     createUser: createUser.mutationResolver,
+    createUsers: createUsers.mutationResolver,
     updateUser: updateUser.mutationResolver,
     createPatrol: createPatrol.mutationResolver,
     updatePatrol: updatePatrol.mutationResolver,

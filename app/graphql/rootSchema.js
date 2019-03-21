@@ -81,6 +81,7 @@ module.exports = gql`
       removeManagerFromAdventure.mutationField
     } @adminOnly
     createUser${createUser.mutationField} @adminOnly
+    createUsers${createUsers.mutationField} @adminOnly
     updateUser${updateUser.mutationField} @adminOnly
     createPatrol${createPatrol.mutationField} @adminOnly
     updatePatrol${updatePatrol.mutationField} @adminOnly
