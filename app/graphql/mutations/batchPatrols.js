@@ -13,7 +13,6 @@ module.exports = mutationWithClientMutationId({
   `,
   mutateAndGetPayload: async input => {
     const results = await batchPatrols(input);
-    console.log({ results });
     return results;
   },
 });
