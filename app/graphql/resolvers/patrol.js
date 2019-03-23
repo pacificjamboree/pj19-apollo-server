@@ -1,6 +1,6 @@
 const { fromGlobalId } = require('graphql-relay-tools/dist/node');
 const { transaction } = require('objection');
-const { Patrol, PatrolScouter } = require('../../models');
+const { Patrol, PatrolScouter, User } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
 const getPatrol = input =>
@@ -83,7 +83,19 @@ const batchPatrols = async (
               importId: patrol.importId,
               workflowState: 'active',
             })
-            .returning('id');
+            .returning('*');
+        }
+
+        // create users for the patrorScouter if one doesn't exist
+        let user = await User.query()
+          .where({ patrolScouterId: scouter.id })
+          .first();
+        if (!user) {
+          user = await User.query().insert({
+            patrolScouterId: scouter.id,
+            username: scouter.email,
+            workflowState: 'defined',
+          });
         }
 
         // now create the patrol with the patrolScouter ID as FK
