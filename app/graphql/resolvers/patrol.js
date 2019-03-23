@@ -58,10 +58,11 @@ const updatePatrol = async ({ Patrol: input, clientMutationId, id }) => {
 };
 
 const batchPatrols = async (
-  { ImportPatrols, DeletedPatrols },
+  { ImportPatrols, DeletePatrols },
   clientMutationId
 ) => {
   let ImportedPatrols = [];
+  let DeletedPatrols = [];
   const knex = Patrol.knex();
   try {
     await transaction(knex, async t => {
@@ -116,8 +117,15 @@ const batchPatrols = async (
         p.patrolScouter = await p.$relatedQuery('patrolScouter');
         ImportedPatrols.push(p);
       }
+
+      // Delete patrols
+      const deletePatrolsIds = DeletePatrols.map(p => fromGlobalId(p).id);
+      DeletedPatrols = await Patrol.query()
+        .patch({ workflowState: 'deleted' })
+        .whereIn('id', deletePatrolsIds)
+        .returning('*');
     });
-    return { ImportedPatrols };
+    return { ImportedPatrols, DeletedPatrols };
   } catch (error) {
     throw error;
   }
