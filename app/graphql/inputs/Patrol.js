@@ -16,8 +16,11 @@ module.exports = gql`
   }
 
   input PatrolUpdate {
+    id: ID!
     patrolNumber: String
-    name: String
+    groupName: String
+    patrolName: String
+    subcamp: Subcamp
     numberOfScouts: Int
     numberOfScouters: Int
     finalPaymentReceived: GraphQLDate

@@ -58,11 +58,12 @@ const updatePatrol = async ({ Patrol: input, clientMutationId, id }) => {
 };
 
 const batchPatrols = async (
-  { ImportPatrols, DeletePatrols },
+  { ImportPatrols, DeletePatrols, PatchPatrols },
   clientMutationId
 ) => {
   let ImportedPatrols = [];
   let DeletedPatrols = [];
+  let PatchedPatrols = [];
   const knex = Patrol.knex();
   try {
     await transaction(knex, async t => {
@@ -125,7 +126,19 @@ const batchPatrols = async (
         .whereIn('id', deletePatrolsIds)
         .returning('*');
     });
-    return { ImportedPatrols, DeletedPatrols };
+
+    // Patch changed patrols
+    const patchPromsises = PatchPatrols.map(patch => {
+      const id = fromGlobalId(patch.id).id;
+      delete patch.id;
+      return Patrol.query()
+        .where({ id })
+        .patch(patch)
+        .returning('*');
+    });
+    PatchedPatrols = await Promise.all(patchPromsises);
+
+    return { ImportedPatrols, DeletedPatrols, PatchedPatrols };
   } catch (error) {
     throw error;
   }
