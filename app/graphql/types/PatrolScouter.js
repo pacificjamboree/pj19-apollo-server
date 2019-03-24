@@ -3,11 +3,13 @@ module.exports = gql`
   type PatrolScouter implements Node {
     id: ID!
     _id: ID!
-    Patrol: Patrol!
+    Patrols: [Patrol!]
     firstName: String!
     lastName: String!
     fullName: String!
     email: String!
+    phone: String!
+    user: User
     workflowState: WorkflowState!
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!

@@ -16,8 +16,11 @@ module.exports = gql`
   }
 
   input PatrolUpdate {
+    id: ID!
     patrolNumber: String
-    name: String
+    groupName: String
+    patrolName: String
+    subcamp: Subcamp
     numberOfScouts: Int
     numberOfScouters: Int
     finalPaymentReceived: GraphQLDate
@@ -27,5 +30,19 @@ module.exports = gql`
   input PatrolSearchInput {
     searchField: PatrolSearchFields!
     value: String!
+  }
+
+  input PatrolImportDraft {
+    patrolNumber: String!
+    groupName: String!
+    patrolName: String!
+    subcamp: Subcamp!
+    email: String!
+    firstName: String!
+    lastName: String!
+    phone: String!
+    numberOfScouts: Int!
+    numberOfScouters: Int!
+    importId: String
   }
 `;

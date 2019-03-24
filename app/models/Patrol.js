@@ -14,10 +14,10 @@ class Patrol extends Model {
         modelClass: PatrolAdventureSelection,
         join: { from: 'patrol.id', to: 'patrol_adventure_selection.patrolId' },
       },
-      patrolScouters: {
-        relation: Model.HasManyRelation,
+      patrolScouter: {
+        relation: Model.HasOneRelation,
         modelClass: PatrolScouter,
-        join: { from: 'patrol.id', to: 'patrol_scouter.patrolId' },
+        join: { from: 'patrol.patrolScouterId', to: 'patrol_scouter.id' },
       },
     };
   }

@@ -19,9 +19,11 @@ const {
   updateOfferOfService,
   batchImportOffersOfService,
   createUser,
+  createUsers,
   updateUser,
   createPatrol,
   updatePatrol,
+  batchPatrols,
   createPatrolScouter,
   updatePatrolScouter,
   createLoginToken,
@@ -166,9 +168,11 @@ module.exports = {
     assignManagerToAdventure: assignManagerToAdventure.mutationResolver,
     removeManagerFromAdventure: removeManagerFromAdventure.mutationResolver,
     createUser: createUser.mutationResolver,
+    createUsers: createUsers.mutationResolver,
     updateUser: updateUser.mutationResolver,
     createPatrol: createPatrol.mutationResolver,
     updatePatrol: updatePatrol.mutationResolver,
+    batchPatrols: batchPatrols.mutationResolver,
     createPatrolScouter: createPatrolScouter.mutationResolver,
     updatePatrolScouter: updatePatrolScouter.mutationResolver,
     createLoginToken: createLoginToken.mutationResolver,
@@ -224,18 +228,16 @@ module.exports = {
   Patrol: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
-    fullyPaid: ({ finalPaymentReceived }) => !!finalPaymentReceived,
+    fullyPaid: ({ finalPaymentDate }) => !!finalPaymentDate,
     totalUnitSize: ({ numberOfScouts, numberOfScouters }) =>
       numberOfScouts + numberOfScouters,
-    PatrolScoutersConnection: (patrol, args) =>
-      connectionFromArray(patrol.patrolScouters, args),
   },
   PatrolScouter: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
     fullName: ({ firstName, lastName }) => `${firstName} ${lastName}`,
-    Patrol: ({ patrolId }) =>
-      getPatrol({ searchField: '_id', value: patrolId }),
+    Patrols: patrolScouter =>
+      console.log(patrolScouter) || patrolScouter.patrols,
   },
 
   PatrolAdventureSelection: {

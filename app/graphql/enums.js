@@ -53,6 +53,12 @@ module.exports = gql`
     admin
   }
 
+  enum Subcamp {
+    S
+    O
+    V
+  }
+
   enum PatrolAdventureSelectionWorkflowState {
     draft
     saved

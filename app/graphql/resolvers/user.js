@@ -1,5 +1,6 @@
 const { fromGlobalId } = require('graphql-relay-tools');
 const jwt = require('jsonwebtoken');
+const { transaction } = require('objection');
 const { User } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
@@ -35,6 +36,32 @@ const createUser = async ({ User: input, clientMutationId }) => {
     };
   } catch (e) {
     throw e;
+  }
+};
+
+const createUsers = async ({ Users }) => {
+  const knex = User.knex();
+  let createdUsers = [];
+  try {
+    await transaction(knex, async t => {
+      for (const { username, patrolScouterId, workflowState } of Users) {
+        let userInsert = await User.query()
+          .insert({
+            username,
+            patrolScouterId,
+            workflowState,
+          })
+          .returning('*')
+          .first();
+        createdUsers.push(userInsert);
+      }
+    });
+    console.log(createdUsers);
+    return {
+      users: createdUsers,
+    };
+  } catch (error) {
+    throw error;
   }
 };
 
@@ -77,13 +104,11 @@ const resetPasswordForUser = async ({ passwordResetToken, password }) => {
 
     // hash and set new password
     const passwordHash = await User.hashPassword(password);
-    await user
-      .$query()
-      .patch({
-        passwordHash,
-        passwordResetToken: null,
-        workflowState: 'active',
-      });
+    await user.$query().patch({
+      passwordHash,
+      passwordResetToken: null,
+      workflowState: 'active',
+    });
     return {
       status: 'ok',
     };
@@ -95,6 +120,7 @@ const resetPasswordForUser = async ({ passwordResetToken, password }) => {
 module.exports = {
   getUser,
   createUser,
+  createUsers,
   updateUser,
   resetPasswordForUser,
 };
