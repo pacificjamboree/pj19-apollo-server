@@ -118,7 +118,7 @@ const batchPatrols = async (
 
       // Delete patrols
       const deletePatrolsIds = DeletePatrols.map(p => fromGlobalId(p).id);
-      DeletedPatrols = await Patrol.query()
+      DeletedPatrols = await Patrol.query(t)
         .patch({ workflowState: 'deleted' })
         .whereIn('id', deletePatrolsIds)
         .returning('*');
@@ -137,6 +137,7 @@ const batchPatrols = async (
 
     return { ImportedPatrols, DeletedPatrols, PatchedPatrols };
   } catch (error) {
+    console.log(error);
     throw error;
   }
 };
