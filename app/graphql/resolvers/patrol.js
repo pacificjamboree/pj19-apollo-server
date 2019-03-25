@@ -64,19 +64,21 @@ const batchPatrols = async (
   let ImportedPatrols = [];
   let DeletedPatrols = [];
   let PatchedPatrols = [];
+  let PatchedScouters = [];
+
   const knex = Patrol.knex();
   try {
     await transaction(knex, async t => {
       for (const patrol of ImportPatrols) {
         // does patrolScouter exist?
-        let scouter = await PatrolScouter.query()
+        let scouter = await PatrolScouter.query(t)
           .where({ email: patrol.email })
           .returning('id')
           .first();
 
         // if not, create one
         if (!scouter) {
-          scouter = await PatrolScouter.query()
+          scouter = await PatrolScouter.query(t)
             .insert({
               email: patrol.email,
               importId: patrol.importId,
@@ -86,11 +88,11 @@ const batchPatrols = async (
         }
 
         // create users for the patrorScouter if one doesn't exist
-        let user = await User.query()
+        let user = await User.query(t)
           .where({ patrolScouterId: scouter.id })
           .first();
         if (!user) {
-          user = await User.query().insert({
+          user = await User.query(t).insert({
             patrolScouterId: scouter.id,
             username: scouter.email,
             workflowState: 'defined',
@@ -98,7 +100,7 @@ const batchPatrols = async (
         }
 
         // now create the patrol with the patrolScouter ID as FK
-        const p = await Patrol.query()
+        const p = await Patrol.query(t)
           .insert({
             patrolNumber: patrol.patrolNumber,
             subcamp: patrol.subcamp,
@@ -122,20 +124,55 @@ const batchPatrols = async (
         .patch({ workflowState: 'deleted' })
         .whereIn('id', deletePatrolsIds)
         .returning('*');
-    });
 
-    // Patch changed patrols
-    const patchPromsises = PatchPatrols.map(patch => {
-      const id = fromGlobalId(patch.id).id;
-      delete patch.id;
-      return Patrol.query()
-        .where({ id })
-        .patch(patch)
-        .returning('*');
-    });
-    PatchedPatrols = await Promise.all(patchPromsises);
+      // Patch changed patrols
+      // Patches may include email addresses which belong
+      // to the PatrolScouter model, not Patrol.
+      const emailPatches = PatchPatrols.filter(p =>
+        p.hasOwnProperty('email')
+      ).map(({ patrolScouterId, email }) => ({
+        patrolScouterId,
+        email,
+      }));
 
-    return { ImportedPatrols, DeletedPatrols, PatchedPatrols };
+      const patrolScouterPatchPronmises = emailPatches.map(patch =>
+        PatrolScouter.query(t)
+          .where({
+            id: fromGlobalId(patch.patrolScouterId).id,
+          })
+          .patch({ email: patch.email })
+          .returning('*')
+      );
+
+      const userPatchPromises = emailPatches.map(patch =>
+        User.query(t)
+          .where({
+            patrolScouterId: fromGlobalId(patch.patrolScouterId).id,
+          })
+          .patch({ username: patch.email })
+      );
+      PatchedScouters = await Promise.all(patrolScouterPatchPronmises);
+      await Promise.all(userPatchPromises);
+
+      const patchPromsises = PatchPatrols.map(patch => {
+        const id = fromGlobalId(patch.id).id;
+        delete patch.id;
+        delete patch.patrolScouterId;
+        if (patch.email) {
+          delete patch.email;
+        }
+        if (Object.keys(patch).length > 0) {
+          return Patrol.query(t)
+            .where({ id })
+            .patch(patch)
+            .returning('*');
+        } else {
+          return null;
+        }
+      });
+      PatchedPatrols = await Promise.all(patchPromsises.filter(p => p));
+    });
+    return { ImportedPatrols, DeletedPatrols, PatchedPatrols, PatchedScouters };
   } catch (error) {
     console.log(error);
     throw error;
