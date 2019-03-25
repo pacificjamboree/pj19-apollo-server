@@ -78,9 +78,6 @@ const batchPatrols = async (
         if (!scouter) {
           scouter = await PatrolScouter.query()
             .insert({
-              firstName: patrol.firstName,
-              lastName: patrol.lastName,
-              phone: patrol.phone,
               email: patrol.email,
               importId: patrol.importId,
               workflowState: 'active',

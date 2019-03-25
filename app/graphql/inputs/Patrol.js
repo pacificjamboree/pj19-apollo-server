@@ -38,9 +38,6 @@ module.exports = gql`
     patrolName: String!
     subcamp: Subcamp!
     email: String!
-    firstName: String!
-    lastName: String!
-    phone: String!
     numberOfScouts: Int!
     numberOfScouters: Int!
     importId: String

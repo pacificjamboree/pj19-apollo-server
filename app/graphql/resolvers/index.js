@@ -235,7 +235,6 @@ module.exports = {
   PatrolScouter: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
-    fullName: ({ firstName, lastName }) => `${firstName} ${lastName}`,
     Patrols: patrolScouter =>
       console.log(patrolScouter) || patrolScouter.patrols,
   },

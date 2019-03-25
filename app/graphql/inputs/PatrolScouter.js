@@ -7,25 +7,19 @@ module.exports = gql`
 
   input PatrolScouterFilters {
     workflowState: [WorkflowState]
-    name: String
+    email: String
     patrolNumber: String
     importId: String
   }
 
   input PatrolScouterDraft {
-    firstName: String!
-    lastName: String!
     email: String!
-    phone: String!
     patrolId: String!
     workflowState: WorkflowState
   }
 
   input PatrolScouterUpdate {
-    firstName: String
-    lastName: String
     email: String
-    phone: String
     patrolId: String
     workflowState: WorkflowState
   }

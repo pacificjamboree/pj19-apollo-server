@@ -21,9 +21,6 @@ class PatrolScouter extends Model {
       },
     };
   }
-  fullName() {
-    return `${this.firstName} ${this.lastName}`;
-  }
 }
 
 module.exports = PatrolScouter;

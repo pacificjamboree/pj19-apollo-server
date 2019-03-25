@@ -4,11 +4,7 @@ module.exports = gql`
     id: ID!
     _id: ID!
     Patrols: [Patrol!]
-    firstName: String!
-    lastName: String!
-    fullName: String!
     email: String!
-    phone: String!
     user: User
     workflowState: WorkflowState!
     createdAt: GraphQLDateTime!
