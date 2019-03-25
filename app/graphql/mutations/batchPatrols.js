@@ -6,12 +6,13 @@ module.exports = mutationWithClientMutationId({
   inputFields: `
     ImportPatrols: [PatrolImportDraft]!
     DeletePatrols: [ID]!
-    PatchPatrols: [PatrolUpdate]!
+    PatchPatrols: [PatrolPatch]!
     `,
   outputFields: `
     ImportedPatrols: [Patrol]
     DeletedPatrols: [Patrol]
     PatchedPatrols: [Patrol]
+    PatchedScouters: [PatrolScouter]
   `,
   mutateAndGetPayload: async input => {
     const results = await batchPatrols(input);
