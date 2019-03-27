@@ -5,6 +5,8 @@ const compression = require('compression');
 const jwtMiddleware = require('express-jwt');
 const cors = require('cors');
 const arena = require('bull-arena');
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 require('dotenv').config();
 const schema = require('./app/graphql/schema');
 const PORT = process.env.PORT || 3000;
@@ -84,7 +86,41 @@ app.use(
     credentialsRequired: false,
     secret: process.env.JWT_SECRET,
     requestProperty: 'auth',
+    isRevoked: async (req, payload, done) => {
+      try {
+        // validate ths issuer claim
+        const { iss } = payload;
+
+        if (!iss) {
+          return done(null, true);
+        }
+
+        const { id } = payload.sub;
+        const user = await User.query()
+          .where({ id })
+          .first();
+
+        const toHash = user.id + user.username + user.passwordHash;
+        const valid = await bcrypt.compare(
+          crypto
+            .createHash('sha256')
+            .update(toHash)
+            .digest('base64'),
+          iss
+        );
+        return done(null, !valid);
+      } catch (error) {
+        return done(error);
+      }
+    },
   }),
+  (err, req, res, next) => {
+    if (err && err.name === 'UnauthorizedError') {
+      res.status(401).send({ error: 'Unauthorized' });
+    } else {
+      next();
+    }
+  },
   addUserMiddleware
 );
 server.applyMiddleware({ app, path });

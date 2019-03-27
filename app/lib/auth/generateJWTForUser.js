@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const { ECUSTOM } = require('../errors');
 
-module.exports = user => {
+module.exports = async user => {
   const { id, username, oosId, patrolScouterId } = user;
   const { JWT_SECRET, JWT_EXP } = process.env;
 
@@ -16,6 +18,13 @@ module.exports = user => {
     patrolScouterId,
   };
 
+  const toHash = user.id + user.username + user.passwordHash;
+  const sha = crypto
+    .createHash('sha256')
+    .update(toHash)
+    .digest('base64');
+
+  const issuer = await bcrypt.hash(sha, 10);
   return jwt.sign(
     {
       sub,
@@ -23,6 +32,7 @@ module.exports = user => {
     JWT_SECRET,
     {
       expiresIn: JWT_EXP || '24h',
+      issuer,
     }
   );
 };
