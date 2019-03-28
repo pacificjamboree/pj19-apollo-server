@@ -4,7 +4,7 @@ const getViewer = id =>
   User.query()
     .where({ id })
     .eager(
-      '[offerOfService.assignment.[offersOfService, managers], patrolScouter]'
+      '[offerOfService.assignment.[offersOfService, managers], patrolScouter.[patrols.[adventureSelection]]]'
     )
     .first();
 

@@ -5,7 +5,7 @@ const whereSearchField = require('../../lib/whereSearchField');
 const getPatrolScouter = input =>
   PatrolScouter.query()
     .where(whereSearchField(input))
-    .eager('[patrols, user]')
+    .eager('[patrols.[adventureSelection], user]')
     .first();
 
 const getPatrolScouters = ({
@@ -41,7 +41,7 @@ const getPatrolScouters = ({
   };
 
   return PatrolScouter.query()
-    .eager('[patrols, user]')
+    .eager('[patrols.[adventureSelection], user]')
     .whereIn('workflowState', workflowState)
     .modify(nameFilter, name)
     .modify(patrolNumberFilter, patrolNumber)
