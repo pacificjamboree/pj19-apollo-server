@@ -10,5 +10,6 @@ module.exports = gql`
     workflowState: PatrolAdventureSelectionWorkflowState
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!
+    patrol: Patrol
   }
 `;
