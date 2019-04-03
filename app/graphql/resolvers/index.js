@@ -54,6 +54,9 @@ const {
   getPatrolScouter,
   getPatrolScouters,
 } = require('../resolvers/patrolScouter');
+const {
+  getPatrolAdventureSelection,
+} = require('../resolvers/patrolAdventureSelection');
 
 const { getUser } = require('../resolvers/user');
 const { getViewer } = require('../resolvers/viewer');
@@ -78,6 +81,9 @@ const { nodeResolver, nodesResolver } = nodeDefinitions(globalId => {
 
     case 'PatrolScouter':
       return getPatrolScouter(searchField);
+
+    case 'PatrolAdventureSelection':
+      return getPatrolAdventureSelection(searchField);
 
     case 'User':
       return getUser(searchField);
@@ -144,6 +150,10 @@ module.exports = {
     // patrolScouters
     patrolScouter: (_, { search }) => getPatrolScouter(search),
     patrolScouters: (_, { filters = {} }) => getPatrolScouters(filters),
+
+    // patrolAdventureSelections
+    patrolAdventureSelection: (_, { search }) =>
+      getPatrolAdventureSelection(search),
 
     adventureGuideMarkdown: () => generateAdventureGuideMarkdown(),
     textContent: (_, { search }) => getTextContent(search),

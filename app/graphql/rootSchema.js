@@ -51,6 +51,8 @@ module.exports = gql`
     patrolScouter(search: PatrolScouterSearchInput!): PatrolScouter @adminOnly
     patrolScouters(filters: PatrolScouterFilters): [PatrolScouter] @adminOnly
 
+    patrolAdventureSelection(search: PatrolAdventureSelectionSearchInput!): PatrolAdventureSelection
+
     user(search: UserSearchInput!): User @adminOnly
 
     adventureGuideMarkdown: TextContent
