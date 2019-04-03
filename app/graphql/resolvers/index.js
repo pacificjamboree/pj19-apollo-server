@@ -35,7 +35,9 @@ const {
   sendPasswordResetEmail,
   resetPassword,
   updateAdventureGuide,
+  updatePatrolAdventureSelection,
 } = require('../mutations');
+
 const {
   getOfferOfService,
   getOffersOfService,
@@ -199,6 +201,8 @@ module.exports = {
     sendPasswordResetEmail: sendPasswordResetEmail.mutationResolver,
     resetPassword: resetPassword.mutationResolver,
     updateAdventureGuide: updateAdventureGuide.mutationResolver,
+    updatePatrolAdventureSelection:
+      updatePatrolAdventureSelection.mutationResolver,
   },
 
   OfferOfServiceCount: {
@@ -250,6 +254,8 @@ module.exports = {
   },
 
   PatrolAdventureSelection: {
+    id: globalIdResolver(),
+    _id: ({ id }) => id,
     selectionOrder: ({ selectionOrder }) =>
       Adventure.query().whereIn('id', selectionOrder),
   },

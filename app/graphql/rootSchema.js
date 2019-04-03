@@ -28,6 +28,7 @@ const {
   sendPasswordResetEmail,
   resetPassword,
   updateAdventureGuide,
+  updatePatrolAdventureSelection,
 } = require('./mutations');
 
 module.exports = gql`
@@ -109,5 +110,8 @@ module.exports = gql`
     sendPasswordResetEmail${sendPasswordResetEmail.mutationField}
     resetPassword${resetPassword.mutationField}
     updateAdventureGuide${updateAdventureGuide.mutationField} @adminOnly
+    updatePatrolAdventureSelection${
+      updatePatrolAdventureSelection.mutationField
+    }
   }
 `;

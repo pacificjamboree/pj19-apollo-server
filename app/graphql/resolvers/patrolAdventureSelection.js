@@ -29,7 +29,6 @@ const updatePatrolAdventureSelection = async ({
   PatrolAdventureSelection: input,
 }) => {
   try {
-    console.log(input);
     if (Object.keys(input).includes('selectionOrder')) {
       input.selectionOrder = JSON.stringify(input.selectionOrder);
     }
