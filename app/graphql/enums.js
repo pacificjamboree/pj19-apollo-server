@@ -59,6 +59,13 @@ module.exports = gql`
     V
   }
 
+  enum PatrolAdventureSelectionSearchFields {
+    id
+    _id
+    patrolId
+    patrolNumber
+  }
+
   enum PatrolAdventureSelectionWorkflowState {
     defined
     draft
