@@ -52,16 +52,13 @@ const getAdventures = async ({
     }
   };
 
-  const a = await Adventure.query()
+  return Adventure.query()
     .eager(ADVENTURE_EAGERS)
     .whereIn('workflowState', workflowState)
     .whereIn('location', location)
     .andWhere('hidden', hidden)
     .modify(premiumActivityFilter, premiumAdventure)
     .modify(nameFilter, name, themeName);
-
-  console.log(a);
-  return a;
 };
 
 const createAdventure = async ({ Adventure: input, clientMutationId }) => {
