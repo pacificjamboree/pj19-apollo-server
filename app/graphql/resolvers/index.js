@@ -256,8 +256,16 @@ module.exports = {
   PatrolAdventureSelection: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
-    selectionOrder: ({ selectionOrder }) =>
-      Adventure.query().whereIn('id', selectionOrder),
+    selectionOrder: ({ selectionOrder }) => {
+      return Promise.all(
+        selectionOrder.map(id =>
+          Adventure.query()
+            .select('*')
+            .where({ id })
+            .first()
+        )
+      );
+    },
   },
 
   TextContent: {
