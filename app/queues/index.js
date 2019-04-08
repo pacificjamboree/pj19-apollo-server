@@ -12,6 +12,12 @@ module.exports = {
   SEND_EMAIL,
   queues: {
     [ADVENTURE_GUIDE_PDF]: new Queue(ADVENTURE_GUIDE_PDF, REDIS_URL),
-    [SEND_EMAIL]: new Queue(SEND_EMAIL, REDIS_URL),
+    [SEND_EMAIL]: new Queue(SEND_EMAIL, REDIS_URL, {
+      limiter: {
+        max: 5,
+        duration: 1000,
+        bounceBack: false,
+      },
+    }),
   },
 };
