@@ -28,11 +28,13 @@ const getPatrolAdventureSelection = async input => {
     .first();
 };
 
-const updatePatrolAdventureSelection = async ({
-  id,
-  PatrolAdventureSelection: input,
-}) => {
+const updatePatrolAdventureSelection = async (
+  { id, PatrolAdventureSelection: input },
+  ctx,
+  info
+) => {
   try {
+    console.log(ctx.user);
     if (Object.keys(input).includes('selectionOrder')) {
       input.selectionOrder = JSON.stringify(input.selectionOrder);
     }
@@ -44,7 +46,7 @@ const updatePatrolAdventureSelection = async ({
       .returning('*')
       .first();
 
-    if (pas.workflowState === 'saved') {
+    if (pas.workflowState === 'saved' && !ctx.user.admin) {
       SEND_EMAIL.add({
         type: 'ADVENTURE_SELECTION',
         data: {
