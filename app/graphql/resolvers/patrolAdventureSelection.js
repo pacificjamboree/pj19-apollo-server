@@ -2,6 +2,10 @@ const { fromGlobalId } = require('graphql-relay-tools/dist/node');
 const { Patrol, PatrolAdventureSelection } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
+const {
+  queues: { SEND_EMAIL },
+} = require('../../queues');
+
 const getPatrolAdventureSelection = async input => {
   const { searchField, value } = input;
   let where = whereSearchField(input);
@@ -39,6 +43,15 @@ const updatePatrolAdventureSelection = async ({
       })
       .returning('*')
       .first();
+
+    if (pas.workflowState === 'saved') {
+      SEND_EMAIL.add({
+        type: 'ADVENTURE_SELECTION',
+        data: {
+          id: pas.id,
+        },
+      });
+    }
     return {
       PatrolAdventureSelection: pas,
     };
