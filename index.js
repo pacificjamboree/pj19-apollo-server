@@ -70,6 +70,11 @@ app.use(
           hostId: 'Worker',
           redis: `redis://${JOBS_REDIS_HOST}:${JOBS_REDIS_PORT}`,
         },
+        {
+          name: 'SEND_EMAIL',
+          hostId: 'Worker',
+          redis: `redis://${JOBS_REDIS_HOST}:${JOBS_REDIS_PORT}`,
+        },
       ],
     },
     {
