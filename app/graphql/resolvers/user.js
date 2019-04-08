@@ -56,7 +56,6 @@ const createUsers = async ({ Users }) => {
         createdUsers.push(userInsert);
       }
     });
-    console.log(createdUsers);
     return {
       users: createdUsers,
     };

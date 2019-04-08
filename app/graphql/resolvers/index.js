@@ -249,8 +249,7 @@ module.exports = {
   PatrolScouter: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
-    Patrols: patrolScouter =>
-      console.log(patrolScouter) || patrolScouter.patrols,
+    Patrols: patrolScouter => patrolScouter.patrols,
   },
 
   PatrolAdventureSelection: {
