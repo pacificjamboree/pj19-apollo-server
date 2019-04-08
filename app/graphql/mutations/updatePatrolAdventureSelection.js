@@ -12,6 +12,6 @@ module.exports = mutationWithClientMutationId({
   outputFields: `
     PatrolAdventureSelection: PatrolAdventureSelection
   `,
-  mutateAndGetPayload: async input =>
-    await updatePatrolAdventureSelection(input),
+  mutateAndGetPayload: async (input, ctx, info) =>
+    await updatePatrolAdventureSelection(input, ctx, info),
 });
