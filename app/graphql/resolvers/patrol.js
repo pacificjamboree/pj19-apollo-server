@@ -3,6 +3,10 @@ const { transaction } = require('objection');
 const { Patrol, PatrolScouter, User } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
+const {
+  queues: { SEND_EMAIL },
+} = require('../../queues');
+
 const getPatrol = input =>
   Patrol.query()
     .where(whereSearchField(input))
@@ -66,6 +70,8 @@ const batchPatrols = async (
   let PatchedPatrols = [];
   let PatchedScouters = [];
 
+  const welcomeEmailsToSend = [];
+
   const knex = Patrol.knex();
   try {
     await transaction(knex, async t => {
@@ -97,6 +103,7 @@ const batchPatrols = async (
             username: scouter.email,
             workflowState: 'defined',
           });
+          welcomeEmailsToSend.push(scouter.email);
         }
 
         // now create the patrol with the patrolScouter ID as FK
@@ -135,7 +142,11 @@ const batchPatrols = async (
         email,
       }));
 
-      const patrolScouterPatchPronmises = emailPatches.map(patch =>
+      emailPatches.forEach(patch => {
+        welcomeEmailsToSend.push(patch.email);
+      });
+
+      const patrolScouterPatchPromises = emailPatches.map(patch =>
         PatrolScouter.query(t)
           .where({
             id: fromGlobalId(patch.patrolScouterId).id,
@@ -151,7 +162,7 @@ const batchPatrols = async (
           })
           .patch({ username: patch.email })
       );
-      PatchedScouters = await Promise.all(patrolScouterPatchPronmises);
+      PatchedScouters = await Promise.all(patrolScouterPatchPromises);
       await Promise.all(userPatchPromises);
 
       const patchPromsises = PatchPatrols.map(patch => {
@@ -172,6 +183,11 @@ const batchPatrols = async (
       });
       PatchedPatrols = await Promise.all(patchPromsises.filter(p => p));
     });
+
+    welcomeEmailsToSend.forEach(to => {
+      SEND_EMAIL.add({ type: 'PATROL_WELCOME', data: { to } });
+    });
+
     return { ImportedPatrols, DeletedPatrols, PatchedPatrols, PatchedScouters };
   } catch (error) {
     console.log(error);
