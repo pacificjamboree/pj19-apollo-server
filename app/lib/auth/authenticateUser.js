@@ -4,7 +4,7 @@ const { EINVALIDCREDENTIALS } = require('../errors');
 
 const getUser = username =>
   User.query()
-    .where({ username })
+    .whereRaw('LOWER(username) = ?', username.toLowerCase())
     .first();
 
 module.exports = async (username, password) => {

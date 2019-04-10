@@ -16,7 +16,7 @@ const sendPasswordResetEmail = mutationWithClientMutationId({
   mutateAndGetPayload: async ({ username }) => {
     try {
       const user = await User.query()
-        .where({ username })
+        .whereRaw('LOWER(username) = ?', username.toLowerCase())
         .first();
 
       // we return an 'ok' status even when no user
