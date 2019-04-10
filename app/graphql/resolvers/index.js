@@ -32,6 +32,7 @@ const {
   sendOfferOfServiceAssignmentEmail,
   sendOfferOfServiceAssignmentEmailBatch,
   sendOfferOfServiceWelcomeMessagesBulk,
+  sendPatrolWelcomeMessage,
   sendPasswordResetEmail,
   resetPassword,
   updateAdventureGuide,
@@ -199,6 +200,7 @@ module.exports = {
     sendOfferOfServiceWelcomeMessagesBulk:
       sendOfferOfServiceWelcomeMessagesBulk.mutationResolver,
     sendPasswordResetEmail: sendPasswordResetEmail.mutationResolver,
+    sendPatrolWelcomeMessage: sendPatrolWelcomeMessage.mutationResolver,
     resetPassword: resetPassword.mutationResolver,
     updateAdventureGuide: updateAdventureGuide.mutationResolver,
     updatePatrolAdventureSelection:

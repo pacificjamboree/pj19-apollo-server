@@ -37,6 +37,7 @@ const {
   sendOfferOfServiceAssignmentEmail,
   sendOfferOfServiceAssignmentEmailBatch,
   sendOfferOfServiceWelcomeMessagesBulk,
+  sendPatrolWelcomeMessage,
   sendPasswordResetEmail,
   resetPassword,
 
@@ -107,6 +108,7 @@ module.exports = makeExecutableSchema({
     sendOfferOfServiceAssignmentEmail.mutationType,
     sendOfferOfServiceAssignmentEmailBatch.mutationType,
     sendOfferOfServiceWelcomeMessagesBulk.mutationType,
+    sendPatrolWelcomeMessage.mutationType,
     sendPasswordResetEmail.mutationType,
     resetPassword.mutationType,
     updateAdventureGuide.mutationType,

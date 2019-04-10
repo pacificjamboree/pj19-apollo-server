@@ -25,6 +25,7 @@ const {
   sendOfferOfServiceAssignmentEmail,
   sendOfferOfServiceAssignmentEmailBatch,
   sendOfferOfServiceWelcomeMessagesBulk,
+  sendPatrolWelcomeMessage,
   sendPasswordResetEmail,
   resetPassword,
   updateAdventureGuide,
@@ -107,6 +108,7 @@ module.exports = gql`
     sendOfferOfServiceWelcomeMessagesBulk${
       sendOfferOfServiceWelcomeMessagesBulk.mutationField
     } @adminOnly
+    sendPatrolWelcomeMessage${sendPatrolWelcomeMessage.mutationField} @adminOnly
     sendPasswordResetEmail${sendPasswordResetEmail.mutationField}
     resetPassword${resetPassword.mutationField}
     updateAdventureGuide${updateAdventureGuide.mutationField} @adminOnly
