@@ -1,5 +1,5 @@
 const { fromGlobalId } = require('graphql-relay-tools/dist/node');
-const { transaction } = require('objection');
+const { transaction, raw } = require('objection');
 const { Patrol, PatrolScouter, User } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
@@ -190,7 +190,80 @@ const batchPatrols = async (
 
     return { ImportedPatrols, DeletedPatrols, PatchedPatrols, PatchedScouters };
   } catch (error) {
-    console.log(error);
+    throw error;
+  }
+};
+
+const totalPatrolCount = async () => {
+  try {
+    const { count } = await Patrol.query()
+      .count('id')
+      .where({ workflowState: 'active' })
+      .first();
+    return count || 0;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const totalScoutsCount = async () => {
+  try {
+    const { sum } = await Patrol.query()
+      .sum('numberOfScouts')
+      .where({ workflowState: 'active' })
+      .first();
+    return parseInt(sum) || 0;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const totalScoutersCount = async () => {
+  try {
+    const { sum } = await Patrol.query()
+      .sum('numberOfScouters')
+      .where({ workflowState: 'active' })
+      .first();
+    return parseInt(sum) || 0;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const patrolsWithThreeScouters = async () => {
+  try {
+    const { count } = await Patrol.query()
+      .count('id')
+      .where({
+        workflowState: 'active',
+        numberOfScouters: 3,
+      })
+      .first();
+    return count || 0;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const totalParticipantsCount = async () => {
+  try {
+    const { sum } = await Patrol.query()
+      .where({ workflowState: 'active' })
+      .sum(raw('COALESCE(number_of_scouts,0) + COALESCE(number_of_scouters,0)'))
+      .first();
+    return parseInt(sum) || 0;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const totalAdventureParticipantsCount = async () => {
+  try {
+    const totalScouts = await totalScoutsCount();
+    const totalPatrols = await totalPatrolCount();
+    const patrolScouters = totalPatrols * 2;
+    return patrolScouters + totalScouts;
+  } catch (error) {
     throw error;
   }
 };
@@ -201,4 +274,10 @@ module.exports = {
   createPatrol,
   updatePatrol,
   batchPatrols,
+  totalPatrolCount,
+  totalScoutsCount,
+  totalScoutersCount,
+  patrolsWithThreeScouters,
+  totalParticipantsCount,
+  totalAdventureParticipantsCount,
 };

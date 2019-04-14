@@ -55,6 +55,7 @@ const {
   Patrol,
   PatrolScouter,
   PatrolAdventureSelection,
+  PatrolStats,
   TextContent,
   User,
 } = require('./types');
@@ -81,6 +82,7 @@ module.exports = makeExecutableSchema({
     Patrol,
     PatrolScouter,
     PatrolAdventureSelection,
+    PatrolStats,
     TextContent,
     User,
     enums,

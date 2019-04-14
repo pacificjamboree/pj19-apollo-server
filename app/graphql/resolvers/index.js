@@ -52,7 +52,16 @@ const {
   offerOfServiceOverdueAssignment,
 } = require('../resolvers/offerOfService');
 const { getAdventure, getAdventures } = require('../resolvers/adventure');
-const { getPatrol, getPatrols } = require('../resolvers/patrol');
+const {
+  getPatrol,
+  getPatrols,
+  totalPatrolCount,
+  totalScoutsCount,
+  totalScoutersCount,
+  patrolsWithThreeScouters,
+  totalParticipantsCount,
+  totalAdventureParticipantsCount,
+} = require('../resolvers/patrol');
 const {
   getPatrolScouter,
   getPatrolScouters,
@@ -150,6 +159,7 @@ module.exports = {
     patrol: (_, { search }) => getPatrol(search),
     patrols: (_, { filters = {} }) => getPatrols(filters),
 
+    patrolStats: () => ({}),
     // patrolScouters
     patrolScouter: (_, { search }) => getPatrolScouter(search),
     patrolScouters: (_, { filters = {} }) => getPatrolScouters(filters),
@@ -252,6 +262,15 @@ module.exports = {
     id: globalIdResolver(),
     _id: ({ id }) => id,
     Patrols: patrolScouter => patrolScouter.patrols,
+  },
+
+  PatrolStats: {
+    numberOfPatrols: () => totalPatrolCount(),
+    totalScouts: () => totalScoutsCount(),
+    totalScouters: () => totalScoutersCount(),
+    patrolsWithThreeScouters: () => patrolsWithThreeScouters(),
+    totalParticipants: () => totalParticipantsCount(),
+    totalAdventureParticipants: () => totalAdventureParticipantsCount(),
   },
 
   PatrolAdventureSelection: {

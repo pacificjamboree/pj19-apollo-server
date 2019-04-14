@@ -41,7 +41,7 @@ module.exports = gql`
     offerOfService(search: OfferOfServiceSearchInput!): OfferOfService @isAuthenticated
     offersOfService(filters: OfferOfServiceFilters): [OfferOfService] @adminOnly
     offersOfServiceForAdventure(search: OfferOfServiceForAdventureSearchInput!): [OfferOfService] @isAuthenticated
-    offerOfServiceCount: OfferOfServiceCount
+    offerOfServiceCount: OfferOfServiceCount @adminOnly
     offerOfServiceOverdueAssignment: [OfferOfService] @adminOnly
 
     adventure(search: AdventureSearchInput!): Adventure
@@ -49,6 +49,7 @@ module.exports = gql`
 
     patrol(search: PatrolSearchInput!): Patrol @adminOnly
     patrols(filters: PatrolFilters): [Patrol] @adminOnly
+    patrolStats: PatrolStats @adminOnly
 
     patrolScouter(search: PatrolScouterSearchInput!): PatrolScouter @adminOnly
     patrolScouters(filters: PatrolScouterFilters): [PatrolScouter] @adminOnly
