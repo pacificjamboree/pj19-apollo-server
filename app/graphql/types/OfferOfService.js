@@ -29,5 +29,6 @@ module.exports = gql`
     user: User
     welcomeEmailSentAt: GraphQLDateTime
     assignmentEmailSentAt: GraphQLDateTime
+    overdueEmailSentAt: GraphQLDateTime
   }
 `;

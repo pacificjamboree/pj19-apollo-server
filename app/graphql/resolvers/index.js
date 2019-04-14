@@ -32,6 +32,7 @@ const {
   sendOfferOfServiceAssignmentEmail,
   sendOfferOfServiceAssignmentEmailBatch,
   sendOfferOfServiceWelcomeMessagesBulk,
+  sendOfferOfServiceOverdueEmail,
   sendPatrolWelcomeMessage,
   sendPasswordResetEmail,
   resetPassword,
@@ -209,6 +210,8 @@ module.exports = {
       sendOfferOfServiceAssignmentEmailBatch.mutationResolver,
     sendOfferOfServiceWelcomeMessagesBulk:
       sendOfferOfServiceWelcomeMessagesBulk.mutationResolver,
+    sendOfferOfServiceOverdueEmail:
+      sendOfferOfServiceOverdueEmail.mutationResolver,
     sendPasswordResetEmail: sendPasswordResetEmail.mutationResolver,
     sendPatrolWelcomeMessage: sendPatrolWelcomeMessage.mutationResolver,
     resetPassword: resetPassword.mutationResolver,
