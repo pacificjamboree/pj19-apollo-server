@@ -1,6 +1,11 @@
 const { fromGlobalId } = require('graphql-relay-tools/dist/node');
 const { transaction, raw } = require('objection');
-const { Patrol, PatrolScouter, User } = require('../../models');
+const {
+  Patrol,
+  PatrolScouter,
+  PatrolAdventureSelection,
+  User,
+} = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
 const {
@@ -162,6 +167,15 @@ const batchPatrols = async (
           })
           .patch({ username: patch.email })
       );
+
+      // soft-delete patrol adventure selections
+      const adventureSelectionPatchPromises = deletePatrolsIds.map(p =>
+        PatrolAdventureSelection.query(t)
+          .where({ id: p })
+          .patch({ workflowState: 'deleted' })
+      );
+      await Promise.all(adventureSelectionPatchPromises);
+
       PatchedScouters = await Promise.all(patrolScouterPatchPromises);
       await Promise.all(userPatchPromises);
 
