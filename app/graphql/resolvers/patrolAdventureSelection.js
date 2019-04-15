@@ -28,6 +28,9 @@ const getPatrolAdventureSelection = async input => {
     .first();
 };
 
+const getPatrolAdventureSelections = async () =>
+  PatrolAdventureSelection.query().whereNot({ workflowState: 'deleted' });
+
 const updatePatrolAdventureSelection = async (
   { id, PatrolAdventureSelection: input },
   ctx,
@@ -64,5 +67,6 @@ const updatePatrolAdventureSelection = async (
 
 module.exports = {
   getPatrolAdventureSelection,
+  getPatrolAdventureSelections,
   updatePatrolAdventureSelection,
 };

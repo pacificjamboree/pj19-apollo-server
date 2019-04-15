@@ -11,4 +11,8 @@ module.exports = gql`
     selectionOrder: [ID!]
     workflowState: PatrolAdventureSelectionWorkflowState
   }
+
+  input PatrolAdventureSelectionFilters {
+    workflowState: [PatrolAdventureSelectionWorkflowState]
+  }
 `;

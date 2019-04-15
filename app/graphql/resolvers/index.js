@@ -69,6 +69,7 @@ const {
 } = require('../resolvers/patrolScouter');
 const {
   getPatrolAdventureSelection,
+  getPatrolAdventureSelections,
 } = require('../resolvers/patrolAdventureSelection');
 
 const { getUser } = require('../resolvers/user');
@@ -168,6 +169,10 @@ module.exports = {
     // patrolAdventureSelections
     patrolAdventureSelection: (_, { search }) =>
       getPatrolAdventureSelection(search),
+    // patrolAdventureSelections: (_, { filters }) =>
+
+    patrolAdventureSelectionStats: (_, { filters = {} }) =>
+      getPatrolAdventureSelections(),
 
     adventureGuideMarkdown: () => generateAdventureGuideMarkdown(),
     textContent: (_, { search }) => getTextContent(search),
@@ -235,7 +240,9 @@ module.exports = {
     assignment: o => o.assignment,
     isAdventureManager: async o => await o.isAdventureManager(),
   },
+
   OfferOfServiceNode: baseOfferOfServiceFieldResolvers,
+
   Adventure: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
@@ -254,6 +261,7 @@ module.exports = {
     ManagersConnection: (adventure, args) =>
       connectionFromArray(adventure.managers, args),
   },
+
   Patrol: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
@@ -261,6 +269,7 @@ module.exports = {
     totalUnitSize: ({ numberOfScouts, numberOfScouters }) =>
       numberOfScouts + numberOfScouters,
   },
+
   PatrolScouter: {
     id: globalIdResolver(),
     _id: ({ id }) => id,
@@ -289,6 +298,19 @@ module.exports = {
         )
       );
     },
+  },
+
+  PatrolAdventureSelectionStats: {
+    defined: selections =>
+      selections.filter(({ workflowState }) => workflowState === 'defined')
+        .length,
+    draft: selections =>
+      selections.filter(({ workflowState }) => workflowState === 'draft')
+        .length,
+    saved: selections =>
+      selections.filter(({ workflowState }) => workflowState === 'saved')
+        .length,
+    total: selections => selections.length,
   },
 
   TextContent: {

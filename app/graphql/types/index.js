@@ -6,6 +6,7 @@ const OffersOfServiceConnection = require('./OffersOfServiceConnection');
 const Patrol = require('./Patrol');
 const PatrolScouter = require('./PatrolScouter');
 const PatrolAdventureSelection = require('./PatrolAdventureSelection');
+const PatrolAdventureSelectionStats = require('./PatrolAdventureSelectionStats');
 const PatrolStats = require('./PatrolStats');
 const TextContent = require('./TextContent');
 const User = require('./User');
@@ -19,6 +20,7 @@ module.exports = {
   Patrol,
   PatrolScouter,
   PatrolAdventureSelection,
+  PatrolAdventureSelectionStats,
   PatrolStats,
   TextContent,
   User,
