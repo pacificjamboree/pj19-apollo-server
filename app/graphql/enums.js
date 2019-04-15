@@ -71,6 +71,7 @@ module.exports = gql`
     draft
     saved
     locked
+    deleted
   }
 
   enum TextContentSearchFields {
