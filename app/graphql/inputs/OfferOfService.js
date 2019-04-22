@@ -39,7 +39,7 @@ module.exports = gql`
     isYouth: Boolean!
     email: String!
     parentEmail: String
-    phone1: String!
+    phone1: String
     phone2: String
     prerecruited: Boolean
     prerecruitedBy: String
