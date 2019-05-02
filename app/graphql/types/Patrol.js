@@ -11,7 +11,7 @@ module.exports = gql`
     numberOfScouters: Int!
     totalUnitSize: Int!
     fullyPaid: Boolean!
-    finalPaymentReceived: GraphQLDate
+    finalPaymentDate: GraphQLDate
     patrolScouter: PatrolScouter
     adventureSelection: PatrolAdventureSelection
     workflowState: WorkflowState!

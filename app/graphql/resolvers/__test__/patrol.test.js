@@ -94,7 +94,7 @@ describe('getPatrols', () => {
           numberOfScouts: 6,
           numberOfScouters: 2,
           workflowState: 'active',
-          finalPaymentReceived: new Date(),
+          finalPaymentDate: new Date(),
         },
         {
           patrolNumber: '345',

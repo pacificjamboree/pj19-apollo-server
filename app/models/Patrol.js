@@ -23,7 +23,7 @@ class Patrol extends Model {
   }
 
   fullyPaid() {
-    return !!this.finalPaymentReceived;
+    return !!this.finalPaymentDate;
   }
 
   totalUnitSize() {

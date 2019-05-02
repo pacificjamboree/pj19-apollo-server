@@ -11,7 +11,7 @@ module.exports = gql`
     name: String!
     numberOfScouts: Int!
     numberOfScouters: Int!
-    finalPaymentReceived: GraphQLDate
+    finalPaymentDate: GraphQLDate
     workflowState: WorkflowState
   }
 
@@ -23,7 +23,7 @@ module.exports = gql`
     subcamp: Subcamp
     numberOfScouts: Int
     numberOfScouters: Int
-    finalPaymentReceived: GraphQLDate
+    finalPaymentDate: GraphQLDate
     workflowState: WorkflowState
   }
 
@@ -37,7 +37,7 @@ module.exports = gql`
     numberOfScouts: Int
     numberOfScouters: Int
     email: String
-    finalPaymentReceived: GraphQLDate
+    finalPaymentDate: GraphQLDate
     workflowState: WorkflowState
   }
 
