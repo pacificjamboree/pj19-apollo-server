@@ -16,6 +16,7 @@ const {
   updateUser,
   createPatrol,
   updatePatrol,
+  updatePatrols,
   batchPatrols,
   createPatrolScouter,
   updatePatrolScouter,
@@ -92,6 +93,7 @@ module.exports = gql`
     updateUser${updateUser.mutationField} @adminOnly
     createPatrol${createPatrol.mutationField} @adminOnly
     updatePatrol${updatePatrol.mutationField} @adminOnly
+    updatePatrols${updatePatrols.mutationField} @adminOnly
     batchPatrols${batchPatrols.mutationField} @adminOnly
     createPatrolScouter${createPatrolScouter.mutationField} @adminOnly
     updatePatrolScouter${updatePatrolScouter.mutationField} @adminOnly

@@ -66,6 +66,29 @@ const updatePatrol = async ({ Patrol: input, clientMutationId, id }) => {
   }
 };
 
+const updatePatrols = async ({ Patrols }) => {
+  try {
+    const knex = Patrol.knex();
+    let result;
+    await transaction(knex, async t => {
+      const promises = Patrols.map(patrol => {
+        const patch = { ...patrol };
+        const { id } = patrol;
+        delete patch.id;
+        return Patrol.query(t)
+          .patch(patch)
+          .where({ id: fromGlobalId(id).id })
+          .returning('*')
+          .first();
+      });
+      result = await Promise.all(promises);
+    });
+    return { Patrols: result };
+  } catch (error) {
+    throw error;
+  }
+};
+
 const batchPatrols = async (
   { ImportPatrols, DeletePatrols, PatchPatrols },
   clientMutationId
@@ -287,6 +310,7 @@ module.exports = {
   getPatrols,
   createPatrol,
   updatePatrol,
+  updatePatrols,
   batchPatrols,
   totalPatrolCount,
   totalScoutsCount,
