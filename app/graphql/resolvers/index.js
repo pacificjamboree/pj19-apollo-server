@@ -39,6 +39,7 @@ const {
   resetPassword,
   updateAdventureGuide,
   updatePatrolAdventureSelection,
+  removeAdventureFromAllPatrolAdventureSelections,
 } = require('../mutations');
 
 const {
@@ -225,6 +226,8 @@ module.exports = {
     updateAdventureGuide: updateAdventureGuide.mutationResolver,
     updatePatrolAdventureSelection:
       updatePatrolAdventureSelection.mutationResolver,
+    removeAdventureFromAllPatrolAdventureSelections:
+      removeAdventureFromAllPatrolAdventureSelections.mutationResolver,
   },
 
   OfferOfServiceCount: {

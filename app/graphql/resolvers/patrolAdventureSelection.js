@@ -1,4 +1,5 @@
 const { fromGlobalId } = require('graphql-relay-tools/dist/node');
+const { transaction } = require('objection');
 const { Patrol, PatrolAdventureSelection } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
@@ -65,8 +66,35 @@ const updatePatrolAdventureSelection = async (
   }
 };
 
+const removeAdventureFromAllSelections = async ({ id }) => {
+  console.log(`removing ${id}`);
+  try {
+    const knex = PatrolAdventureSelection.knex();
+    let result;
+    await transaction(knex, async t => {
+      const selections = await PatrolAdventureSelection.query(t);
+
+      const promises = selections.map(selection => {
+        const newOrder = selection.selectionOrder.filter(elem => elem !== id);
+        return selection
+          .$query(t)
+          .patch({
+            selectionOrder: JSON.stringify(newOrder),
+          })
+          .where({ id: selection.id })
+          .returning('*');
+      });
+      result = await Promise.all(promises);
+    });
+    return { result };
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getPatrolAdventureSelection,
   getPatrolAdventureSelections,
   updatePatrolAdventureSelection,
+  removeAdventureFromAllSelections,
 };

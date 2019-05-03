@@ -46,6 +46,7 @@ const {
   updateAdventureGuide,
 
   updatePatrolAdventureSelection,
+  removeAdventureFromAllPatrolAdventureSelections,
 } = require('./mutations');
 
 const {
@@ -121,6 +122,7 @@ module.exports = makeExecutableSchema({
     resetPassword.mutationType,
     updateAdventureGuide.mutationType,
     updatePatrolAdventureSelection.mutationType,
+    removeAdventureFromAllPatrolAdventureSelections.mutationType,
     rootSchema,
   ],
   resolvers,

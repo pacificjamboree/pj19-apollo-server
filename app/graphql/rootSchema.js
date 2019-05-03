@@ -32,6 +32,7 @@ const {
   resetPassword,
   updateAdventureGuide,
   updatePatrolAdventureSelection,
+  removeAdventureFromAllPatrolAdventureSelections,
 } = require('./mutations');
 
 module.exports = gql`
@@ -123,5 +124,8 @@ module.exports = gql`
     updatePatrolAdventureSelection${
       updatePatrolAdventureSelection.mutationField
     }
+    removeAdventureFromAllPatrolAdventureSelections${
+      removeAdventureFromAllPatrolAdventureSelections.mutationField
+    } @adminOnly
   }
 `;
