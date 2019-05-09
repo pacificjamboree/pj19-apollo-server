@@ -100,7 +100,9 @@ const patrolAdventureSelectionStats = async () => {
   const adventureIds = [...new Set([].concat(...selections))];
 
   // get adventures for those IDs
-  const adventures = await Adventure.query().whereIn('id', adventureIds);
+  const adventures = await Adventure.query()
+    .whereIn('id', adventureIds)
+    .orderBy('name');
 
   return adventures.map(adventure => {
     const { id } = adventure;
