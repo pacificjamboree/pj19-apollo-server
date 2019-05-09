@@ -1,6 +1,6 @@
 const { fromGlobalId } = require('graphql-relay-tools/dist/node');
 const { transaction } = require('objection');
-const { Patrol, PatrolAdventureSelection } = require('../../models');
+const { Adventure, Patrol, PatrolAdventureSelection } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
 const {
@@ -38,7 +38,6 @@ const updatePatrolAdventureSelection = async (
   info
 ) => {
   try {
-    console.log(ctx.user);
     if (Object.keys(input).includes('selectionOrder')) {
       input.selectionOrder = JSON.stringify(input.selectionOrder);
     }
@@ -67,7 +66,6 @@ const updatePatrolAdventureSelection = async (
 };
 
 const removeAdventureFromAllSelections = async ({ id }) => {
-  console.log(`removing ${id}`);
   try {
     const knex = PatrolAdventureSelection.knex();
     let result;
@@ -92,9 +90,36 @@ const removeAdventureFromAllSelections = async ({ id }) => {
   }
 };
 
+const patrolAdventureSelectionStats = async () => {
+  // find all saved or locked program selections
+  const selections = (await PatrolAdventureSelection.query()
+    .whereIn('workflowState', ['saved', 'locked'])
+    .select(['selectionOrder'])).map(({ selectionOrder }) => selectionOrder);
+
+  // get a unique list of adventure ids
+  const adventureIds = [...new Set([].concat(...selections))];
+
+  // get adventures for those IDs
+  const adventures = await Adventure.query().whereIn('id', adventureIds);
+
+  return adventures.map(adventure => {
+    const { id } = adventure;
+    const rankings = Array(adventures.length).fill(0);
+    selections.forEach(selection => {
+      const pos = selection.indexOf(id);
+      rankings[pos] = rankings[pos] + 1;
+    });
+    return {
+      adventure,
+      rankings,
+    };
+  });
+};
+
 module.exports = {
   getPatrolAdventureSelection,
   getPatrolAdventureSelections,
   updatePatrolAdventureSelection,
   removeAdventureFromAllSelections,
+  patrolAdventureSelectionStats,
 };

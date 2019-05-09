@@ -72,6 +72,7 @@ const {
 const {
   getPatrolAdventureSelection,
   getPatrolAdventureSelections,
+  patrolAdventureSelectionStats,
 } = require('../resolvers/patrolAdventureSelection');
 
 const { getUser } = require('../resolvers/user');
@@ -316,6 +317,13 @@ module.exports = {
       selections.filter(({ workflowState }) => workflowState === 'saved')
         .length,
     total: selections => selections.length,
+    wantExtraFreePeriod: selections =>
+      selections.filter(
+        ({ workflowState, wantExtraFreePeriod }) =>
+          wantExtraFreePeriod &&
+          (workflowState === 'saved' || workflowState === 'locked')
+      ).length,
+    selectionRankings: () => patrolAdventureSelectionStats(),
   },
 
   TextContent: {
