@@ -3,6 +3,7 @@ module.exports = gql`
   type SelectionRanking {
     adventure: Adventure
     rankings: [Int]
+    score: Int
   }
 
   type PatrolAdventureSelectionStats {

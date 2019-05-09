@@ -104,18 +104,25 @@ const patrolAdventureSelectionStats = async () => {
     .whereIn('id', adventureIds)
     .orderBy('name');
 
-  return adventures.map(adventure => {
-    const { id } = adventure;
-    const rankings = Array(adventures.length).fill(0);
-    selections.forEach(selection => {
-      const pos = selection.indexOf(id);
-      rankings[pos] = rankings[pos] + 1;
-    });
-    return {
-      adventure,
-      rankings,
-    };
-  });
+  return adventures
+    .map(adventure => {
+      const { id } = adventure;
+      const rankings = Array(adventures.length).fill(0);
+      selections.forEach(selection => {
+        const pos = selection.indexOf(id);
+        rankings[pos] = rankings[pos] + 1;
+      });
+      const score = rankings
+        .map((el, i) => (el === 0 ? el : el * (adventures.length - i)))
+        .reduce((a, b) => a + b, 0);
+
+      return {
+        adventure,
+        rankings,
+        score,
+      };
+    })
+    .sort((a, b) => b.score - a.score);
 };
 
 module.exports = {
