@@ -256,6 +256,7 @@ const totalUnassignedOfferOfServiceCount = async () => {
 const totalOOSRequiredCount = async () => {
   try {
     const { sum } = await Adventure.query()
+      .where({ workflowState: 'active' })
       .sum('oos_required')
       .first();
     return sum || 0;
