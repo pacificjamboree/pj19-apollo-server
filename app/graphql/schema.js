@@ -51,6 +51,7 @@ const {
 
 const {
   Adventure,
+  AdventurePeriod,
   OfferOfService,
   OfferOfServiceNode,
   OfferOfServiceCount,
@@ -79,6 +80,7 @@ module.exports = makeExecutableSchema({
     pageInfoType,
     nodeInterface,
     Adventure,
+    AdventurePeriod,
     OfferOfService,
     OfferOfServiceCount,
     OfferOfServiceNode,

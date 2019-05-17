@@ -27,6 +27,7 @@ module.exports = gql`
     adultOOSAssignedCount: Int @managerOnly
     OffersOfServiceConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
     ManagersConnection${connectionArgs()}: OffersOfServiceConnection @managerOnly
+    adventurePeriods: [AdventurePeriod]
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!
     workflowState: WorkflowState
