@@ -22,7 +22,7 @@ for (let i = 0; i < NUM_PATROLS; i++) {
     name: `${getOrdinal(casual.integer(1, 100))} ${casual.city}`,
     number_of_scouts: casual.integer(6, 8),
     number_of_scouters: 2,
-    final_payment_received: casual.coin_flip ? casual.date_between : null,
+    final_payment_date: casual.coin_flip ? casual.date_between : null,
     workflow_state: 'active',
   });
 }

@@ -27,7 +27,7 @@ const getPatrols = ({ workflowState = 'active', name, fullyPaid }) => {
 
   const fullyPaidFilter = (qb, fullyPaid) => {
     if (fullyPaid === undefined) return;
-    const FIELD = 'final_payment_received';
+    const FIELD = 'final_payment_date';
     fullyPaid ? qb.whereNotNull(FIELD) : qb.whereNull(FIELD);
   };
 
