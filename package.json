@@ -10,6 +10,7 @@
     "start": "node index.js",
     "createuser": "docker-compose exec -u postgres db createuser -s pj",
     "createdb": "docker-compose exec -u postgres db createdb pj -O pj",
+    "dropdb": "docker-compose exec -u postgres db dropdb pj",
     "initdb": "yarn createuser && yarn createdb"
   },
   "keywords": [],
