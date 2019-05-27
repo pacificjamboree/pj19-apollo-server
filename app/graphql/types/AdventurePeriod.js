@@ -4,7 +4,6 @@ module.exports = gql`
     id: ID!
     _id: ID!
     adventureId: ID!
-    # adventure: Adventure!
     startAt: GraphQLDateTime!
     endAt: GraphQLDateTime!
     createdAt: GraphQLDateTime!
