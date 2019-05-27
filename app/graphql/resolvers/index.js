@@ -266,6 +266,8 @@ module.exports = {
       connectionFromArray(adventure.offersOfService, args),
     ManagersConnection: (adventure, args) =>
       connectionFromArray(adventure.managers, args),
+    adventurePeriods: async (adventure, args) =>
+      adventure.$relatedQuery('periods').orderBy('startAt'),
   },
 
   Patrol: {
