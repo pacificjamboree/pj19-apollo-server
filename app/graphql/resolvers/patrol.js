@@ -221,9 +221,9 @@ const batchPatrols = async (
       PatchedPatrols = await Promise.all(patchPromsises.filter(p => p));
     });
 
-    welcomeEmailsToSend.forEach(to => {
-      SEND_EMAIL.add({ type: 'PATROL_WELCOME', data: { to } });
-    });
+    // welcomeEmailsToSend.forEach(to => {
+    //   SEND_EMAIL.add({ type: 'PATROL_WELCOME', data: { to } });
+    // });
 
     return { ImportedPatrols, DeletedPatrols, PatchedPatrols, PatchedScouters };
   } catch (error) {
