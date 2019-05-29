@@ -31,6 +31,27 @@ class AdventurePeriod extends Model {
       },
     };
   }
+
+  async participantsAssigned() {
+    // get the patrols for the period
+    const patrols = await this.$relatedQuery('patrols');
+    return patrols.reduce(
+      (acc, curr) => {
+        const { scouts, scouters, total } = acc;
+        const { numberOfScouts, numberOfScouters } = curr;
+        return {
+          scouts: scouts + numberOfScouts,
+          scouters: scouters + numberOfScouters,
+          total: total + numberOfScouts + numberOfScouters,
+        };
+      },
+      {
+        scouts: 0,
+        scouters: 0,
+        total: 0,
+      }
+    );
+  }
 }
 
 module.exports = AdventurePeriod;
