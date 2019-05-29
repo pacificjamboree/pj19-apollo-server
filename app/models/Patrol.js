@@ -46,10 +46,8 @@ class Patrol extends Model {
   }
 
   async hoursScheduled() {
-    let { schedule } = this;
-    if (!schedule) {
-      schedule = await this.$relatedQuery('schedule');
-    }
+    const schedule = await this.$relatedQuery('schedule');
+
     return schedule.reduce((acc, { startAt, endAt }) => {
       const hours = differenceInHours(endAt, startAt);
       return hours + acc;
