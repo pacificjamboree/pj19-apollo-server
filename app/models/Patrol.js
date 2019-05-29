@@ -1,3 +1,4 @@
+const differenceInHours = require('date-fns/difference_in_hours');
 const Model = require('./BaseModel');
 
 class Patrol extends Model {
@@ -42,6 +43,17 @@ class Patrol extends Model {
 
   totalUnitSize() {
     return this.numberOfScouts + this.numberOfScouters;
+  }
+
+  async hoursScheduled() {
+    let { schedule } = this;
+    if (!schedule) {
+      schedule = await this.$relatedQuery('schedule');
+    }
+    return schedule.reduce((acc, { startAt, endAt }) => {
+      const hours = differenceInHours(endAt, startAt);
+      return hours + acc;
+    }, 0);
   }
 }
 
