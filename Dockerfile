@@ -9,11 +9,15 @@ RUN apk --no-cache add --virtual \
   shadow \
   chromium \
   harfbuzz \
+  tzdata \
   nss && \
   groupadd -r nodejs && \
   useradd -m -r -g nodejs -s /bin/sh nodejs && \
   mkdir -p /usr/src/app && \
-  chown nodejs:nodejs /usr/src/app
+  chown nodejs:nodejs /usr/src/app && \
+  cp /usr/share/zoneinfo/America/Vancouver /etc/localtime && \
+  echo "America/Vancouver" > /etc/timezone && \
+  apk del tzdata
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 USER nodejs
 WORKDIR /usr/src/app
