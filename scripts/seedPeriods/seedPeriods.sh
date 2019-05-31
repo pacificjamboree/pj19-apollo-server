@@ -1,6 +1,7 @@
 #!/bin/bash
 
-docker-compose exec -u postgres db psql pj -c "TRUNCATE TABLE adventure_period"
+docker-compose exec -u postgres db psql pj -c "DELETE FROM patrol_schedule"
+docker-compose exec -u postgres db psql pj -c "DELETE FROM adventure_period"
 docker-compose exec web node scripts/seedPeriods/seedHalfDayAdventurePeriods.js
 docker-compose exec web node scripts/seedPeriods/seedFullDayAdventurePeriods.js
 docker-compose exec web node scripts/seedPeriods/seedJdfAdventurePeriods.js
