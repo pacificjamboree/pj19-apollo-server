@@ -8,5 +8,10 @@ class BaseModel extends Model {
   globalId() {
     return toGlobalId(this.constructor.name, this.id);
   }
+
+  async reload() {
+    const refetched = await this.$query();
+    this.$set(refetched);
+  }
 }
 module.exports = BaseModel;
