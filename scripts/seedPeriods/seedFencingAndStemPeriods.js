@@ -38,7 +38,7 @@ const SUNDAY_SPHEROS_3_END = addMinutes(SUNDAY_SPHEROS_3_START, DURATION);
 const SUNDAY_FENCING_3_START = SUNDAY_SPHEROS_3_END;
 const SUNDAY_FENCING_3_END = addMinutes(SUNDAY_FENCING_3_START, DURATION);
 
-const main = async () => {
+const seeder = async () => {
   try {
     await transaction(knex, async t => {
       // get adventure IDs
@@ -309,11 +309,23 @@ const main = async () => {
         });
       }
     });
-    process.exit(0);
   } catch (error) {
-    console.error(error);
-    process.exit(255);
+    throw error;
   }
 };
 
-main();
+const main = async () => {
+  try {
+    await seeder();
+    process.exit();
+  } catch (error) {
+    console.error();
+    process.exit(1);
+  }
+};
+
+if (require.main === module) {
+  main();
+}
+
+module.exports = seeder;

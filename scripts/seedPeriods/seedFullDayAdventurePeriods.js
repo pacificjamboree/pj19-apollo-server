@@ -35,7 +35,7 @@ const makePeriodsForAdventure = async (adventure, transaction) => {
   }
 };
 
-const main = async () => {
+const seeder = async () => {
   try {
     const adventures = await Adventure.query()
       .where({
@@ -50,12 +50,23 @@ const main = async () => {
         await makePeriodsForAdventure(adventure, t);
       }
     });
-
-    process.exit();
   } catch (error) {
-    console.error(error);
-    process.exit(255);
+    throw error;
   }
 };
 
-main();
+const main = async () => {
+  try {
+    await seeder();
+    process.exit();
+  } catch (error) {
+    console.error(error);
+    process.exit(2);
+  }
+};
+
+if (require.main === module) {
+  main();
+}
+
+module.exports = seeder;

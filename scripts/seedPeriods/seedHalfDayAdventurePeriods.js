@@ -29,7 +29,7 @@ const HALF_DAY_PERIODS = [
   ),
 ];
 
-const main = async () => {
+const seeder = async () => {
   try {
     const adventures = await knex.raw(SQL);
     await transaction(knex, async t => {
@@ -42,11 +42,23 @@ const main = async () => {
         }
       }
     });
-    process.exit();
   } catch (error) {
-    console.error(error);
-    process.exit(255);
+    throw error;
   }
 };
 
-main();
+const main = async () => {
+  try {
+    await seeder();
+    process.exit();
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  }
+};
+
+if (require.main === module) {
+  main();
+}
+
+module.exports = seeder;

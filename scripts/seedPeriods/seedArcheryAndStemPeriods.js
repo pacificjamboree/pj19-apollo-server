@@ -39,7 +39,7 @@ const SUNDAY_ARCHERY_2_END = addMinutes(
   ARCHERY_DURATION_MIN
 );
 
-const main = async () => {
+const seeder = async () => {
   try {
     // find archery, stem_escape_room, stem_moon
     const archery = await Adventure.query()
@@ -259,6 +259,14 @@ const main = async () => {
         });
       }
     });
+  } catch (error) {
+    throw error;
+  }
+};
+
+const main = async () => {
+  try {
+    await seeder();
     process.exit(0);
   } catch (error) {
     console.error(error);
@@ -266,4 +274,8 @@ const main = async () => {
   }
 };
 
-main();
+if (require.main === module) {
+  main();
+}
+
+module.exports = seeder;
