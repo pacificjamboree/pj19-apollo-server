@@ -24,8 +24,8 @@ const findPeriodForAdventure = async (adventure, patrol, how = 'RANDOM') => {
     const periods = await adventure.$relatedQuery('periods');
     // get vacant periods for the patrol
     const vacant = await vacantPeriodsForPatrol(patrol);
-    const vacantAdventurePeriods = vacant.map(p =>
-      periods.find(pp => pp.startAt.getTime() === p.startAt.getTime())
+    const vacantAdventurePeriods = periods.filter(p =>
+      vacant.find(pp => pp.startAt.getTime() === p.startAt.getTime())
     );
 
     // get all available periods for this type of adventure
