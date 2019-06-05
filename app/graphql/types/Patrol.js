@@ -14,6 +14,7 @@ module.exports = gql`
     finalPaymentDate: GraphQLDate
     patrolScouter: PatrolScouter
     adventureSelection: PatrolAdventureSelection
+    schedule: PatrolSchedule
     workflowState: WorkflowState!
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!

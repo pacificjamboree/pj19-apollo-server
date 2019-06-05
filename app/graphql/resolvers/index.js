@@ -276,6 +276,13 @@ module.exports = {
     fullyPaid: ({ finalPaymentDate }) => !!finalPaymentDate,
     totalUnitSize: ({ numberOfScouts, numberOfScouters }) =>
       numberOfScouts + numberOfScouters,
+    schedule: patrol => ({
+      hoursScheduled: patrol.hoursScheduled(),
+      periods: patrol
+        .$relatedQuery('schedule')
+        .eager('adventure')
+        .orderBy('startAt', 'asc'),
+    }),
   },
 
   PatrolScouter: {
