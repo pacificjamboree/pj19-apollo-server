@@ -67,6 +67,7 @@ const seeder = async () => {
           startAt: SUNDAY_SPHEROS_1_START,
           endAt: SUNDAY_SPHEROS_1_END,
           adventureId: spheros.id,
+          type: 'primary',
         })
         .returning('id');
       const sundayArVr1 = await AdventurePeriod.query(t)
@@ -74,6 +75,7 @@ const seeder = async () => {
           startAt: SUNDAY_ARVR_1_START,
           endAt: SUNDAY_ARVR_1_END,
           adventureId: arvr.id,
+          type: 'primary',
         })
         .returning('id');
       await AdventurePeriod.query(t).insert({
@@ -81,6 +83,7 @@ const seeder = async () => {
         endAt: SUNDAY_FENCING_1_END,
         adventureId: fencing.id,
         assignWith: JSON.stringify([sundaySpheros1.id, sundayArVr1.id]),
+        type: 'primary',
       });
 
       // sunday group 2: fencing -> spheros -> ar/vr
@@ -89,6 +92,7 @@ const seeder = async () => {
           startAt: SUNDAY_SPHEROS_2_START,
           endAt: SUNDAY_SPHEROS_2_END,
           adventureId: spheros.id,
+          type: 'primary',
         })
         .returning('id');
       const sundayArVr2 = await AdventurePeriod.query(t)
@@ -96,6 +100,7 @@ const seeder = async () => {
           startAt: SUNDAY_ARVR_2_START,
           endAt: SUNDAY_ARVR_2_END,
           adventureId: arvr.id,
+          type: 'primary',
         })
         .returning('id');
       await AdventurePeriod.query(t).insert({
@@ -103,6 +108,7 @@ const seeder = async () => {
         endAt: SUNDAY_FENCING_2_END,
         adventureId: fencing.id,
         assignWith: JSON.stringify([sundaySpheros2.id, sundayArVr2.id]),
+        type: 'primary',
       });
 
       // sunday group 3: fencing -> spheros -> ar/vr
@@ -111,6 +117,7 @@ const seeder = async () => {
           startAt: SUNDAY_SPHEROS_3_START,
           endAt: SUNDAY_SPHEROS_3_END,
           adventureId: spheros.id,
+          type: 'primary',
         })
         .returning('id');
       const sundayArVr3 = await AdventurePeriod.query(t)
@@ -118,6 +125,7 @@ const seeder = async () => {
           startAt: SUNDAY_ARVR_3_START,
           endAt: SUNDAY_ARVR_3_END,
           adventureId: arvr.id,
+          type: 'primary',
         })
         .returning('id');
       await AdventurePeriod.query(t).insert({
@@ -125,6 +133,7 @@ const seeder = async () => {
         endAt: SUNDAY_FENCING_3_END,
         adventureId: fencing.id,
         assignWith: JSON.stringify([sundaySpheros3.id, sundayArVr3.id]),
+        type: 'primary',
       });
 
       // Monday - Friday periods
@@ -182,6 +191,7 @@ const seeder = async () => {
             startAt: AM_SPHEROS_1_START,
             endAt: AM_SPHEROS_1_END,
             adventureId: spheros.id,
+            type: 'primary',
           })
           .returning('id');
         const amArVr1 = await AdventurePeriod.query(t)
@@ -189,6 +199,7 @@ const seeder = async () => {
             startAt: AM_ARVR_1_START,
             endAt: AM_ARVR_1_END,
             adventureId: arvr.id,
+            type: 'primary',
           })
           .returning('id');
         await AdventurePeriod.query(t).insert({
@@ -196,6 +207,7 @@ const seeder = async () => {
           endAt: AM_FENCING_1_END,
           adventureId: fencing.id,
           assignWith: JSON.stringify([amSpheros1.id, amArVr1.id]),
+          type: 'primary',
         });
 
         // am group 2
@@ -204,6 +216,7 @@ const seeder = async () => {
             startAt: AM_SPHEROS_2_START,
             endAt: AM_SPHEROS_2_END,
             adventureId: spheros.id,
+            type: 'primary',
           })
           .returning('id');
         const amArVr2 = await AdventurePeriod.query(t)
@@ -211,6 +224,7 @@ const seeder = async () => {
             startAt: AM_ARVR_2_START,
             endAt: AM_ARVR_2_END,
             adventureId: arvr.id,
+            type: 'primary',
           })
           .returning('id');
         await AdventurePeriod.query(t).insert({
@@ -218,6 +232,7 @@ const seeder = async () => {
           endAt: AM_FENCING_2_END,
           adventureId: fencing.id,
           assignWith: JSON.stringify([amSpheros2.id, amArVr2.id]),
+          type: 'primary',
         });
 
         // am group 3
@@ -226,6 +241,7 @@ const seeder = async () => {
             startAt: AM_SPHEROS_3_START,
             endAt: AM_SPHEROS_3_END,
             adventureId: spheros.id,
+            type: 'primary',
           })
           .returning('id');
         const amArVr3 = await AdventurePeriod.query(t)
@@ -233,6 +249,7 @@ const seeder = async () => {
             startAt: AM_ARVR_3_START,
             endAt: AM_ARVR_3_END,
             adventureId: arvr.id,
+            type: 'primary',
           })
           .returning('id');
         await AdventurePeriod.query(t).insert({
@@ -240,6 +257,7 @@ const seeder = async () => {
           endAt: AM_FENCING_3_END,
           adventureId: fencing.id,
           assignWith: JSON.stringify([amSpheros3.id, amArVr3.id]),
+          type: 'primary',
         });
 
         // pm group 1
@@ -248,6 +266,7 @@ const seeder = async () => {
             startAt: PM_SPHEROS_1_START,
             endAt: PM_SPHEROS_1_END,
             adventureId: spheros.id,
+            type: 'primary',
           })
           .returning('id');
         const pmArVr1 = await AdventurePeriod.query(t)
@@ -255,6 +274,7 @@ const seeder = async () => {
             startAt: PM_ARVR_1_START,
             endAt: PM_ARVR_1_END,
             adventureId: arvr.id,
+            type: 'primary',
           })
           .returning('id');
         await AdventurePeriod.query(t).insert({
@@ -262,6 +282,7 @@ const seeder = async () => {
           endAt: PM_FENCING_1_END,
           adventureId: fencing.id,
           assignWith: JSON.stringify([pmSpheros1.id, pmArVr1.id]),
+          type: 'primary',
         });
 
         // pm group 2
@@ -270,6 +291,7 @@ const seeder = async () => {
             startAt: PM_SPHEROS_2_START,
             endAt: PM_SPHEROS_2_END,
             adventureId: spheros.id,
+            type: 'primary',
           })
           .returning('id');
         const pmArVr2 = await AdventurePeriod.query(t)
@@ -277,6 +299,7 @@ const seeder = async () => {
             startAt: PM_ARVR_2_START,
             endAt: PM_ARVR_2_END,
             adventureId: arvr.id,
+            type: 'primary',
           })
           .returning('id');
         await AdventurePeriod.query(t).insert({
@@ -284,6 +307,7 @@ const seeder = async () => {
           endAt: PM_FENCING_2_END,
           adventureId: fencing.id,
           assignWith: JSON.stringify([pmSpheros2.id, pmArVr2.id]),
+          type: 'primary',
         });
 
         // pm group 3
@@ -292,6 +316,7 @@ const seeder = async () => {
             startAt: PM_SPHEROS_3_START,
             endAt: PM_SPHEROS_3_END,
             adventureId: spheros.id,
+            type: 'primary',
           })
           .returning('id');
         const pmArVr3 = await AdventurePeriod.query(t)
@@ -299,6 +324,7 @@ const seeder = async () => {
             startAt: PM_ARVR_3_START,
             endAt: PM_ARVR_3_END,
             adventureId: arvr.id,
+            type: 'primary',
           })
           .returning('id');
         await AdventurePeriod.query(t).insert({
@@ -306,6 +332,7 @@ const seeder = async () => {
           endAt: PM_FENCING_3_END,
           adventureId: fencing.id,
           assignWith: JSON.stringify([pmSpheros3.id, pmArVr3.id]),
+          type: 'primary',
         });
       }
     });

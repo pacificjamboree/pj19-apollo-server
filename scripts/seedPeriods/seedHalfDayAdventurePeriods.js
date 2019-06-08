@@ -38,6 +38,7 @@ const seeder = async () => {
           await AdventurePeriod.query(t).insert({
             ...p,
             adventureId: adventure.id,
+            type: 'primary',
           });
         }
       }

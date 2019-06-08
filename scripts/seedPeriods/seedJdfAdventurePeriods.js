@@ -21,6 +21,7 @@ const makePeriodsForAdventure = async (adventure, freePeriods, transaction) => {
           adventureId: adventure.id,
           startAt: DAY1_PM_START,
           endAt: DAY1_PM_END,
+          type: 'child',
         })
         .returning('*');
 
@@ -29,6 +30,7 @@ const makePeriodsForAdventure = async (adventure, freePeriods, transaction) => {
           adventureId: adventure.id,
           startAt: DAY2_AM_START,
           endAt: DAY2_AM_END,
+          type: 'child',
         })
         .returning('*');
 
@@ -51,6 +53,7 @@ const makePeriodsForAdventure = async (adventure, freePeriods, transaction) => {
             day2MorningPeriod.id,
             freePeriod.id,
           ]),
+          type: 'primary',
         })
         .returning('*');
     }

@@ -18,6 +18,7 @@ const makePeriodsForAdventure = async (adventure, transaction) => {
           adventureId: adventure.id,
           startAt: PM_START,
           endAt: PM_END,
+          type: 'child',
         })
         .returning('*');
       // make morning period
@@ -27,6 +28,7 @@ const makePeriodsForAdventure = async (adventure, transaction) => {
           startAt: AM_START,
           endAt: AM_END,
           childPeriods: JSON.stringify([afternoonPeriod.id]),
+          type: 'primary',
         })
         .returning('*');
     }

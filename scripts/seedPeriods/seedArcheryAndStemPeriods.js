@@ -8,7 +8,7 @@ const STEM_DURATION_MIN = 45;
 
 const MF_DAYS = [8, 9, 10, 11, 12];
 
-const SUNDAY_START = new Date(2019, 6, 13, 14, 0);
+const SUNDAY_START = new Date(2019, 6, 7, 14, 0);
 ////////// SUNDAY: GROUP 1 STARTS WITH ARCHERY -> ESCAPE_ROOM -> MOON
 
 const SUNDAY_ARCHERY_1_START = SUNDAY_START;
@@ -64,6 +64,7 @@ const seeder = async () => {
           startAt: SUNDAY_ESCAPE_ROOM_1_START,
           endAt: SUNDAY_ESCAPE_ROOM_1_END,
           adventureId: escapeRoom.id,
+          type: 'primary',
         })
         .returning('id');
       const sundayMoon1 = await AdventurePeriod.query(t)
@@ -71,6 +72,7 @@ const seeder = async () => {
           startAt: SUNDAY_MOON_1_START,
           endAt: SUNDAY_MOON_1_END,
           adventureId: moon.id,
+          type: 'primary',
         })
         .returning('id');
       // make archery period and add stem IDs to assignWith
@@ -79,6 +81,7 @@ const seeder = async () => {
         endAt: SUNDAY_ARCHERY_1_END,
         adventureId: archery.id,
         assignWith: JSON.stringify([sundayEscapeRoom1.id, sundayMoon1.id]),
+        type: 'primary',
       });
 
       // sunday group 2
@@ -88,6 +91,7 @@ const seeder = async () => {
           startAt: SUNDAY_ESCAPE_ROOM_2_START,
           endAt: SUNDAY_ESCAPE_ROOM_2_END,
           adventureId: escapeRoom.id,
+          type: 'primary',
         })
         .returning('id');
       const sundayMoon2 = await AdventurePeriod.query(t)
@@ -95,6 +99,7 @@ const seeder = async () => {
           startAt: SUNDAY_MOON_2_START,
           endAt: SUNDAY_MOON_2_END,
           adventureId: moon.id,
+          type: 'primary',
         })
         .returning('id');
       // make archery period and add stem IDs to assignWith
@@ -103,6 +108,7 @@ const seeder = async () => {
         endAt: SUNDAY_ARCHERY_2_END,
         adventureId: archery.id,
         assignWith: JSON.stringify([sundayEscapeRoom2.id, sundayMoon2.id]),
+        type: 'primary',
       });
 
       // now make the monday-friday groups
@@ -175,6 +181,7 @@ const seeder = async () => {
             startAt: AM_ESCAPE_ROOM_1_START,
             endAt: AM_ESCAPE_ROOM_1_END,
             adventureId: escapeRoom.id,
+            type: 'primary',
           })
           .returning('id');
         const mfAmmoon1 = await AdventurePeriod.query(t)
@@ -182,6 +189,7 @@ const seeder = async () => {
             startAt: AM_MOON_1_START,
             endAt: AM_MOON_1_END,
             adventureId: moon.id,
+            type: 'primary',
           })
           .returning('id');
         await AdventurePeriod.query(t).insert({
@@ -189,6 +197,7 @@ const seeder = async () => {
           endAt: AM_ARCHERY_1_END,
           adventureId: archery.id,
           assignWith: JSON.stringify([mfAmEscapeRoom1.id, mfAmmoon1.id]),
+          type: 'primary',
         });
 
         // AM group 2
@@ -197,6 +206,7 @@ const seeder = async () => {
             startAt: AM_ESCAPE_ROOM_2_START,
             endAt: AM_ESCAPE_ROOM_2_END,
             adventureId: escapeRoom.id,
+            type: 'primary',
           })
           .returning('id');
         const mfAmmoon2 = await AdventurePeriod.query(t)
@@ -204,6 +214,7 @@ const seeder = async () => {
             startAt: AM_MOON_2_START,
             endAt: AM_MOON_2_END,
             adventureId: moon.id,
+            type: 'primary',
           })
           .returning('id');
         await AdventurePeriod.query(t).insert({
@@ -211,6 +222,7 @@ const seeder = async () => {
           endAt: AM_ARCHERY_2_END,
           adventureId: archery.id,
           assignWith: JSON.stringify([mfAmEscapeRoom2.id, mfAmmoon2.id]),
+          type: 'primary',
         });
 
         // PM group 1
@@ -220,6 +232,7 @@ const seeder = async () => {
             startAt: PM_ESCAPE_ROOM_1_START,
             endAt: PM_ESCAPE_ROOM_1_END,
             adventureId: escapeRoom.id,
+            type: 'primary',
           })
           .returning('id');
         const mfPmmoon1 = await AdventurePeriod.query(t)
@@ -227,6 +240,7 @@ const seeder = async () => {
             startAt: PM_MOON_1_START,
             endAt: PM_MOON_1_END,
             adventureId: moon.id,
+            type: 'primary',
           })
           .returning('id');
         await AdventurePeriod.query(t).insert({
@@ -234,6 +248,7 @@ const seeder = async () => {
           endAt: PM_ARCHERY_1_END,
           adventureId: archery.id,
           assignWith: JSON.stringify([mfPmEscapeRoom1.id, mfPmmoon1.id]),
+          type: 'primary',
         });
 
         // PM group 2
@@ -242,6 +257,7 @@ const seeder = async () => {
             startAt: PM_ESCAPE_ROOM_2_START,
             endAt: PM_ESCAPE_ROOM_2_END,
             adventureId: escapeRoom.id,
+            type: 'primary',
           })
           .returning('id');
         const mfPmmoon2 = await AdventurePeriod.query(t)
@@ -249,6 +265,7 @@ const seeder = async () => {
             startAt: PM_MOON_2_START,
             endAt: PM_MOON_2_END,
             adventureId: moon.id,
+            type: 'primary',
           })
           .returning('id');
         await AdventurePeriod.query(t).insert({
@@ -256,6 +273,7 @@ const seeder = async () => {
           endAt: PM_ARCHERY_2_END,
           adventureId: archery.id,
           assignWith: JSON.stringify([mfPmEscapeRoom2.id, mfPmmoon2.id]),
+          type: 'primary',
         });
       }
     });
