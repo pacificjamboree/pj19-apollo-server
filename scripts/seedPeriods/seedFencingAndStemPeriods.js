@@ -7,6 +7,13 @@ const DURATION = 60;
 const SUNDAY_START = new Date(2019, 6, 7, 14, 0);
 const MF_DAYS = [8, 9, 10, 11, 12];
 
+const SUNDAY_1_START = new Date(2019, 6, 7, 14, 0);
+const SUNDAY_1_END = new Date(2019, 6, 7, 15, 0);
+const SUNDAY_2_START = new Date(2019, 6, 7, 15, 0);
+const SUNDAY_2_END = new Date(2019, 6, 7, 16, 0);
+const SUNDAY_3_START = new Date(2019, 6, 7, 16, 0);
+const SUNDAY_3_END = new Date(2019, 6, 7, 17, 0);
+
 // Fencing is paired with stem_spheros and stem_ar_vr
 
 /*
@@ -17,26 +24,29 @@ const MF_DAYS = [8, 9, 10, 11, 12];
 */
 
 ///////// SUNDAY
-const SUNDAY_FENCING_1_START = SUNDAY_START;
-const SUNDAY_FENCING_1_END = addMinutes(SUNDAY_FENCING_1_START, DURATION);
-const SUNDAY_SPHEROS_1_START = SUNDAY_FENCING_1_END;
-const SUNDAY_SPHEROS_1_END = addMinutes(SUNDAY_SPHEROS_1_START, DURATION);
-const SUNDAY_ARVR_1_START = SUNDAY_SPHEROS_1_END;
-const SUNDAY_ARVR_1_END = addMinutes(SUNDAY_ARVR_1_START, DURATION);
+// fencing, spheros, arvr
+const SUNDAY_FENCING_1_START = SUNDAY_1_START;
+const SUNDAY_FENCING_1_END = SUNDAY_1_END;
+const SUNDAY_SPHEROS_1_START = SUNDAY_2_START;
+const SUNDAY_SPHEROS_1_END = SUNDAY_2_END;
+const SUNDAY_ARVR_1_START = SUNDAY_3_START;
+const SUNDAY_ARVR_1_END = SUNDAY_3_END;
 
-const SUNDAY_SPHEROS_2_START = SUNDAY_START;
-const SUNDAY_SPHEROS_2_END = addMinutes(SUNDAY_SPHEROS_2_START, DURATION);
-const SUNDAY_ARVR_2_START = SUNDAY_SPHEROS_2_END;
-const SUNDAY_ARVR_2_END = addMinutes(SUNDAY_ARVR_2_START, DURATION);
-const SUNDAY_FENCING_2_START = SUNDAY_ARVR_2_END;
-const SUNDAY_FENCING_2_END = addMinutes(SUNDAY_FENCING_2_START, DURATION);
+// arvr, fencing, spheros
+const SUNDAY_ARVR_2_START = SUNDAY_1_START;
+const SUNDAY_ARVR_2_END = SUNDAY_1_END;
+const SUNDAY_FENCING_2_START = SUNDAY_2_START;
+const SUNDAY_FENCING_2_END = SUNDAY_2_END;
+const SUNDAY_SPHEROS_2_START = SUNDAY_3_START;
+const SUNDAY_SPHEROS_2_END = SUNDAY_3_END;
 
-const SUNDAY_ARVR_3_START = SUNDAY_START;
-const SUNDAY_ARVR_3_END = addMinutes(SUNDAY_ARVR_3_START, DURATION);
-const SUNDAY_SPHEROS_3_START = SUNDAY_ARVR_3_END;
-const SUNDAY_SPHEROS_3_END = addMinutes(SUNDAY_SPHEROS_3_START, DURATION);
-const SUNDAY_FENCING_3_START = SUNDAY_SPHEROS_3_END;
-const SUNDAY_FENCING_3_END = addMinutes(SUNDAY_FENCING_3_START, DURATION);
+// spheros, arvr, fencing
+const SUNDAY_SPHEROS_3_START = SUNDAY_1_START;
+const SUNDAY_SPHEROS_3_END = SUNDAY_1_END;
+const SUNDAY_ARVR_3_START = SUNDAY_2_START;
+const SUNDAY_ARVR_3_END = SUNDAY_2_END;
+const SUNDAY_FENCING_3_START = SUNDAY_3_START;
+const SUNDAY_FENCING_3_END = SUNDAY_3_END;
 
 const seeder = async () => {
   try {
@@ -61,7 +71,6 @@ const seeder = async () => {
         .returning('id')
         .first();
 
-      // sunday group 1: fencing -> spheros -> ar/vr
       const sundaySpheros1 = await AdventurePeriod.query(t)
         .insert({
           startAt: SUNDAY_SPHEROS_1_START,
@@ -86,7 +95,6 @@ const seeder = async () => {
         type: 'primary',
       });
 
-      // sunday group 2: fencing -> spheros -> ar/vr
       const sundaySpheros2 = await AdventurePeriod.query(t)
         .insert({
           startAt: SUNDAY_SPHEROS_2_START,
@@ -111,7 +119,6 @@ const seeder = async () => {
         type: 'primary',
       });
 
-      // sunday group 3: fencing -> spheros -> ar/vr
       const sundaySpheros3 = await AdventurePeriod.query(t)
         .insert({
           startAt: SUNDAY_SPHEROS_3_START,
@@ -142,6 +149,7 @@ const seeder = async () => {
         const AM_START = new Date(2019, 6, D, 8, 30);
         const PM_START = new Date(2019, 6, D, 14, 0);
 
+        // fencing, spheros, arvr
         const AM_FENCING_1_START = AM_START;
         const AM_FENCING_1_END = addMinutes(AM_FENCING_1_START, DURATION);
         const AM_SPHEROS_1_START = AM_FENCING_1_END;
@@ -149,20 +157,23 @@ const seeder = async () => {
         const AM_ARVR_1_START = AM_SPHEROS_1_END;
         const AM_ARVR_1_END = addMinutes(AM_ARVR_1_START, DURATION);
 
-        const AM_SPHEROS_2_START = AM_START;
-        const AM_SPHEROS_2_END = addMinutes(AM_SPHEROS_2_START, DURATION);
-        const AM_ARVR_2_START = AM_SPHEROS_2_END;
+        // arvr, fencing, spheros
+        const AM_ARVR_2_START = AM_START;
         const AM_ARVR_2_END = addMinutes(AM_ARVR_2_START, DURATION);
         const AM_FENCING_2_START = AM_ARVR_2_END;
         const AM_FENCING_2_END = addMinutes(AM_FENCING_2_START, DURATION);
+        const AM_SPHEROS_2_START = AM_FENCING_2_END;
+        const AM_SPHEROS_2_END = addMinutes(AM_SPHEROS_2_START, DURATION);
 
-        const AM_ARVR_3_START = AM_START;
-        const AM_ARVR_3_END = addMinutes(AM_ARVR_3_START, DURATION);
-        const AM_SPHEROS_3_START = AM_ARVR_3_END;
+        // spheros, arvr, fencing
+        const AM_SPHEROS_3_START = AM_START;
         const AM_SPHEROS_3_END = addMinutes(AM_SPHEROS_3_START, DURATION);
-        const AM_FENCING_3_START = AM_SPHEROS_3_END;
+        const AM_ARVR_3_START = AM_SPHEROS_3_END;
+        const AM_ARVR_3_END = addMinutes(AM_ARVR_3_START, DURATION);
+        const AM_FENCING_3_START = AM_ARVR_3_END;
         const AM_FENCING_3_END = addMinutes(AM_FENCING_3_START, DURATION);
 
+        // fencing, spheros, arvr
         const PM_FENCING_1_START = PM_START;
         const PM_FENCING_1_END = addMinutes(PM_FENCING_1_START, DURATION);
         const PM_SPHEROS_1_START = PM_FENCING_1_END;
@@ -170,18 +181,20 @@ const seeder = async () => {
         const PM_ARVR_1_START = PM_SPHEROS_1_END;
         const PM_ARVR_1_END = addMinutes(PM_ARVR_1_START, DURATION);
 
-        const PM_SPHEROS_2_START = PM_START;
-        const PM_SPHEROS_2_END = addMinutes(PM_SPHEROS_2_START, DURATION);
-        const PM_ARVR_2_START = PM_SPHEROS_2_END;
+        // arvr, fencing, spheros
+        const PM_ARVR_2_START = PM_START;
         const PM_ARVR_2_END = addMinutes(PM_ARVR_2_START, DURATION);
         const PM_FENCING_2_START = PM_ARVR_2_END;
         const PM_FENCING_2_END = addMinutes(PM_FENCING_2_START, DURATION);
+        const PM_SPHEROS_2_START = PM_FENCING_2_END;
+        const PM_SPHEROS_2_END = addMinutes(PM_SPHEROS_2_START, DURATION);
 
-        const PM_ARVR_3_START = PM_START;
-        const PM_ARVR_3_END = addMinutes(PM_ARVR_3_START, DURATION);
-        const PM_SPHEROS_3_START = PM_ARVR_3_END;
+        // spheros, arvr, fencing
+        const PM_SPHEROS_3_START = PM_START;
         const PM_SPHEROS_3_END = addMinutes(PM_SPHEROS_3_START, DURATION);
-        const PM_FENCING_3_START = PM_SPHEROS_3_END;
+        const PM_ARVR_3_START = PM_SPHEROS_3_END;
+        const PM_ARVR_3_END = addMinutes(PM_ARVR_3_START, DURATION);
+        const PM_FENCING_3_START = PM_ARVR_3_END;
         const PM_FENCING_3_END = addMinutes(PM_FENCING_3_START, DURATION);
 
         // make periods
