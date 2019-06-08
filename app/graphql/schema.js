@@ -52,6 +52,7 @@ const {
 const {
   Adventure,
   AdventurePeriod,
+  AdventurePeriodAssignedCount,
   OfferOfService,
   OfferOfServiceNode,
   OfferOfServiceCount,
@@ -82,6 +83,7 @@ module.exports = makeExecutableSchema({
     nodeInterface,
     Adventure,
     AdventurePeriod,
+    AdventurePeriodAssignedCount,
     OfferOfService,
     OfferOfServiceCount,
     OfferOfServiceNode,

@@ -266,8 +266,20 @@ module.exports = {
       connectionFromArray(adventure.offersOfService, args),
     ManagersConnection: (adventure, args) =>
       connectionFromArray(adventure.managers, args),
-    adventurePeriods: async (adventure, args) =>
-      adventure.$relatedQuery('periods').orderBy('startAt'),
+    adventurePeriods: async adventure =>
+      adventure
+        .$relatedQuery('periods')
+        .where('type', 'primary')
+        .orderBy('startAt'),
+  },
+
+  AdventurePeriod: {
+    id: globalIdResolver(),
+    _id: ({ id }) => id,
+    participantsAssigned: period => period.participantsAssigned(),
+    patrols: period => period.$relatedQuery('patrols'),
+    adventure: period =>
+      period.adventure ? period.adventure : period.$relatedQuery('adventure'),
   },
 
   Patrol: {
