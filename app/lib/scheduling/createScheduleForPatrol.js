@@ -84,7 +84,8 @@ const createScheduleForPatrol = async patrol => {
 
     // get patrol's selection (array of adventure IDs)
     const selection = await patrol.$relatedQuery('adventureSelection');
-    const { selectionOrder, wantExtraFreePeriod } = selection;
+    const { selectionOrder } = selection;
+    const wantExtraFreePeriod = true;
 
     // get patrol's current schedule
     let patrolSchedule = await patrol.$relatedQuery('schedule');
