@@ -15,7 +15,7 @@ const isMorningPeriod = period => period.startAt.getHours() < 12;
 const halfDayOnSite = potentialPeriods => potentialPeriods;
 
 // Half-Day Off-Site: can't be adjacent to another off-site in the same day
-const halfDayOffSite = (potentialPeriods, schedule) => {
+const halfDayOffSite = async (potentialPeriods, schedule) => {
   // loop over `potentialPeriods`
   // for each period, determine if it is morning or afternoon
   // find `adjacent` period
@@ -25,8 +25,8 @@ const halfDayOffSite = (potentialPeriods, schedule) => {
   // if adjacent period exists
   //   check if adjacent period is on-site
   //   if yes, consider it viable and add to the list
-
-  return potentialPeriods.filter(period => {
+  const returnable = [];
+  for (const period of potentialPeriods) {
     const { startAt } = period;
     const dayOfWeek = startAt.getDate();
     const morningPeriod = isMorningPeriod(period);
@@ -37,11 +37,17 @@ const halfDayOffSite = (potentialPeriods, schedule) => {
       isSameDate(p.startAt, adjacentStartAt)
     );
 
-    if (!adjacentPeriod) return true;
-
-    const { location } = adjacentPeriod;
-    return location === 'onsite';
-  });
+    if (!adjacentPeriod) {
+      returnable.push(period);
+    } else {
+      const adjacentAdventure = await adjacentPeriod.$relatedQuery('adventure');
+      const { location } = adjacentAdventure;
+      if (location === 'onsite') {
+        returnable.push(period);
+      }
+    }
+  }
+  return returnable;
 };
 
 // Full-Day: Receives the morning period; patrol needs to have the afternoon period unassigned
