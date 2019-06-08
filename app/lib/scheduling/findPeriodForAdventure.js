@@ -62,7 +62,9 @@ const findPeriodForAdventure = async (adventure, patrol, how = 'RANDOM') => {
     }
 
     // narrow down the list to periods that fit the patrol
-    const size = patrol.numberOfScouts + 2; // always only two scouters
+    const size = adventure.scoutOnly
+      ? patrol.numberOfScouts
+      : patrol.numberOfScouts + 2; // always only two scouters
     const periodsThatFitPatrol =
       adventure.adventureCode === 'free'
         ? potentialPeriods
