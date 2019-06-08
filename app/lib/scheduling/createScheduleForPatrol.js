@@ -2,6 +2,7 @@ const debug = require('debug')('scheduling:createScheduleForPatrol');
 const { Adventure } = require('../../models');
 const findPeriodForAdventure = require('./findPeriodForAdventure');
 const TOTAL_HOURS = 33;
+const MAX_PREMIUM = 2;
 
 const assignPeriodToPatrolSchedule = async (period, patrol) => {
   debug(`Assigning period ${period.id}`);
@@ -26,7 +27,7 @@ const assignPeriodToPatrolSchedule = async (period, patrol) => {
   }
 };
 
-const scheduleIncludesAdventure = (schedule, adventureId) => {
+const scheduleIncludesAdventureById = (schedule, adventureId) => {
   const idx = schedule.findIndex(p => p.adventureId === adventureId);
   return idx >= 0;
 };
@@ -71,9 +72,9 @@ const createScheduleForPatrol = async patrol => {
       .where({ adventureCode: 'free' })
       .first();
 
-    // start with a clean slate
-    // debug('Removing previous schedule items');
-    // await clearPatrolSchedule(patrol);
+    const free1 = await Adventure.query()
+      .where({ adventureCode: 'free1' })
+      .first();
 
     // get patrol's selection (array of adventure IDs)
     const selection = await patrol.$relatedQuery('adventureSelection');
@@ -83,7 +84,6 @@ const createScheduleForPatrol = async patrol => {
     // get patrol's current schedule
     let patrolSchedule = await patrol.$relatedQuery('schedule');
     let currentHoursAssigned = await patrol.hoursScheduled();
-    let hasPermiumAdventure = false;
 
     // return if patrol is fully scheduled
     // shouldn't happen because we just wiped their schedule
@@ -97,49 +97,19 @@ const createScheduleForPatrol = async patrol => {
     debug(`Need to schedule ${MAX_POTENTIAL_HOURS} hours for patrol`);
     debug(`Current hours assigned: ${currentHoursAssigned}`);
 
-    // loop over selectionOrder
-    debug('Starting loop over adventure selection');
-    for (const id of selectionOrder) {
-      // get the Adventure for the selection
-      const adventure = await Adventure.query()
-        .where({ id })
-        .first();
-
-      debug(`Adventure: ${adventure.adventureCode}`);
-
-      // if schedule contains adventure, continue
-      if (scheduleIncludesAdventure(patrolSchedule, id)) {
-        debug(
-          'Patrol schedule contains adventure, continuing to next adventure'
-        );
-        continue;
-      }
-
-      // if it is premium, and hasPremiumActivity, continue
-      const { premiumAdventure } = adventure;
-      if (premiumAdventure && hasPermiumAdventure) {
-        debug(
-          'Adventure is premium and patrol already has premium, continuing to next adventure'
-        );
-        continue;
-      }
-
-      // if patrol does not have time left for this adventure, continue
-      debug('Checking if patrol has time for adventure');
-      const timeLeftInSchedule = MAX_POTENTIAL_HOURS - currentHoursAssigned;
-      debug(`Patrol has ${timeLeftInSchedule} hours left to assign`);
-      if (timeLeftInSchedule < adventure.periodsRequired * 3) {
-        debug('No time left for adventure, continuing to next adventure');
-        continue;
-      }
-
-      // find an adventure period for this adventure and patrol
-      debug('Searching for period for adventure');
-      const period = await findPeriodForAdventure(
-        adventure,
-        patrol,
-        'LEAST_SPACE_AVAILABLE'
+    // assign everyone to fun_zone, obstacle course, waterfront
+    const mandatory = await Adventure.query().whereIn('adventureCode', [
+      'fun_zone',
+      'obstacle_course',
+      'waterfront',
+    ]);
+    for (const adventure of mandatory) {
+      debug(
+        `Searching for period for mandatory adventure ${
+          adventure.adventureCode
+        }`
       );
+      const period = await findPeriodForAdventure(adventure, patrol, 'RANDOM');
       if (period) {
         // assign period to patrol
         debug(
@@ -148,40 +118,37 @@ const createScheduleForPatrol = async patrol => {
           }, adding to patrol schedule`
         );
         await assignPeriodToPatrolSchedule(period, patrol);
-        if (premiumAdventure) {
-          hasPermiumAdventure = true;
-        }
       } else {
         debug(
           `No available period for adventure ${adventure.adventureCode} :(`
         );
         continue;
       }
-
-      // update the patrol schedule and hours
-      patrolSchedule = await patrol.$relatedQuery('schedule');
-      currentHoursAssigned = await patrol.hoursScheduled();
-
-      debug(`Current hours assigned: ${currentHoursAssigned}`);
-      // const hasFreePeriod = scheduleIncludesAdventure(
-      //   patrolSchedule,
-      //   freePeriod.id
-      // );
-      if (currentHoursAssigned === MAX_POTENTIAL_HOURS) {
-        debug('Patrol has reached MAX_POTENTIAL_HOURS, breaking now');
-        break;
-      }
     }
+
+    // update the patrol schedule and hours
+    patrolSchedule = await patrol.$relatedQuery('schedule');
+    currentHoursAssigned = await patrol.hoursScheduled();
+
+    const timeLeftInSchedule = MAX_POTENTIAL_HOURS - currentHoursAssigned;
+    debug(
+      `End mandatory assignment, patrol has ${timeLeftInSchedule} hours left to assign`
+    );
+
+    // loop over selectionOrder
+    debug('Starting loop over adventure selection');
+    await adventureSelectionLoop(patrol, selectionOrder, MAX_POTENTIAL_HOURS);
     debug('Finished loop over adventure selection');
 
     patrolSchedule = await patrol.$relatedQuery('schedule');
 
     // assign first free period
     // check if they have a free period already assigned (e.g. after JDF trail)
-    const hasFreePeriod = scheduleIncludesAdventure(
-      patrolSchedule,
-      freePeriod.id
-    );
+    // or if they got oceanwise, which has free periods
+    const hasFreePeriod =
+      scheduleIncludesAdventureById(patrolSchedule, freePeriod.id) ||
+      scheduleIncludesAdventureById(patrolSchedule, free1.id);
+
     debug('Has free period?', hasFreePeriod);
     if (hasFreePeriod) {
       debug('Patrol already has first free period assigned; skipping');
@@ -199,7 +166,11 @@ const createScheduleForPatrol = async patrol => {
     if (wantExtraFreePeriod) {
       debug('Finding second free period for patrol');
       const fp2 = await findPeriodForAdventure(freePeriod, patrol, 'RANDOM');
-      await assignPeriodToPatrolSchedule(fp2, patrol);
+      if (fp2) {
+        await assignPeriodToPatrolSchedule(fp2, patrol);
+      } else {
+        debug('None found');
+      }
     }
 
     currentHoursAssigned = await patrol.hoursScheduled();
@@ -221,6 +192,104 @@ const createScheduleForPatrol = async patrol => {
     };
   } catch (error) {
     throw error;
+  }
+};
+
+////// ADVENTURE SELECTION LOOP
+const adventureSelectionLoop = async (
+  patrol,
+  selectionOrder,
+  hoursToAssign
+) => {
+  let patrolSchedule = await patrol.$relatedQuery('schedule');
+  let currentHoursAssigned = await patrol.hoursScheduled();
+  let hasPermiumAdventure = 0;
+
+  // need these for later checks
+  const jdfTrail = await Adventure.query()
+    .where({ adventureCode: 'jdf_trail' })
+    .first();
+  const oceanwise = await Adventure.query()
+    .where({ adventureCode: 'stem_oceanwise' })
+    .first();
+
+  for (const id of selectionOrder) {
+    // get the Adventure for the selection
+    const adventure = await Adventure.query()
+      .where({
+        id,
+      })
+      .first();
+
+    debug(`Adventure: ${adventure.adventureCode}`);
+
+    // if schedule contains adventure, continue
+    if (scheduleIncludesAdventureById(patrolSchedule, id)) {
+      debug('Patrol schedule contains adventure, continuing to next adventure');
+      continue;
+    }
+
+    // if it is premium, and hasPremiumActivity, continue
+    const { premiumAdventure } = adventure;
+    if (premiumAdventure && hasPermiumAdventure === MAX_PREMIUM) {
+      debug(
+        'Adventure is premium and patrol already has MAX_PREMIUM, continuing to next adventure'
+      );
+      continue;
+    }
+
+    // if patrol does not have time left for this adventure, continue
+    debug('Checking if patrol has time for adventure', adventure.adventureCode);
+    const timeLeftInSchedule = hoursToAssign - currentHoursAssigned;
+    debug(`Patrol has ${timeLeftInSchedule} hours left to assign`);
+    if (timeLeftInSchedule < adventure.periodsRequired * 3) {
+      debug('No time left for adventure, continuing to next adventure');
+      continue;
+    }
+
+    // find an adventure period for this adventure and patrol
+    debug('Searching for period for adventure');
+    const period = await findPeriodForAdventure(adventure, patrol, 'RANDOM');
+    if (period) {
+      // assign period to patrol
+      debug(
+        `Found period for adventure ${
+          adventure.adventureCode
+        }, adding to patrol schedule`
+      );
+      await assignPeriodToPatrolSchedule(period, patrol);
+      if (premiumAdventure) {
+        hasPermiumAdventure += 1;
+      }
+    } else {
+      debug(`No available period for adventure ${adventure.adventureCode} :(`);
+      continue;
+    }
+
+    // update the patrol schedule and hours
+    patrolSchedule = await patrol.$relatedQuery('schedule');
+    currentHoursAssigned = await patrol.hoursScheduled();
+
+    debug(`Current hours assigned: ${currentHoursAssigned}`);
+
+    // if schedule includes jdf, subtract three from currentHoursAssigned to handle the included FP
+    if (scheduleIncludesAdventureById(patrolSchedule, jdfTrail.id)) {
+      debug(`Has JDF Trail, adjusting current hours assigned`);
+      currentHoursAssigned -= 3;
+      debug(`Current hours assigned: ${currentHoursAssigned}`);
+    }
+
+    // if schedule includes jdf, subtract three from currentHoursAssigned to handle the included FP
+    if (scheduleIncludesAdventureById(patrolSchedule, oceanwise.id)) {
+      debug(`Has Oceanwise, adjusting current hours assigned`);
+      currentHoursAssigned -= 3;
+      debug(`Current hours assigned: ${currentHoursAssigned}`);
+    }
+
+    if (currentHoursAssigned === hoursToAssign) {
+      debug('Patrol has reached MAX_POTENTIAL_HOURS, breaking out of loop now');
+      break;
+    }
   }
 };
 
