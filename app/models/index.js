@@ -1,4 +1,5 @@
 const Adventure = require('./Adventure');
+const AdventurePeriod = require('./AdventurePeriod');
 const OfferOfService = require('./OfferOfService');
 const Patrol = require('./Patrol');
 const PatrolAdventureSelection = require('./PatrolAdventureSelection');
@@ -9,6 +10,7 @@ const User = require('./User');
 
 module.exports = {
   Adventure,
+  AdventurePeriod,
   OfferOfService,
   Patrol,
   PatrolAdventureSelection,

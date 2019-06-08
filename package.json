@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
     "test-docker": "docker-compose run -e NODE_ENV=test --rm web yarn test --watchAll --runInBand",
     "knex": "knex --knexfile ./db/knexfile.js",
     "start": "node index.js",
     "createuser": "docker-compose exec -u postgres db createuser -s pj",
     "createdb": "docker-compose exec -u postgres db createdb pj -O pj",
+    "dropdb": "docker-compose exec -u postgres db dropdb pj",
     "initdb": "yarn createuser && yarn createdb"
   },
   "keywords": [],
@@ -65,5 +66,8 @@
   "prettier": {
     "singleQuote": true,
     "trailingComma": "es5"
+  },
+  "jest": {
+    "setupFiles": ["dotenv/config"]
   }
 }

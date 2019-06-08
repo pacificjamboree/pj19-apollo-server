@@ -51,6 +51,8 @@ const {
 
 const {
   Adventure,
+  AdventurePeriod,
+  AdventurePeriodAssignedCount,
   OfferOfService,
   OfferOfServiceNode,
   OfferOfServiceCount,
@@ -59,6 +61,7 @@ const {
   PatrolScouter,
   PatrolAdventureSelection,
   PatrolAdventureSelectionStats,
+  PatrolSchedule,
   PatrolStats,
   TextContent,
   User,
@@ -79,6 +82,8 @@ module.exports = makeExecutableSchema({
     pageInfoType,
     nodeInterface,
     Adventure,
+    AdventurePeriod,
+    AdventurePeriodAssignedCount,
     OfferOfService,
     OfferOfServiceCount,
     OfferOfServiceNode,
@@ -88,6 +93,7 @@ module.exports = makeExecutableSchema({
     PatrolAdventureSelection,
     PatrolAdventureSelectionStats,
     PatrolStats,
+    PatrolSchedule,
     TextContent,
     User,
     enums,

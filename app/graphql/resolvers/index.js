@@ -266,6 +266,20 @@ module.exports = {
       connectionFromArray(adventure.offersOfService, args),
     ManagersConnection: (adventure, args) =>
       connectionFromArray(adventure.managers, args),
+    adventurePeriods: async adventure =>
+      adventure
+        .$relatedQuery('periods')
+        .where('type', 'primary')
+        .orderBy('startAt'),
+  },
+
+  AdventurePeriod: {
+    id: globalIdResolver(),
+    _id: ({ id }) => id,
+    participantsAssigned: period => period.participantsAssigned(),
+    patrols: period => period.$relatedQuery('patrols'),
+    adventure: period =>
+      period.adventure ? period.adventure : period.$relatedQuery('adventure'),
   },
 
   Patrol: {
@@ -274,6 +288,13 @@ module.exports = {
     fullyPaid: ({ finalPaymentDate }) => !!finalPaymentDate,
     totalUnitSize: ({ numberOfScouts, numberOfScouters }) =>
       numberOfScouts + numberOfScouters,
+    schedule: patrol => ({
+      hoursScheduled: patrol.hoursScheduled(),
+      periods: patrol
+        .$relatedQuery('schedule')
+        .eager('adventure')
+        .orderBy('startAt', 'asc'),
+    }),
   },
 
   PatrolScouter: {

@@ -25,6 +25,14 @@ class Adventure extends Model {
           to: 'oos.id',
         },
       },
+      periods: {
+        relation: Model.HasManyRelation,
+        modelClass: require('./AdventurePeriod'),
+        join: {
+          from: 'adventure.id',
+          to: 'adventure_period.adventureId',
+        },
+      },
     };
   }
 
