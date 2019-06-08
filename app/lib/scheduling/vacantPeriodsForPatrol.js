@@ -56,17 +56,17 @@ module.exports = async patrol => {
       }
     })
     .filter(Boolean); // strip out nulls before returning
-  debug({ normalizedSchedule });
+  // debug({ normalizedSchedule });
   // make a list of vacant blocks in schedule
   const allBlocks = blocks();
-  debug({ allBlocks });
+  // debug({ allBlocks });
   const vacantBlocks = allBlocks.filter(block => {
-    debug(block.startAt);
+    // debug(block.startAt);
     // return true if normalizedSchedule DOES NOT have a block with this block's startAt
     const normalizedScheduleIncludesBlock = normalizedSchedule
       .map(p => p.startAt.getTime())
       .includes(block.startAt.getTime());
-    debug({ normalizedScheduleIncludesBlock });
+    // debug({ normalizedScheduleIncludesBlock });
     return !normalizedScheduleIncludesBlock;
   });
 
