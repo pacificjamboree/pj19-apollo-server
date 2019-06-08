@@ -44,56 +44,45 @@ const halfDayOffSite = (potentialPeriods, schedule) => {
   });
 };
 
-// Full-Day: needs free morning and afternoon in the same day
-const fullDay = potentialPeriods => {
-  // get all the morning periods
-  // loop over the morning periods
-  // is there a corresponding afternoon period in the same day?
-  // if yes, return the morning period
-  // DO NOT RETURN AFTERNOON PERIODS
-  //   these are handled by the childPeriods attribute on the AdventurePeriod
-
-  return potentialPeriods.filter(period => {
-    if (!isMorningPeriod(period)) return false;
-
-    const dayOfWeek = period.startAt.getDate();
-    const adjacentAfternoonStartAt = new Date(2019, 6, dayOfWeek, 14, 0);
-    return potentialPeriods.find(p =>
-      isSameDate(p.startAt, adjacentAfternoonStartAt)
+// Full-Day: Receives the morning period; patrol needs to have the afternoon period unassigned
+const fullDay = (potentialPeriods, schedule) => {
+  const returnable = [];
+  for (const period of potentialPeriods) {
+    // get the day in which the period exits
+    const day = period.startAt.getDate();
+    const afternoonStartAt = new Date(2019, 6, day, 14, 0);
+    const scheduledForAfternoonBlock = schedule.find(
+      p => p.startAt.getTime() === afternoonStartAt.getTime()
     );
-  });
+    if (!scheduledForAfternoonBlock) {
+      returnable.push(period);
+    }
+  }
+  return returnable;
 };
 
-// JDF Trail: needs free morning and afternoon in the same day
+// JDF Trail: Receives the morning period; patrol needs free morning and afternoon in the same day
 // two days in a row
 const overnight = (potentialPeriods, schedule) => {
-  // get all the morning periods monday - thursday
-  // are there corresponding periods in the
-  //  afternoon the same day,
-  //  morning next day,
-  //  afternoon next day?
-  // if yes, return the inital morning period
-  // DO NOT RETURN AFTERNOON PERIODS
-  //  these are handled by the childPeriods attribute on the AdventurePeriod
+  const scheduleDates = schedule.map(p => p.startAt.getTime());
+  const returnable = [];
+  for (const period of potentialPeriods) {
+    // get the day in which the period exits
+    const day = period.startAt.getDate();
+    // and the next day
+    const nextDay = day + 1;
 
-  const potentialPeriodsTs = potentialPeriods.map(({ startAt }) =>
-    startAt.getTime()
-  );
-
-  return potentialPeriods.filter(period => {
-    const { startAt } = period;
-    if (!isMorningPeriod(period)) return false;
-    if (startAt.getDay() === 5) return false;
-
-    const dayOfWeek = period.startAt.getDate();
-    const nextDayOfWeek = dayOfWeek + 1;
-    const adjacentPeriodStartAt = [
-      new Date(2019, 6, dayOfWeek, 14, 0).getTime(),
-      new Date(2019, 6, nextDayOfWeek, 8, 30).getTime(),
-      new Date(2019, 6, nextDayOfWeek, 14, 0).getTime(),
+    const mustHaveFree = [
+      new Date(2019, 6, day, 14, 0).getTime(),
+      new Date(2019, 6, nextDay, 8, 30).getTime(),
+      new Date(2019, 6, nextDay, 14, 0).getTime(),
     ];
-    return arrayContainsArray(potentialPeriodsTs, adjacentPeriodStartAt);
-  });
+
+    if (!scheduleDates.some(r => mustHaveFree.includes(r))) {
+      returnable.push(period);
+    }
+  }
+  return returnable;
 };
 
 module.exports = {
