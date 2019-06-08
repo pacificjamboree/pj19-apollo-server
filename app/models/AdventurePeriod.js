@@ -36,13 +36,13 @@ class AdventurePeriod extends Model {
     // get the patrols for the period
     const patrols = await this.$relatedQuery('patrols');
     return patrols.reduce(
-      (acc, curr) => {
+      (acc, patrol) => {
         const { scouts, scouters, total } = acc;
-        const { numberOfScouts, numberOfScouters } = curr;
+        const { numberOfScouts } = patrol;
         return {
           scouts: scouts + numberOfScouts,
-          scouters: scouters + numberOfScouters,
-          total: total + numberOfScouts + numberOfScouters,
+          scouters: scouters + 2, // only return 2 scouters even if patrol has 3
+          total: total + numberOfScouts + 2,
         };
       },
       {
