@@ -79,8 +79,8 @@ const createScheduleForPatrol = async patrol => {
       .first();
 
     // start with a clean slate
-    debug('Removing previous schedule items');
-    await clearPatrolSchedule(patrol);
+    // debug('Removing previous schedule items');
+    // await clearPatrolSchedule(patrol);
 
     // get patrol's selection (array of adventure IDs)
     const selection = await patrol.$relatedQuery('adventureSelection');
