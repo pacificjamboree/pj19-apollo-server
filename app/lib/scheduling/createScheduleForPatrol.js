@@ -26,18 +26,6 @@ const assignPeriodToPatrolSchedule = async (period, patrol) => {
   }
 };
 
-const clearPatrolSchedule = async patrol => {
-  try {
-    const knex = patrol.$knex();
-    await knex.raw(
-      `DELETE FROM patrol_schedule WHERE patrol_id = ?`,
-      patrol.id
-    );
-  } catch (error) {
-    throw error;
-  }
-};
-
 const scheduleIncludesAdventure = (schedule, adventureId) => {
   const idx = schedule.findIndex(p => p.adventureId === adventureId);
   return idx >= 0;
