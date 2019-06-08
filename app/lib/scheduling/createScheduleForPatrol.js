@@ -38,6 +38,11 @@ const clearPatrolSchedule = async patrol => {
   }
 };
 
+const scheduleIncludesAdventure = (schedule, adventureId) => {
+  const idx = schedule.findIndex(p => p.adventureId === adventureId);
+  return idx >= 0;
+};
+
 /**
  * createScheduleForPatrol
  * @param {Patrol} patrol - the target patrol
@@ -101,7 +106,7 @@ const createScheduleForPatrol = async patrol => {
     const wantFreeHours = wantExtraFreePeriod ? 6 : 3;
     const MAX_POTENTIAL_HOURS = TOTAL_HOURS - wantFreeHours;
 
-    debug(`Need to schedule ${MAX_POTENTIAL_HOURS} for patrol`);
+    debug(`Need to schedule ${MAX_POTENTIAL_HOURS} hours for patrol`);
     debug(`Current hours assigned: ${currentHoursAssigned}`);
 
     // loop over selectionOrder
@@ -115,14 +120,14 @@ const createScheduleForPatrol = async patrol => {
       debug(`Adventure: ${adventure.adventureCode}`);
 
       // if schedule contains adventure, continue
-      if (patrolSchedule.includes(id)) {
+      if (scheduleIncludesAdventure(patrolSchedule, id)) {
         debug(
           'Patrol schedule contains adventure, continuing to next adventure'
         );
         continue;
       }
 
-      // if it is premium, and hasPremiumActivity, break
+      // if it is premium, and hasPremiumActivity, continue
       const { premiumAdventure } = adventure;
       if (premiumAdventure && hasPermiumAdventure) {
         debug(
@@ -131,9 +136,22 @@ const createScheduleForPatrol = async patrol => {
         continue;
       }
 
+      // if patrol does not have time left for this adventure, continue
+      debug('Checking if patrol has time for adventure');
+      const timeLeftInSchedule = MAX_POTENTIAL_HOURS - currentHoursAssigned;
+      debug(`Patrol has ${timeLeftInSchedule} hours left to assign`);
+      if (timeLeftInSchedule < adventure.periodsRequired * 3) {
+        debug('No time left for adventure, continuing to next adventure');
+        continue;
+      }
+
       // find an adventure period for this adventure and patrol
       debug('Searching for period for adventure');
-      const period = await findPeriodForAdventure(adventure, patrol);
+      const period = await findPeriodForAdventure(
+        adventure,
+        patrol,
+        'LEAST_SPACE_AVAILABLE'
+      );
       if (period) {
         // assign period to patrol
         debug(
@@ -157,7 +175,10 @@ const createScheduleForPatrol = async patrol => {
       currentHoursAssigned = await patrol.hoursScheduled();
 
       debug(`Current hours assigned: ${currentHoursAssigned}`);
-
+      // const hasFreePeriod = scheduleIncludesAdventure(
+      //   patrolSchedule,
+      //   freePeriod.id
+      // );
       if (currentHoursAssigned === MAX_POTENTIAL_HOURS) {
         debug('Patrol has reached MAX_POTENTIAL_HOURS, breaking now');
         break;
@@ -168,14 +189,28 @@ const createScheduleForPatrol = async patrol => {
     patrolSchedule = await patrol.$relatedQuery('schedule');
 
     // assign first free period
-    debug('Finding first free period for patrol');
-    const fp1 = await findPeriodForAdventure(freePeriod, patrol);
-    await assignPeriodToPatrolSchedule(fp1, patrol);
+    // check if they have a free period already assigned (e.g. after JDF trail)
+    const hasFreePeriod = scheduleIncludesAdventure(
+      patrolSchedule,
+      freePeriod.id
+    );
+    debug('Has free period?', hasFreePeriod);
+    if (hasFreePeriod) {
+      debug('Patrol already has first free period assigned; skipping');
+    } else {
+      debug('Finding first free period for patrol');
+      const fp1 = await findPeriodForAdventure(freePeriod, patrol, 'RANDOM');
+      if (!fp1) {
+        debug('Got undefined for fp1');
+        debugger;
+      }
+      await assignPeriodToPatrolSchedule(fp1, patrol);
+    }
 
     // if wantsExtraFreePeriod, giver
     if (wantExtraFreePeriod) {
       debug('Finding second free period for patrol');
-      const fp2 = await findPeriodForAdventure(freePeriod, patrol);
+      const fp2 = await findPeriodForAdventure(freePeriod, patrol, 'RANDOM');
       await assignPeriodToPatrolSchedule(fp2, patrol);
     }
 
@@ -191,7 +226,11 @@ const createScheduleForPatrol = async patrol => {
       );
     }
 
-    return patrolSchedule;
+    return {
+      schedule: patrolSchedule,
+      hoursAssigned: currentHoursAssigned,
+      fullyScheduled: currentHoursAssigned === TOTAL_HOURS,
+    };
   } catch (error) {
     throw error;
   }
