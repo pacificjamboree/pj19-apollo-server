@@ -55,6 +55,7 @@ const {
   offerOfServiceOverdueAssignment,
 } = require('../resolvers/offerOfService');
 const { getAdventure, getAdventures } = require('../resolvers/adventure');
+const { getAdventurePeriodById } = require('./adventurePeriod');
 const {
   getPatrol,
   getPatrols,
@@ -159,6 +160,9 @@ module.exports = {
     // adventures
     adventure: (_, { search }) => getAdventure(search),
     adventures: (_, { filters = {} }) => getAdventures(filters),
+
+    // adventurePeriods
+    adventurePeriod: (_, { id }) => getAdventurePeriodById(id),
 
     // patrols
     patrol: (_, { search }) => getPatrol(search),

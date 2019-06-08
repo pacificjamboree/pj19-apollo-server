@@ -50,6 +50,8 @@ module.exports = gql`
     adventure(search: AdventureSearchInput!): Adventure
     adventures(filters: AdventureFilters): [Adventure]
 
+    adventurePeriod(id: ID!): AdventurePeriod
+
     patrol(search: PatrolSearchInput!): Patrol @adminOnly
     patrols(filters: PatrolFilters): [Patrol] @adminOnly
     patrolStats: PatrolStats @adminOnly
