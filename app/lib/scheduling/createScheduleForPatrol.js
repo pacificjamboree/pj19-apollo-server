@@ -157,9 +157,9 @@ const createScheduleForPatrol = async patrol => {
       const fp1 = await findPeriodForAdventure(freePeriod, patrol, 'RANDOM');
       if (!fp1) {
         debug('Got undefined for fp1');
-        debugger;
+      } else {
+        await assignPeriodToPatrolSchedule(fp1, patrol);
       }
-      await assignPeriodToPatrolSchedule(fp1, patrol);
     }
 
     // if wantsExtraFreePeriod, giver
