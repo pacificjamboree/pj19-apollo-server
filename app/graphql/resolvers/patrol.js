@@ -1,5 +1,6 @@
 const { fromGlobalId } = require('graphql-relay-tools/dist/node');
 const { transaction, raw } = require('objection');
+const sortBy = require('lodash.sortby');
 const {
   Patrol,
   PatrolScouter,
@@ -50,7 +51,7 @@ const getPatrols = async ({
         const hours = await patrol.hoursScheduled();
         if (hours === 33) fullPatrols.push(patrol);
       }
-      returnable = fullPatrols;
+      returnable = sortBy(fullPatrols, ['finalPaymentDate', 'patrolNumber']);
       break;
 
     case 'notFull':
@@ -59,7 +60,7 @@ const getPatrols = async ({
         const hours = await patrol.hoursScheduled();
         if (hours !== 33) notFullPatrols.push(patrol);
       }
-      returnable = notFullPatrols;
+      returnable = sortBy(notFullPatrols, ['finalPaymentDate', 'patrolNumber']);
       break;
 
     default:
