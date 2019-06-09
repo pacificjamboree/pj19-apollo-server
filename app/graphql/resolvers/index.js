@@ -292,6 +292,10 @@ module.exports = {
     fullyPaid: ({ finalPaymentDate }) => !!finalPaymentDate,
     totalUnitSize: ({ numberOfScouts, numberOfScouters }) =>
       numberOfScouts + numberOfScouters,
+    fullyScheduled: async patrol => {
+      const hoursScheduled = await patrol.hoursScheduled();
+      return hoursScheduled === 33;
+    },
     schedule: patrol => ({
       hoursScheduled: patrol.hoursScheduled(),
       periods: patrol
