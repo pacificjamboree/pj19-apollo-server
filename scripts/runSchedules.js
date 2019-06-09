@@ -1,4 +1,4 @@
-const { Patrol } = require('../app/models');
+const { Adventure, AdventurePeriod, Patrol } = require('../app/models');
 const createScheduleForPatrol = require('../app/lib/scheduling/createScheduleForPatrol');
 process.env.DEBUG = 'scheduling:createScheduleForPatrol';
 
@@ -21,6 +21,25 @@ const main = async () => {
 
       const fullyScheduled = [];
       const notFullyScheduled = [];
+
+      // handle the two patrols that want thursday afternoon free
+      const thursdayPmFreePatrols = await Patrol.query().whereIn(
+        'patrolNumber',
+        ['296', '324']
+      );
+      const freeWithPeriod = await Adventure.query()
+        .where({ adventureCode: 'free' })
+        .eager('periods')
+        .modifyEager('periods', builder => {
+          builder.where({ startAt: new Date(2019, 6, 11, 14, 0) }).first();
+        })
+        .first();
+
+      for (const patrol of thursdayPmFreePatrols) {
+        await patrol
+          .$relatedQuery('schedule')
+          .relate(freeWithPeriod.periods[0].id);
+      }
 
       const patrols = await Patrol.query()
         .eager('adventureSelection')
