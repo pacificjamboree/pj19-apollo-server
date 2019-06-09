@@ -79,4 +79,10 @@ module.exports = gql`
     _id
     title
   }
+
+  enum PatrolScheduleStatus {
+    any
+    full
+    notFull
+  }
 `;

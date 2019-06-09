@@ -8,17 +8,18 @@ const {
 } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
-const {
-  queues: { SEND_EMAIL },
-} = require('../../queues');
-
 const getPatrol = input =>
   Patrol.query()
     .where(whereSearchField(input))
     .eager('[patrolScouter, patrolScouter.user, adventureSelection]')
     .first();
 
-const getPatrols = ({ workflowState = 'active', name, fullyPaid }) => {
+const getPatrols = async ({
+  workflowState = ['active'],
+  name,
+  fullyPaid,
+  scheduleStatus = 'any',
+}) => {
   const nameFilter = (qb, name) => {
     if (name !== undefined) {
       qb.where('name', 'ilike', `%${name}%`);
@@ -31,11 +32,40 @@ const getPatrols = ({ workflowState = 'active', name, fullyPaid }) => {
     fullyPaid ? qb.whereNotNull(FIELD) : qb.whereNull(FIELD);
   };
 
-  return Patrol.query()
+  const patrols = await Patrol.query()
     .eager('[patrolScouter, patrolScouter.user, adventureSelection]')
     .whereIn('workflowState', workflowState)
     .modify(nameFilter, name)
     .modify(fullyPaidFilter, fullyPaid);
+
+  let returnable;
+  switch (scheduleStatus) {
+    case 'any':
+      returnable = patrols;
+      break;
+
+    case 'full':
+      const fullPatrols = [];
+      for (const patrol of patrols) {
+        const hours = await patrol.hoursScheduled();
+        if (hours === 33) fullPatrols.push(patrol);
+      }
+      returnable = fullPatrols;
+      break;
+
+    case 'notFull':
+      const notFullPatrols = [];
+      for (const patrol of patrols) {
+        const hours = await patrol.hoursScheduled();
+        if (hours !== 33) notFullPatrols.push(patrol);
+      }
+      returnable = notFullPatrols;
+      break;
+
+    default:
+      return patrols;
+  }
+  return returnable;
 };
 
 const createPatrol = async ({ Patrol: input, clientMutationId }) => {

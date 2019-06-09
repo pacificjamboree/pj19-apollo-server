@@ -4,6 +4,7 @@ module.exports = gql`
     workflowState: [WorkflowState]
     name: String
     fullyPaid: Boolean
+    scheduleStatus: PatrolScheduleStatus
   }
 
   input PatrolDraft {
