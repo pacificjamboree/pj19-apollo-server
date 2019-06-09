@@ -17,4 +17,4 @@ cd $DEPLOY_DIR && yarn knex migrate:latest
 
 # chown app directory
 chown -R apache:ec2-user $DEPLOY_DIR
-
+chmod -R g+w $DEPLOY_DIR
