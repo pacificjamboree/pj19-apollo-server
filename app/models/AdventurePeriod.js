@@ -32,6 +32,11 @@ class AdventurePeriod extends Model {
     };
   }
 
+  async patrolsAssigned() {
+    const patrols = await this.$relatedQuery('patrols');
+    return patrols.length;
+  }
+
   async participantsAssigned() {
     // get the patrols for the period
     const patrols = await this.$relatedQuery('patrols');

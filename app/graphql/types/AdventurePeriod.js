@@ -5,6 +5,7 @@ module.exports = gql`
     _id: ID!
     adventureId: ID!
     adventure: Adventure
+    patrolsAssignedCount: Int
     participantsAssigned: AdventurePeriodAssignedCount
     patrols: [Patrol]
     startAt: GraphQLDateTime!
