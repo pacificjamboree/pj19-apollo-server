@@ -34,7 +34,7 @@ const getAdventures = async ({
   premiumAdventure,
   name,
   themeName,
-  hidden,
+  hidden = false,
 }) => {
   const premiumActivityFilter = (qb, premiumAdventure) => {
     if (premiumAdventure) {
@@ -53,9 +53,7 @@ const getAdventures = async ({
   };
 
   const hiddenFilter = (qb, hidden) => {
-    if (hidden) {
-      qb.andWhere('hidden', hidden);
-    }
+    qb.andWhere('hidden', hidden);
   };
 
   return Adventure.query()
