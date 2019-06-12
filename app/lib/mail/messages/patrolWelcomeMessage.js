@@ -16,7 +16,6 @@ module.exports = () => /*html*/ `
         background: #f3f3f3;
       }
     }
-    
     @media only screen and (max-width: 596px) {
       .small-float-center {
         margin: 0 auto !important;
@@ -33,7 +32,6 @@ module.exports = () => /*html*/ `
         text-align: right !important;
       }
     }
-    
     @media only screen and (max-width: 596px) {
       .hide-for-large {
         display: block !important;
@@ -44,7 +42,6 @@ module.exports = () => /*html*/ `
         line-height: inherit !important;
       }
     }
-    
     @media only screen and (max-width: 596px) {
       table.body table.container .hide-for-large,
       table.body table.container .row.hide-for-large {
@@ -52,14 +49,12 @@ module.exports = () => /*html*/ `
         width: 100% !important;
       }
     }
-    
     @media only screen and (max-width: 596px) {
       table.body table.container .callout-inner.hide-for-large {
         display: table-cell !important;
         width: 100% !important;
       }
     }
-    
     @media only screen and (max-width: 596px) {
       table.body table.container .show-for-large {
         display: none !important;
@@ -68,7 +63,6 @@ module.exports = () => /*html*/ `
         overflow: hidden;
       }
     }
-    
     @media only screen and (max-width: 596px) {
       table.body img {
         width: auto;

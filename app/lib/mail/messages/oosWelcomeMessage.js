@@ -32,7 +32,7 @@ module.exports = ({ oos, adventures, dueDate }) => {
           background: #f3f3f3;
         }
       }
-      
+
       @media only screen and (max-width: 596px) {
         .small-float-center {
           margin: 0 auto !important;
@@ -49,7 +49,7 @@ module.exports = ({ oos, adventures, dueDate }) => {
           text-align: right !important;
         }
       }
-      
+
       @media only screen and (max-width: 596px) {
         .hide-for-large {
           display: block !important;
@@ -60,7 +60,7 @@ module.exports = ({ oos, adventures, dueDate }) => {
           line-height: inherit !important;
         }
       }
-      
+
       @media only screen and (max-width: 596px) {
         table.body table.container .hide-for-large,
         table.body table.container .row.hide-for-large {
@@ -68,14 +68,14 @@ module.exports = ({ oos, adventures, dueDate }) => {
           width: 100% !important;
         }
       }
-      
+
       @media only screen and (max-width: 596px) {
         table.body table.container .callout-inner.hide-for-large {
           display: table-cell !important;
           width: 100% !important;
         }
       }
-      
+
       @media only screen and (max-width: 596px) {
         table.body table.container .show-for-large {
           display: none !important;
@@ -84,7 +84,7 @@ module.exports = ({ oos, adventures, dueDate }) => {
           overflow: hidden;
         }
       }
-      
+
       @media only screen and (max-width: 596px) {
         table.body img {
           width: auto;
@@ -289,7 +289,6 @@ module.exports = ({ oos, adventures, dueDate }) => {
         }
       }
     </style>
-    <!-- <style> -->
     <table class="body" data-made-with-foundation="" style="Margin: 0; background: #f3f3f3 !important; border-collapse: collapse; border-spacing: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; height: 100%; line-height: 1.3; margin: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;">
       <tbody>
         <tr style="padding: 0; text-align: left; vertical-align: top;">
@@ -399,7 +398,5 @@ module.exports = ({ oos, adventures, dueDate }) => {
       </tbody>
     </table>
   </body>
-
-  </html>
-  `;
+  </html>`;
 };
