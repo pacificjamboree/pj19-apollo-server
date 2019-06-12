@@ -249,6 +249,7 @@ module.exports = {
     assigned: o => o.assigned(),
     assignment: o => o.assignment,
     isAdventureManager: async o => await o.isAdventureManager(),
+    managesAdventures: async o => await o.manages(),
   },
 
   OfferOfServiceNode: baseOfferOfServiceFieldResolvers,

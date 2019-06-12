@@ -1,4 +1,6 @@
 const Model = require('./BaseModel');
+const Adventure = require('./Adventure');
+const { ref } = require('objection');
 
 class OfferOfService extends Model {
   static get tableName() {
@@ -32,6 +34,23 @@ class OfferOfService extends Model {
 
     const { managers } = extendedOOS.assignment;
     return managers.map(({ id }) => id).includes(this.id);
+  }
+
+  async manages() {
+    if (!this.assignedAdventureId) return [];
+    const knex = Model.knex();
+
+    const result = await knex.raw(
+      'SELECT adventure_id FROM adventure_manager WHERE oos_id = ?',
+      this.id
+    );
+
+    const ids = result.rows.map(r => r.adventure_id);
+    if (!ids.length) {
+      return [];
+    }
+    const ManagedAdventures = await Adventure.query().whereIn('id', ids);
+    return ManagedAdventures;
   }
 
   fullName() {

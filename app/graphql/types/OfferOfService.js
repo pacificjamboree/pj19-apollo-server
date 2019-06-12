@@ -26,6 +26,7 @@ module.exports = gql`
     workflowState: WorkflowState
     importId: String
     isAdventureManager: Boolean
+    managesAdventures: [Adventure]
     user: User
     welcomeEmailSentAt: GraphQLDateTime
     assignmentEmailSentAt: GraphQLDateTime
