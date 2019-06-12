@@ -34,7 +34,7 @@ const getAdventures = async ({
   premiumAdventure,
   name,
   themeName,
-  hidden = false,
+  hidden,
 }) => {
   const premiumActivityFilter = (qb, premiumAdventure) => {
     if (premiumAdventure) {
@@ -52,11 +52,17 @@ const getAdventures = async ({
     }
   };
 
+  const hiddenFilter = (qb, hidden) => {
+    if (hidden) {
+      qb.andWhere('hidden', hidden);
+    }
+  };
+
   return Adventure.query()
     .eager(ADVENTURE_EAGERS)
     .whereIn('workflowState', workflowState)
     .whereIn('location', location)
-    .andWhere('hidden', hidden)
+    .modify(hiddenFilter, hidden)
     .modify(premiumActivityFilter, premiumAdventure)
     .modify(nameFilter, name, themeName);
 };
