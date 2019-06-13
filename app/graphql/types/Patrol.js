@@ -15,6 +15,7 @@ module.exports = gql`
     patrolScouter: PatrolScouter
     adventureSelection: PatrolAdventureSelection
     schedule: PatrolSchedule
+    scheduleRank: Int
     fullyScheduled: Boolean
     workflowState: WorkflowState!
     createdAt: GraphQLDateTime!
