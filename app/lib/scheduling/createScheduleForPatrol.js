@@ -2,7 +2,6 @@ const debug = require('debug')('scheduling:createScheduleForPatrol');
 const { Adventure } = require('../../models');
 const findPeriodForAdventure = require('./findPeriodForAdventure');
 const TOTAL_HOURS = 33;
-const MAX_PREMIUM = 2;
 
 const assignPeriodToPatrolSchedule = async (period, patrol) => {
   debug(`Assigning period ${period.id}`);
@@ -61,7 +60,10 @@ const scheduleIncludesAdventureById = (schedule, adventureId) => {
  * - assign free period(s)
  */
 
-const createScheduleForPatrol = async patrol => {
+const createScheduleForPatrol = async (
+  patrol,
+  { assignMandatory = true, maxPremium = 1 }
+) => {
   debug(
     'Creating schedule for patrol %s, (%s)',
     patrol.patrolNumber,
@@ -97,48 +99,59 @@ const createScheduleForPatrol = async patrol => {
     debug(`Need to schedule ${MAX_POTENTIAL_HOURS} hours for patrol`);
     debug(`Current hours assigned: ${currentHoursAssigned}`);
 
-    // assign everyone to fun_zone, obstacle course, waterfront
-    const mandatory = await Adventure.query().whereIn('adventureCode', [
-      'fun_zone',
-      'obstacle_course',
-      'waterfront',
-    ]);
-    for (const adventure of mandatory) {
-      debug(
-        `Searching for period for mandatory adventure ${
-          adventure.adventureCode
-        }`
-      );
-      const period = await findPeriodForAdventure(adventure, patrol, 'RANDOM');
-      if (period) {
-        // assign period to patrol
+    if (assignMandatory) {
+      // assign everyone to fun_zone, obstacle course, waterfront
+      const mandatory = await Adventure.query().whereIn('adventureCode', [
+        'fun_zone',
+        'obstacle_course',
+        'waterfront',
+      ]);
+      for (const adventure of mandatory) {
         debug(
-          `Found period for adventure ${
+          `Searching for period for mandatory adventure ${
             adventure.adventureCode
-          }, adding to patrol schedule`
+          }`
         );
-        await assignPeriodToPatrolSchedule(period, patrol);
-      } else {
-        debug(
-          `No available period for adventure ${adventure.adventureCode} :(`
+        const period = await findPeriodForAdventure(
+          adventure,
+          patrol,
+          'RANDOM'
         );
-        continue;
+        if (period) {
+          // assign period to patrol
+          debug(
+            `Found period for adventure ${
+              adventure.adventureCode
+            }, adding to patrol schedule`
+          );
+          await assignPeriodToPatrolSchedule(period, patrol);
+        } else {
+          debug(
+            `No available period for adventure ${adventure.adventureCode} :(`
+          );
+          continue;
+        }
       }
+
+      // update the patrol schedule and hours
+      patrolSchedule = await patrol.$relatedQuery('schedule');
+      currentHoursAssigned = await patrol.hoursScheduled();
+
+      const timeLeftInSchedule = MAX_POTENTIAL_HOURS - currentHoursAssigned;
+      debug(
+        `End mandatory assignment, patrol has ${timeLeftInSchedule} hours left to assign`
+      );
     }
 
-    // update the patrol schedule and hours
-    patrolSchedule = await patrol.$relatedQuery('schedule');
-    currentHoursAssigned = await patrol.hoursScheduled();
-
-    const timeLeftInSchedule = MAX_POTENTIAL_HOURS - currentHoursAssigned;
-    debug(
-      `End mandatory assignment, patrol has ${timeLeftInSchedule} hours left to assign`
-    );
-
     // loop over selectionOrder
-    debug('Starting loop over adventure selection');
-    await adventureSelectionLoop(patrol, selectionOrder, MAX_POTENTIAL_HOURS);
-    debug('Finished loop over adventure selection');
+    debug('Starting first loop over adventure selection');
+    await adventureSelectionLoop(
+      patrol,
+      selectionOrder,
+      MAX_POTENTIAL_HOURS,
+      maxPremium
+    );
+    debug('Finished first loop over adventure selection');
 
     patrolSchedule = await patrol.$relatedQuery('schedule');
 
@@ -199,7 +212,8 @@ const createScheduleForPatrol = async patrol => {
 const adventureSelectionLoop = async (
   patrol,
   selectionOrder,
-  hoursToAssign
+  hoursToAssign,
+  MAX_PREMIUM = 1
 ) => {
   let patrolSchedule = await patrol.$relatedQuery('schedule');
   let currentHoursAssigned = await patrol.hoursScheduled();

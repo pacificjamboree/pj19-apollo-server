@@ -1,6 +1,5 @@
-const { Adventure, AdventurePeriod, Patrol } = require('../app/models');
+const { Adventure, Patrol } = require('../app/models');
 const createScheduleForPatrol = require('../app/lib/scheduling/createScheduleForPatrol');
-process.env.DEBUG = 'scheduling:createScheduleForPatrol';
 
 const main = async () => {
   try {
@@ -46,16 +45,32 @@ const main = async () => {
         .where({ workflowState: 'active' })
         .orderBy('finalPaymentDate', 'asc')
         .orderBy('patrolNumber', 'asc');
-      for (const patrol of patrols) {
-        const result = await createScheduleForPatrol(patrol);
-        const arr = result.fullyScheduled ? fullyScheduled : notFullyScheduled;
-        arr.push(patrol.patrolNumber);
+
+      // run the loop with maxPremium 1, assignMandatory true
+      console.log('RUNNING FIRST LOOP');
+      for (const [i, patrol] of patrols.entries()) {
+        await createScheduleForPatrol(patrol, {
+          assignMandatory: true,
+          maxPremium: 1,
+        });
+
+        // set their scheduleRank
+        await patrol.$query().patch({ scheduleRank: i + 1 });
         console.log('\n\n');
       }
 
-      console.log('Fully Scheduled:', fullyScheduled.length);
-      console.log('Not Fully Scheduled:', notFullyScheduled.length);
-      console.log(notFullyScheduled);
+      // run it again with maxPremium 2, assignMandatory false
+      console.log('RUNNING SECOND LOOP');
+      for (const patrol of patrols) {
+        const result = await createScheduleForPatrol(patrol, {
+          assignMandatory: false,
+          maxPremium: 2,
+        });
+      }
+
+      // console.log('Fully Scheduled:', fullyScheduled.length);
+      // console.log('Not Fully Scheduled:', notFullyScheduled.length);
+      // console.log(notFullyScheduled);
     }
 
     process.exit();
