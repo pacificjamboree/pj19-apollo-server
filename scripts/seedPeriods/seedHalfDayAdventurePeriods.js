@@ -1,4 +1,4 @@
-const { AdventurePeriod } = require('../../app/models');
+const { Adventure, AdventurePeriod } = require('../../app/models');
 const { transaction } = require('objection');
 const knex = AdventurePeriod.knex();
 
@@ -8,7 +8,7 @@ where (
   hidden = false and 
   "workflow_state" = 'active' and 
   "periods_required" = '1' and 
-  "adventure_code" not in ('archery', 'stem', 'stem_oceanwise', 'stem_shoreline', 'fencing')) 
+  "adventure_code" not in ('archery', 'stem', 'stem_oceanwise', 'stem_shoreline', 'fencing', 'swimming')) 
   or adventure_code = 'free'`;
 
 const HALF_DAY_PERIODS = [
@@ -42,6 +42,24 @@ const seeder = async () => {
           });
         }
       }
+
+      // also make swimming while we're here
+      // these will need to be manually adjusted to their *real* start/end times
+      // but for now setting them to 1400/1700 so that the scheduling scripts
+      // don't break
+      const swimming = await Adventure.query()
+        .where({
+          adventureCode: 'swimming',
+        })
+        .first();
+      const swimmingPeriods = [8, 9, 10, 11, 12].map(d => ({
+        adventureId: swimming.id,
+        startAt: new Date(2019, 6, d, 14, 0),
+        endAt: new Date(2019, 6, d, 17, 0),
+        type: 'primary',
+      }));
+
+      await AdventurePeriod.query(t).insert(swimmingPeriods);
     });
   } catch (error) {
     throw error;
