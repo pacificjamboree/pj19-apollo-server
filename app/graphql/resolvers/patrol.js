@@ -2,6 +2,7 @@ const { fromGlobalId } = require('graphql-relay-tools/dist/node');
 const { transaction, raw } = require('objection');
 const sortBy = require('lodash.sortby');
 const {
+  AdventurePeriod,
   Patrol,
   PatrolScouter,
   PatrolAdventureSelection,
@@ -336,6 +337,78 @@ const totalAdventureParticipantsCount = async () => {
   }
 };
 
+const addAdventurePeriodToPatrol = async ({ adventurePeriodId, patrolId }) => {
+  try {
+    let patrol = await Patrol.query()
+      .where({ id: fromGlobalId(patrolId).id })
+      .eager('schedule')
+      .first();
+    if (!patrol) {
+      throw new Error('no such patrol');
+    }
+
+    const apDbId = fromGlobalId(adventurePeriodId).id;
+    const adventurePeriod = await AdventurePeriod.query()
+      .where({ id: apDbId })
+      .first();
+    if (!adventurePeriod) {
+      throw new Error('no such adventure period');
+    }
+
+    if (patrol.schedule.map(x => x.id).includes(apDbId)) {
+      throw new Error('patrol schedule already contains period');
+    }
+
+    // assign the period to the patrol
+    await patrol.$relatedQuery('schedule').relate(adventurePeriod.id);
+
+    patrol = patrol.$query().eager('schedule');
+    return { patrol };
+  } catch (error) {
+    throw error;
+  }
+};
+
+const removeAdventurePeriodFromPatrol = async ({
+  adventurePeriodId,
+  patrolId,
+}) => {
+  try {
+    let patrol = await Patrol.query()
+      .where({ id: fromGlobalId(patrolId).id })
+      .eager('schedule')
+      .first();
+    if (!patrol) {
+      throw new Error('no such patrol');
+    }
+
+    const apDbId = fromGlobalId(adventurePeriodId).id;
+    const adventurePeriod = await AdventurePeriod.query()
+      .where({ id: apDbId })
+      .first();
+    if (!adventurePeriod) {
+      throw new Error('no such adventure period');
+    }
+
+    // if schedule doesn't include the period, return the patrol early
+    if (!patrol.schedule.map(x => x.id).includes(apDbId)) {
+      console.log('no such period');
+      return { patrol };
+    }
+
+    // remove the period from the patrol's schedule
+    await patrol
+      .$relatedQuery('schedule')
+      .unrelate()
+      .where({ adventurePeriodId: adventurePeriod.id });
+
+    patrol = patrol.$query().eager('schedule');
+    return { patrol };
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   getPatrol,
   getPatrols,
@@ -349,4 +422,6 @@ module.exports = {
   patrolsWithThreeScouters,
   totalParticipantsCount,
   totalAdventureParticipantsCount,
+  addAdventurePeriodToPatrol,
+  removeAdventurePeriodFromPatrol,
 };

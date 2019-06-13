@@ -40,6 +40,8 @@ const {
   updateAdventureGuide,
   updatePatrolAdventureSelection,
   removeAdventureFromAllPatrolAdventureSelections,
+  addAdventurePeriodToPatrolSchedule,
+  removeAdventurePeriodFromPatrolSchedule,
 } = require('../mutations');
 
 const {
@@ -233,6 +235,10 @@ module.exports = {
       updatePatrolAdventureSelection.mutationResolver,
     removeAdventureFromAllPatrolAdventureSelections:
       removeAdventureFromAllPatrolAdventureSelections.mutationResolver,
+    addAdventurePeriodToPatrolSchedule:
+      addAdventurePeriodToPatrolSchedule.mutationResolver,
+    removeAdventurePeriodFromPatrolSchedule:
+      removeAdventurePeriodFromPatrolSchedule.mutationResolver,
   },
 
   OfferOfServiceCount: {

@@ -33,6 +33,8 @@ const {
   updateAdventureGuide,
   updatePatrolAdventureSelection,
   removeAdventureFromAllPatrolAdventureSelections,
+  addAdventurePeriodToPatrolSchedule,
+  removeAdventurePeriodFromPatrolSchedule,
 } = require('./mutations');
 
 module.exports = gql`
@@ -128,6 +130,12 @@ module.exports = gql`
     }
     removeAdventureFromAllPatrolAdventureSelections${
       removeAdventureFromAllPatrolAdventureSelections.mutationField
+    } @adminOnly
+    addAdventurePeriodToPatrolSchedule${
+      addAdventurePeriodToPatrolSchedule.mutationField
+    } @adminOnly
+    removeAdventurePeriodFromPatrolSchedule${
+      removeAdventurePeriodFromPatrolSchedule.mutationField
     } @adminOnly
   }
 `;
