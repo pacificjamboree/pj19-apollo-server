@@ -55,5 +55,6 @@ module.exports = gql`
     themeName: String
     premiumAdventure: Boolean
     hidden: Boolean
+    includeFree: Boolean
   }
 `;
