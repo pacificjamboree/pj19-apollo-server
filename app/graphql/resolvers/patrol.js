@@ -359,10 +359,16 @@ const addAdventurePeriodToPatrol = async ({ adventurePeriodId, patrolId }) => {
       throw new Error('patrol schedule already contains period');
     }
 
-    // assign the period to the patrol
-    await patrol.$relatedQuery('schedule').relate(adventurePeriod.id);
+    // collect all the period IDs to assign
+    const ids = [
+      adventurePeriod.id,
+      ...adventurePeriod.childPeriods,
+      ...adventurePeriod.assignWith,
+    ];
+    // assign the period(s) to the patrol
+    await patrol.$relatedQuery('schedule').relate(ids);
 
-    patrol = patrol.$query().eager('schedule');
+    patrol = await patrol.$query().eager('schedule');
     return { patrol };
   } catch (error) {
     throw error;
@@ -396,11 +402,19 @@ const removeAdventurePeriodFromPatrol = async ({
       return { patrol };
     }
 
+    // collect the IDs to remove
+    // collect all the period IDs to assign
+    const ids = [
+      adventurePeriod.id,
+      ...adventurePeriod.childPeriods,
+      ...adventurePeriod.assignWith,
+    ];
+
     // remove the period from the patrol's schedule
     await patrol
       .$relatedQuery('schedule')
       .unrelate()
-      .where({ adventurePeriodId: adventurePeriod.id });
+      .whereIn('adventurePeriodId', ids);
 
     patrol = patrol.$query().eager('schedule');
     return { patrol };
