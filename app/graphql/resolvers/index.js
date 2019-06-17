@@ -292,6 +292,7 @@ module.exports = {
     adventure: period =>
       period.adventure ? period.adventure : period.$relatedQuery('adventure'),
     patrolsAssignedCount: period => period.patrolsAssigned(),
+    capacityRemaining: period => period.capacityRemaining(),
   },
 
   Patrol: {
