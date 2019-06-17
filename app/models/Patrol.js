@@ -46,14 +46,22 @@ class Patrol extends Model {
   }
 
   async hoursScheduled() {
-    const schedule = await this.$relatedQuery('schedule');
-
-    return (
-      schedule.reduce((acc, { startAt, endAt }) => {
+    const schedule = await this.$relatedQuery('schedule').eager('adventure');
+    // stem_spheros and stem_escape_room overlap - remove one
+    const filtered = schedule.filter(
+      period => period.adventure.adventureCode !== 'stem_spheros'
+    );
+    const hours =
+      filtered.reduce((acc, { startAt, endAt }) => {
         const hours = differenceInMinutes(endAt, startAt);
         return hours + acc;
-      }, 0) / 60
-    );
+      }, 0) / 60;
+
+    // a patrol can technically be over 33 hours because of the way archery's stem periods overlap
+    if (hours > 33) {
+      return 33;
+    }
+    return hours;
   }
 }
 
