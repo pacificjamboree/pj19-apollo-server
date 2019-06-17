@@ -57,6 +57,18 @@ class AdventurePeriod extends Model {
       }
     );
   }
+
+  async capacityRemaining() {
+    const adventure = await this.$relatedQuery('adventure');
+    // get participantsAssigned to the period
+    const assigned = await this.participantsAssigned();
+
+    const { scoutOnly } = adventure;
+    return (
+      adventure.capacityPerPeriod -
+      (scoutOnly ? assigned.scouts : assigned.total)
+    );
+  }
 }
 
 module.exports = AdventurePeriod;
