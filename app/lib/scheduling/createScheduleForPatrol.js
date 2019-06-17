@@ -62,7 +62,7 @@ const scheduleIncludesAdventureById = (schedule, adventureId) => {
 
 const createScheduleForPatrol = async (
   patrol,
-  { assignMandatory = true, maxPremium = 1 }
+  { assignMandatory = true, maxPremium = 1, assignFree = true }
 ) => {
   debug(
     'Creating schedule for patrol %s, (%s)',
@@ -155,37 +155,38 @@ const createScheduleForPatrol = async (
 
     patrolSchedule = await patrol.$relatedQuery('schedule');
 
-    // assign first free period
-    // check if they have a free period already assigned (e.g. after JDF trail)
-    // or if they got oceanwise, which has free periods
-    const hasFreePeriod =
-      scheduleIncludesAdventureById(patrolSchedule, freePeriod.id) ||
-      scheduleIncludesAdventureById(patrolSchedule, free1.id);
+    if (assignFree) {
+      // assign first free period
+      // check if they have a free period already assigned (e.g. after JDF trail)
+      // or if they got oceanwise, which has free periods
+      const hasFreePeriod =
+        scheduleIncludesAdventureById(patrolSchedule, freePeriod.id) ||
+        scheduleIncludesAdventureById(patrolSchedule, free1.id);
 
-    debug('Has free period?', hasFreePeriod);
-    if (hasFreePeriod) {
-      debug('Patrol already has first free period assigned; skipping');
-    } else {
-      debug('Finding first free period for patrol');
-      const fp1 = await findPeriodForAdventure(freePeriod, patrol, 'RANDOM');
-      if (!fp1) {
-        debug('Got undefined for fp1');
+      debug('Has free period?', hasFreePeriod);
+      if (hasFreePeriod) {
+        debug('Patrol already has first free period assigned; skipping');
       } else {
-        await assignPeriodToPatrolSchedule(fp1, patrol);
+        debug('Finding first free period for patrol');
+        const fp1 = await findPeriodForAdventure(freePeriod, patrol, 'RANDOM');
+        if (!fp1) {
+          debug('Got undefined for fp1');
+        } else {
+          await assignPeriodToPatrolSchedule(fp1, patrol);
+        }
+      }
+
+      // if wantsExtraFreePeriod, giver
+      if (wantExtraFreePeriod) {
+        debug('Finding second free period for patrol');
+        const fp2 = await findPeriodForAdventure(freePeriod, patrol, 'RANDOM');
+        if (fp2) {
+          await assignPeriodToPatrolSchedule(fp2, patrol);
+        } else {
+          debug('None found');
+        }
       }
     }
-
-    // if wantsExtraFreePeriod, giver
-    if (wantExtraFreePeriod) {
-      debug('Finding second free period for patrol');
-      const fp2 = await findPeriodForAdventure(freePeriod, patrol, 'RANDOM');
-      if (fp2) {
-        await assignPeriodToPatrolSchedule(fp2, patrol);
-      } else {
-        debug('None found');
-      }
-    }
-
     currentHoursAssigned = await patrol.hoursScheduled();
 
     if (currentHoursAssigned === TOTAL_HOURS) {

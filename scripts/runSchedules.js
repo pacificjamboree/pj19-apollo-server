@@ -52,6 +52,7 @@ const main = async () => {
         await createScheduleForPatrol(patrol, {
           assignMandatory: true,
           maxPremium: 1,
+          assignFree: true,
         });
 
         // set their scheduleRank
@@ -65,6 +66,7 @@ const main = async () => {
         const result = await createScheduleForPatrol(patrol, {
           assignMandatory: false,
           maxPremium: 2,
+          assignFree: false,
         });
       }
 
