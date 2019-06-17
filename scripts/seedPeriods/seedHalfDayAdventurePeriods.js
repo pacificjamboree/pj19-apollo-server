@@ -8,7 +8,7 @@ where (
   hidden = false and 
   "workflow_state" = 'active' and 
   "periods_required" = '1' and 
-  "adventure_code" not in ('archery', 'stem', 'stem_oceanwise', 'stem_shoreline', 'fencing', 'swimming')) 
+  "adventure_code" not in ('archery', 'stem', 'stem_oceanwise', 'stem_shoreline', 'stem_moon', 'stem_spheros', 'stem_ar_vr', 'stem_escape_room', 'fencing', 'swimming'))
   or adventure_code = 'free'`;
 
 const HALF_DAY_PERIODS = [
