@@ -9,6 +9,9 @@ module.exports = gql`
     participantsAssigned: AdventurePeriodAssignedCount
     capacityRemaining: Int
     patrols: [Patrol]
+    type: String
+    assignWith: [AdventurePeriod]
+    childPeriods: [AdventurePeriod]
     startAt: GraphQLDateTime!
     endAt: GraphQLDateTime!
     createdAt: GraphQLDateTime!
