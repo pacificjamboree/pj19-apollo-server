@@ -294,7 +294,7 @@ const adventureSelectionLoop = async (
       debug(`Current hours assigned: ${currentHoursAssigned}`);
     }
 
-    // if schedule includes jdf, subtract three from currentHoursAssigned to handle the included FP
+    // if schedule includes oceanwise, subtract three from currentHoursAssigned to handle the included FP
     if (scheduleIncludesAdventureById(patrolSchedule, oceanwise.id)) {
       debug(`Has Oceanwise, adjusting current hours assigned`);
       currentHoursAssigned -= 3;

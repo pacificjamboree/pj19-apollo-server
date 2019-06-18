@@ -65,10 +65,10 @@ const findPeriodForAdventure = async (adventure, patrol, how = 'RANDOM') => {
     const size = adventure.scoutOnly
       ? patrol.numberOfScouts
       : patrol.numberOfScouts + 2; // always only two scouters
-    const periodsThatFitPatrol =
-      adventure.adventureCode === 'free'
-        ? potentialPeriods
-        : await filterAdventurePeriodsForPatrolSize(potentialPeriods, size);
+    const periodsThatFitPatrol = await filterAdventurePeriodsForPatrolSize(
+      potentialPeriods,
+      size
+    );
     const period = await periodPickers[how](periodsThatFitPatrol);
 
     return period;
