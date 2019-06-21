@@ -12,6 +12,7 @@ const main = async () => {
     for (const patrol of patrols) {
       PATROL_SCHEDULE_PDF.add({ id: patrol.id });
     }
+    process.exit();
   } catch (error) {
     console.log(error);
     process.exit(255);
