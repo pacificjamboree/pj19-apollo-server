@@ -10,7 +10,7 @@ const main = async () => {
       .select('id');
 
     for (const patrol of patrols) {
-      PATROL_SCHEDULE_PDF.add({ id: patrol.id });
+      await PATROL_SCHEDULE_PDF.add({ id: patrol.id });
     }
     process.exit();
   } catch (error) {
