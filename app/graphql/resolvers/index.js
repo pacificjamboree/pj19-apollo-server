@@ -288,7 +288,7 @@ module.exports = {
     id: globalIdResolver(),
     _id: ({ id }) => id,
     participantsAssigned: period => period.participantsAssigned(),
-    patrols: period => period.$relatedQuery('patrols'),
+    patrols: period => period.$relatedQuery('patrols').eager('patrolScouter'),
     adventure: period =>
       period.adventure ? period.adventure : period.$relatedQuery('adventure'),
     patrolsAssignedCount: period => period.patrolsAssigned(),
