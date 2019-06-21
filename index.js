@@ -71,6 +71,11 @@ app.use(
           redis: `redis://${JOBS_REDIS_HOST}:${JOBS_REDIS_PORT}`,
         },
         {
+          name: 'PATROL_SCHEDULE_PDF',
+          hostId: 'Worker',
+          redis: `redis://${JOBS_REDIS_HOST}:${JOBS_REDIS_PORT}`,
+        },
+        {
           name: 'SEND_EMAIL',
           hostId: 'Worker',
           redis: `redis://${JOBS_REDIS_HOST}:${JOBS_REDIS_PORT}`,

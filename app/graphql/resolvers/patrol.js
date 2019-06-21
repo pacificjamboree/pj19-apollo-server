@@ -10,6 +10,10 @@ const {
 } = require('../../models');
 const whereSearchField = require('../../lib/whereSearchField');
 
+const {
+  queues: { PATROL_SCHEDULE_PDF },
+} = require('../../queues');
+
 const getPatrol = input =>
   Patrol.query()
     .where(whereSearchField(input))
@@ -369,6 +373,9 @@ const addAdventurePeriodToPatrol = async ({ adventurePeriodId, patrolId }) => {
     await patrol.$relatedQuery('schedule').relate(ids);
 
     patrol = await patrol.$query().eager('schedule');
+    PATROL_SCHEDULE_PDF.add({
+      id: patrol.id,
+    });
     return { patrol };
   } catch (error) {
     throw error;
@@ -416,7 +423,10 @@ const removeAdventurePeriodFromPatrol = async ({
       .unrelate()
       .whereIn('adventurePeriodId', ids);
 
-    patrol = patrol.$query().eager('schedule');
+    patrol = await patrol.$query().eager('schedule');
+    console.log({ patrol });
+    PATROL_SCHEDULE_PDF.add({ id: patrol.id });
+
     return { patrol };
   } catch (error) {
     throw error;
