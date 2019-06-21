@@ -29,6 +29,8 @@ const generatePatrolScheduleMarkdown = async id => {
       )}
         ### ${p.adventure.fullName()}
         ${formatLocation(p.adventure.location)}
+        
+        ---
       `;
     });
 
@@ -40,6 +42,14 @@ const generatePatrolScheduleMarkdown = async id => {
 
       # Adventure Schedule - Patrol ${patrol.patrolNumber}
       
+      Adventure Schedule Changes can be made at Adventure Headquarters before 8pm. No same-day adventure additions can be made. If you plan to drop out of an activity, please let us know either in person at Adventure Headquarters, or through your Subcamp, so that we can make your space available to other Patrols, and so that we're not looking for you.
+
+      For off-site activities, the times noted are not your bus departure times. **You must consult the bus schedules posted in your Subcamp, and at the Adventure Bussing area for your bus departure times. You must arrive at your bus at least 15 minutes prior to the posted departure time. Busses will not be held for late units**.
+
+      Please consult the Trail Card for each Adventure. They contain important information about how to prepare for each Adventure.
+
+      Note that some activites (e.g. Escape Room and Robotics) appear to occur at the same times and overlap. These two activities are offered together; Patrols will be split amongst the two and rotate through both.
+
         ${periodDetails.join('\n')}
       `;
   } catch (error) {
