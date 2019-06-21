@@ -54,7 +54,7 @@ module.exports = gql`
 
     adventurePeriod(id: ID!): AdventurePeriod
 
-    patrol(search: PatrolSearchInput!): Patrol @adminOnly
+    patrol(search: PatrolSearchInput!): Patrol @isAuthorized(roles: [admin, patrolScouter])
     patrols(filters: PatrolFilters): [Patrol] @adminOnly
     patrolStats: PatrolStats @adminOnly
 

@@ -1,6 +1,7 @@
 const { fromGlobalId } = require('graphql-relay-tools/dist/node');
 const { transaction, raw } = require('objection');
 const sortBy = require('lodash.sortby');
+const { UnauthorizedActionError } = require('../errors');
 const {
   AdventurePeriod,
   Patrol,
@@ -14,11 +15,26 @@ const {
   queues: { PATROL_SCHEDULE_PDF },
 } = require('../../queues');
 
-const getPatrol = input =>
-  Patrol.query()
-    .where(whereSearchField(input))
-    .eager('[patrolScouter, patrolScouter.user, adventureSelection]')
-    .first();
+const getPatrol = async (input, ctx) => {
+  try {
+    const patrol = await Patrol.query()
+      .where(whereSearchField(input))
+      .eager('[patrolScouter, patrolScouter.user, adventureSelection]')
+      .first();
+
+    const { roles } = ctx.user;
+    if (roles.includes('admin')) return patrol;
+    if (
+      roles.includes('patrolScouter') &&
+      ctx.user.patrolScouterId === patrol.patrolScouterId
+    ) {
+      return patrol;
+    }
+    throw new UnauthorizedActionError();
+  } catch (error) {
+    throw error;
+  }
+};
 
 const getPatrols = async ({
   workflowState = ['active'],

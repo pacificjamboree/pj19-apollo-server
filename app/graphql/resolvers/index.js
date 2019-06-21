@@ -167,7 +167,7 @@ module.exports = {
     adventurePeriod: (_, { id }) => getAdventurePeriodById(id),
 
     // patrols
-    patrol: (_, { search }) => getPatrol(search),
+    patrol: (_, { search }, ctx) => getPatrol(search, ctx),
     patrols: (_, { filters = {} }) => getPatrols(filters),
 
     patrolStats: () => ({}),
