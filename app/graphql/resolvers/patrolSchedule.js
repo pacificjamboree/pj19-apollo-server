@@ -3,7 +3,8 @@ const formatDate = require('date-fns/format');
 const sortBy = require('lodash.sortby');
 const { Patrol } = require('../../models');
 
-const DATE_FORMAT = 'dddd h A';
+const DATE_FORMAT_START = 'dddd h:mm A';
+const DATE_FORMAT_END = 'h:mm A';
 
 const formatLocation = location =>
   location === 'onsite'
@@ -23,19 +24,26 @@ const generatePatrolScheduleMarkdown = async id => {
     const sorted = sortBy(schedule, 'startAt');
     const periodDetails = sorted.map(p => {
       return dedent`
-        ## ${formatDate(p.startAt, DATE_FORMAT)} - ${formatDate(
+        ## ${formatDate(p.startAt, DATE_FORMAT_START)} - ${formatDate(
         p.endAt,
-        DATE_FORMAT
+        DATE_FORMAT_END
       )}
         ### ${p.adventure.fullName()}
         ${formatLocation(p.adventure.location)}
-        
-        ---
       `;
     });
 
     return dedent`
       ---
+      stylesheet: https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css
+      body_class: markdown-body
+      css: |-
+        .page-break { page-break-after: always; }
+        .markdown-body { font-size: 11px; }
+        .markdown-body h1 { font-size: 1.5em; }
+        .markdown-body h2 { font-size: 1.25em; }
+        .markdown-body p { font-size: .8em; }
+        .markdown-body pre > code { white-space: pre-wrap; }
       pdf_options:
         margin: 1.5cm
       ---
