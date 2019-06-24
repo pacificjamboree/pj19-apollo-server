@@ -312,6 +312,7 @@ module.exports = {
         .eager('adventure')
         .orderBy('startAt', 'asc'),
     }),
+    numberOfFreePeriods: patrol => patrol.numberOfFreePeriods(),
   },
 
   PatrolScouter: {

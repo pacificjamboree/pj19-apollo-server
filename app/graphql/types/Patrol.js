@@ -17,6 +17,7 @@ module.exports = gql`
     schedule: PatrolSchedule
     scheduleRank: Int
     fullyScheduled: Boolean
+    numberOfFreePeriods: Int
     workflowState: WorkflowState!
     createdAt: GraphQLDateTime!
     updatedAt: GraphQLDateTime!

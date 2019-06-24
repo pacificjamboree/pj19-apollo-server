@@ -63,6 +63,29 @@ class Patrol extends Model {
     }
     return hours;
   }
+
+  async numberOfFreePeriods() {
+    // returns the number of free periods assigned to the patrol
+    // instances of `free1` are counted as one free period
+    const FREE_PERIOD_CODES = ['free', 'free1'];
+    const schedule = await this.$relatedQuery('schedule').eager('adventure');
+    const freePeriods = schedule
+      .filter(p => FREE_PERIOD_CODES.includes(p.adventure.adventureCode))
+      .map(p => p.adventure.adventureCode);
+    let hasHadFree1 = false;
+    return freePeriods.reduce((prev, currentPeriod) => {
+      if (currentPeriod === 'free') {
+        return prev + 1;
+      } else if (currentPeriod === 'free1') {
+        if (hasHadFree1) {
+          return prev;
+        } else {
+          hasHadFree1 = true;
+          return prev + 1;
+        }
+      }
+    }, 0);
+  }
 }
 
 module.exports = Patrol;
