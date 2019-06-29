@@ -391,6 +391,7 @@ const addAdventurePeriodToPatrol = async ({ adventurePeriodId, patrolId }) => {
     patrol = await patrol.$query().eager('schedule');
     PATROL_SCHEDULE_PDF.add({
       id: patrol.id,
+      patrolNumber: patrol.patrolNumber,
     });
     return { patrol };
   } catch (error) {
@@ -441,7 +442,10 @@ const removeAdventurePeriodFromPatrol = async ({
 
     patrol = await patrol.$query().eager('schedule');
     console.log({ patrol });
-    PATROL_SCHEDULE_PDF.add({ id: patrol.id });
+    PATROL_SCHEDULE_PDF.add({
+      id: patrol.id,
+      patrolNumber: patrol.patrolNumber,
+    });
 
     return { patrol };
   } catch (error) {

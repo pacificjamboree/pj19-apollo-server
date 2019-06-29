@@ -7,12 +7,22 @@ const DATE_FORMAT_START = 'dddd h:mm A';
 const DATE_FORMAT_END = 'h:mm A';
 
 const formatLocation = location =>
-  location === 'onsite'
-    ? 'On-Site'
-    : 'Off-Site – **Consult Bus Schedule for Departure Time and Bus Number**';
+  location === 'onsite' ? 'On-Site' : 'Off-Site';
+
+const formatPeriodDate = p => {
+  if (p.adventure.location === 'onsite') {
+    return `${formatDate(p.startAt, DATE_FORMAT_START)} - ${formatDate(
+      p.endAt,
+      DATE_FORMAT_END
+    )}`;
+  } else {
+    return `${formatDate(p.startAt, 'dddd')} ${
+      formatDate(p.startAt, 'A') === 'AM' ? 'Morning' : 'Afternoon'
+    }`;
+  }
+};
 
 const generatePatrolScheduleMarkdown = async id => {
-  console.log({ id });
   try {
     // Get the data we need
     const patrol = await Patrol.query()
@@ -24,28 +34,48 @@ const generatePatrolScheduleMarkdown = async id => {
     const sorted = sortBy(schedule, 'startAt');
     const periodDetails = sorted.map(p => {
       return dedent`
-        ## ${formatDate(p.startAt, DATE_FORMAT_START)} - ${formatDate(
-        p.endAt,
-        DATE_FORMAT_END
-      )}
+        ## ${formatPeriodDate(p)} – ${formatLocation(p.adventure.location)}
+
         ### ${p.adventure.fullName()}
-        ${formatLocation(p.adventure.location)}
+        ${
+          p.adventure.scoutOnly
+            ? "**Scouts Only**: Due to the extremely limited capacity of this activity, participation is limited to Scouts only. If there is excess capacity in your assigned period, Scouters may be able to participate at the Adventure Lead's discretion."
+            : ''
+        }
       `;
     });
 
     return dedent`
-      ---
-      stylesheet: https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css
+      --- 
       body_class: markdown-body
       css: |-
-        .page-break { page-break-after: always; }
-        .markdown-body { font-size: 11px; }
-        .markdown-body h1 { font-size: 1.5em; }
-        .markdown-body h2 { font-size: 1.25em; }
-        .markdown-body p { font-size: .8em; }
-        .markdown-body pre > code { white-space: pre-wrap; }
-      pdf_options:
-        margin: 1.5cm
+          .page-break { page-break-after: always; }
+          .markdown-body { font-size: 11px; }
+          .markdown-body h1 { font-size: 1.5em; }
+          .markdown-body h2 { font-size: 1.25em; }
+          .markdown-body p { font-size: .8em; }
+          .markdown-body pre > code { white-space: pre-wrap; }
+      pdf_options: 
+        displayHeaderFooter: true
+        footerTemplate: |-
+          <section>
+            <div>
+              Patrol ${
+                patrol.patrolNumber
+              } - Page <span class="pageNumber"></span> of <span class="totalPages"></span>
+            </div>
+          </section>
+        headerTemplate: |-
+          <style>
+            section {
+              margin: 0 auto;
+              font-family: system-ui;
+              font-size: 8px;
+            }
+          </style>
+          <section></section>
+        margin: 1cm
+      stylesheet: "https://s3.ca-central-1.amazonaws.com/adventure.pacificjamboree.ca/documents/patrol_schedules/github-markdown.css"
       ---
 
       # Adventure Schedule - Patrol ${patrol.patrolNumber}

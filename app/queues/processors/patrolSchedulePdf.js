@@ -35,7 +35,7 @@ module.exports = () => async job => {
 
     // Get the markdown
     const md = await generatePatrolScheduleMarkdown(data.id);
-    console.log(md);
+
     // md-to-pdf requires an actual file on disk
     // Write the data to a tempfile
     const mdTempFile = tempWrite.sync(md);

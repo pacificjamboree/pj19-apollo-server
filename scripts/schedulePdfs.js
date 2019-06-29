@@ -5,12 +5,13 @@ const {
 
 const main = async () => {
   try {
-    const patrols = await Patrol.query()
-      .where({ workflowState: 'active' })
-      .select('id');
+    const patrols = await Patrol.query().where({ workflowState: 'active' });
 
     for (const patrol of patrols) {
-      await PATROL_SCHEDULE_PDF.add({ id: patrol.id });
+      await PATROL_SCHEDULE_PDF.add({
+        id: patrol.id,
+        patrolNumber: patrol.patrolNumber,
+      });
     }
     process.exit();
   } catch (error) {
