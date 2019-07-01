@@ -64,10 +64,10 @@ class AdventurePeriod extends Model {
     const assigned = await this.participantsAssigned();
 
     const { scoutOnly } = adventure;
-    return (
-      adventure.capacityPerPeriod -
-      (scoutOnly ? assigned.scouts : assigned.total)
-    );
+
+    const periodCapacity = this.capacityOverride || adventure.capacityPerPeriod;
+
+    return periodCapacity - (scoutOnly ? assigned.scouts : assigned.total);
   }
 }
 

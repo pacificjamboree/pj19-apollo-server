@@ -10,6 +10,7 @@ module.exports = gql`
     capacityRemaining: Int
     patrols: [Patrol]
     type: String
+    capacityOverride: Int
     assignWith: [AdventurePeriod]
     childPeriods: [AdventurePeriod]
     startAt: GraphQLDateTime!
