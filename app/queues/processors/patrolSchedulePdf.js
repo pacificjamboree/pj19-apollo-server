@@ -56,13 +56,13 @@ module.exports = () => async job => {
     // If PDF was generated, upload it to S3
     if (pdfResult) {
       const uploadParams = { Bucket: S3_BUCKET };
-
+      const filename = `${data.subcamp}-${data.patrolNumber}-${data.id}`;
       const fileStream = fs.createReadStream(pdfFile);
       fileStream.on('error', function(err) {
         console.log('File Error', err);
       });
       uploadParams.Body = fileStream;
-      uploadParams.Key = `documents/patrol_schedules/${data.id}.pdf`;
+      uploadParams.Key = `documents/patrol_schedules/${filename}.pdf`;
       uploadParams.ContentType = 'application/pdf';
       uploadParams.ContentDisposition = 'inline';
 

@@ -392,6 +392,7 @@ const addAdventurePeriodToPatrol = async ({ adventurePeriodId, patrolId }) => {
     PATROL_SCHEDULE_PDF.add({
       id: patrol.id,
       patrolNumber: patrol.patrolNumber,
+      subcamp: patrol.subcamp,
     });
     return { patrol };
   } catch (error) {
@@ -445,6 +446,7 @@ const removeAdventurePeriodFromPatrol = async ({
     PATROL_SCHEDULE_PDF.add({
       id: patrol.id,
       patrolNumber: patrol.patrolNumber,
+      subcamp: patrol.subcamp,
     });
 
     return { patrol };

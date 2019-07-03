@@ -11,6 +11,7 @@ const main = async () => {
       await PATROL_SCHEDULE_PDF.add({
         id: patrol.id,
         patrolNumber: patrol.patrolNumber,
+        subcamp: patrol.subcamp,
       });
     }
     process.exit();
