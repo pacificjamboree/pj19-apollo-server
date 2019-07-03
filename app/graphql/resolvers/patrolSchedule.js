@@ -78,7 +78,7 @@ const generatePatrolScheduleMarkdown = async id => {
       stylesheet: "https://s3.ca-central-1.amazonaws.com/adventure.pacificjamboree.ca/documents/patrol_schedules/github-markdown.css"
       ---
 
-      # Adventure Schedule - Patrol ${patrol.patrolNumber}
+      # Adventure Schedule - Patrol ${patrol.subcamp}-${patrol.patrolNumber}
       
       Adventure Schedule Changes can be made at Adventure Headquarters before 8pm. No same-day adventure additions can be made. If you plan to drop out of an activity, please let us know either in person at Adventure Headquarters, or through your Subcamp, so that we can make your space available to other Patrols, and so that we're not looking for you.
 
