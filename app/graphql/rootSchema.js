@@ -71,6 +71,8 @@ module.exports = gql`
 
     viewer: User
 
+    adventureLoadingReportForDay(day: Int!): [Adventure] @adminOnly
+
     ${nodeField}
     ${nodesField}
   }

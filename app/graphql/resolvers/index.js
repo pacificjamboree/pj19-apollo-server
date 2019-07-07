@@ -78,6 +78,8 @@ const {
   patrolAdventureSelectionStats,
 } = require('../resolvers/patrolAdventureSelection');
 
+const { adventureLoadingReportForDay } = require('../resolvers/loadingReport');
+
 const { getUser } = require('../resolvers/user');
 const { getViewer } = require('../resolvers/viewer');
 const { generateAdventureGuideMarkdown } = require('./adventureGuide');
@@ -187,6 +189,9 @@ module.exports = {
     textContent: (_, { search }) => getTextContent(search),
 
     user: (_, { search }) => getUser(search),
+
+    adventureLoadingReportForDay: (_, { day }) =>
+      adventureLoadingReportForDay(day),
 
     // nodes
     node: nodeResolver,
