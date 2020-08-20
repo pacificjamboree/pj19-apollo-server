@@ -22,7 +22,7 @@
     "apollo-errors": "^1.9.0",
     "apollo-server-express": "^2.0.6",
     "aws-sdk": "^2.418.0",
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.2",
     "bull": "^3.7.0",
     "bull-arena": "^2.6.2",
